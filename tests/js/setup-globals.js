@@ -3,6 +3,8 @@ global.wp = {};
 
 // Set up our settings global.
 global.wc_product_block_data = {
+	default_columns: 3,
+	default_rows: 4,
 	placeholderImgSrc: 'placeholder.png',
 };
 

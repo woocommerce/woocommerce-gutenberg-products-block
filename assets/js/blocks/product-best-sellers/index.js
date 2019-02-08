@@ -12,11 +12,12 @@ import { RawHTML } from '@wordpress/element';
 import Block from './block';
 import getShortcode from '../../utils/get-shortcode';
 import sharedAttributes from '../../utils/shared-attributes';
+import * as transforms from '../../utils/shared-transforms';
 
 registerBlockType( 'woocommerce/product-best-sellers', {
 	title: __( 'Best Selling Products', 'woo-gutenberg-products-block' ),
 	icon: <Gridicon icon="stats-up-alt" />,
-	category: 'woocommerce',
+	category: 'layout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	description: __(
 		'Display a grid of your all-time best selling products.',
@@ -27,6 +28,21 @@ registerBlockType( 'woocommerce/product-best-sellers', {
 	},
 	attributes: {
 		...sharedAttributes,
+	},
+
+	transforms: {
+		from: [
+			{
+				type: 'shortcode',
+				tag: 'products',
+				attributes: {
+					categories: transforms.categories,
+					catOperator: transforms.catOperator,
+					columns: transforms.columns,
+					rows: transforms.rows,
+				},
+			},
+		],
 	},
 
 	/**
