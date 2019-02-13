@@ -1,12 +1,19 @@
 /**
  * External dependencies
  */
-import { rawHandler } from '@wordpress/blocks';
+import { rawHandler, setCategories } from '@wordpress/blocks';
 
 describe( 'shortcode transforms', () => {
 	beforeAll( () => {
 		// Initialize the block store & register our blocks.
 		require( '@wordpress/blocks/build/store' );
+		setCategories( [
+			{
+				slug: 'woocommerce',
+				title: 'WooCommerce',
+				icon: null,
+			},
+		] );
 		require( '../product-best-sellers' );
 		require( '../handpicked-products' );
 	} );
@@ -22,7 +29,7 @@ describe( 'shortcode transforms', () => {
 			expect( blocks[ 0 ].attributes.rows ).toBe( 4 );
 		} );
 
-		test( 'should match the a shortcode with a category', () => {
+		test( 'should match a shortcode with a category', () => {
 			const blocks = rawHandler( {
 				HTML: '\n[products limit="6" columns="2" category="16"]',
 			} );
@@ -35,9 +42,10 @@ describe( 'shortcode transforms', () => {
 			expect( blocks[ 0 ].attributes.catOperator ).toBe( 'any' );
 		} );
 
-		test( 'should match the a shortcode with a category', () => {
+		test( 'should match a shortcode with a category', () => {
 			const blocks = rawHandler( {
-				HTML: '\n[products limit="6" columns="2" category="16" cat_operator="ANd"]',
+				HTML:
+					'\n[products limit="6" columns="2" category="16" cat_operator="ANd"]',
 			} );
 			expect( blocks ).toHaveLength( 1 );
 			expect( blocks[ 0 ].name ).toBe( 'woocommerce/product-best-sellers' );

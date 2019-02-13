@@ -17,7 +17,7 @@ import * as transforms from '../../utils/shared-transforms';
 registerBlockType( 'woocommerce/product-best-sellers', {
 	title: __( 'Best Selling Products', 'woo-gutenberg-products-block' ),
 	icon: <Gridicon icon="stats-up-alt" />,
-	category: 'layout',
+	category: 'woocommerce',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	description: __(
 		'Display a grid of your all-time best selling products.',
