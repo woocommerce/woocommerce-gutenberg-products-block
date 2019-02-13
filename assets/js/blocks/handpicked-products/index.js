@@ -12,6 +12,7 @@ import './style.scss';
 import Block from './block';
 import getShortcode from '../../utils/get-shortcode';
 import { IconWidgets } from '../../components/icons';
+import * as transforms from '../../utils/shared-transforms';
 
 registerBlockType( 'woocommerce/handpicked-products', {
 	title: __( 'Hand-picked Products', 'woo-gutenberg-products-block' ),
@@ -64,6 +65,20 @@ registerBlockType( 'woocommerce/handpicked-products', {
 			type: 'array',
 			default: [],
 		},
+	},
+
+	transforms: {
+		from: [
+			{
+				type: 'shortcode',
+				tag: 'products',
+				attributes: {
+					columns: transforms.columns,
+					editMode: transforms.editMode,
+					products: transforms.products,
+				},
+			},
+		],
 	},
 
 	/**

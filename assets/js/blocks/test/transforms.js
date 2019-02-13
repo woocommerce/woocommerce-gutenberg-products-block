@@ -8,6 +8,7 @@ describe( 'shortcode transforms', () => {
 		// Initialize the block store & register our blocks.
 		require( '@wordpress/blocks/build/store' );
 		require( '../product-best-sellers' );
+		require( '../handpicked-products' );
 	} );
 
 	describe( 'Best Selling Products', () => {
@@ -45,6 +46,19 @@ describe( 'shortcode transforms', () => {
 			expect( blocks[ 0 ].attributes.categories ).toHaveLength( 1 );
 			expect( blocks[ 0 ].attributes.categories[ 0 ] ).toBe( '16' );
 			expect( blocks[ 0 ].attributes.catOperator ).toBe( 'all' );
+		} );
+	} );
+
+	describe( 'Hand-picked Products', () => {
+		test( 'should match the basic shortcode', () => {
+			const blocks = rawHandler( {
+				HTML: '\n[products ids="3,2"]',
+			} );
+			expect( blocks ).toHaveLength( 1 );
+			expect( blocks[ 0 ].name ).toBe( 'woocommerce/handpicked-products' );
+			expect( blocks[ 0 ].attributes.products ).toHaveLength( 2 );
+			expect( blocks[ 0 ].attributes.categories[ 0 ] ).toBe( '3' );
+			expect( blocks[ 0 ].attributes.categories[ 1 ] ).toBe( '2' );
 		} );
 	} );
 } );
