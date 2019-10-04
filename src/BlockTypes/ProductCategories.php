@@ -73,7 +73,7 @@ class ProductCategories extends AbstractBlock {
 			)
 		);
 		foreach ( $product_categories as &$category ) {
-			$category->link = get_term_link( $category->term_id, 'product_cat' );
+			$category->permalink = get_term_link( $category->term_id, 'product_cat' );
 		}
 		return $product_categories;
 	}
