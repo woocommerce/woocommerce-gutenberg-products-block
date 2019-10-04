@@ -1,8 +1,8 @@
 /**
  * Internal dependencies
  */
-import Block from './block.js';
-import getCategories from './get-categories';
+import FrontendBlock from './frontend-block.js';
+import { getCategories } from './utils';
 import renderFrontend from '../../utils/render-frontend.js';
 
 const getProps = ( el ) => {
@@ -15,8 +15,8 @@ const getProps = ( el ) => {
 
 	return {
 		attributes,
-		categories: getCategories( attributes ),
+		categories: getCategories(),
 	};
 };
 
-renderFrontend( '.wp-block-woocommerce-product-categories', Block, getProps );
+renderFrontend( '.wp-block-woocommerce-product-categories', FrontendBlock, getProps );
