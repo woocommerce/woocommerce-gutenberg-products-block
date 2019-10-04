@@ -29,9 +29,15 @@ class FrontendBlock extends Component {
 				{ categoryTree.length > 0 && (
 					<div className={ classes }>
 						{ isDropdown ? (
-							<CategorySelect categories={ categoryTree } attributes={ attributes } />
+							<CategorySelect
+								categories={ categoryTree }
+								attributes={ attributes }
+							/>
 						) : (
-							<CategoryList categories={ categoryTree } attributes={ attributes } />
+							<CategoryList
+								categories={ categoryTree }
+								attributes={ attributes }
+							/>
 						) }
 					</div>
 				) }

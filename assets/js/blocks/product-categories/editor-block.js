@@ -32,9 +32,15 @@ class EditorBlock extends Component {
 			return (
 				<div className={ classes }>
 					{ isDropdown ? (
-						<CategorySelect attributes={ attributes } categories={ [] } />
+						<CategorySelect
+							attributes={ attributes }
+							categories={ [] }
+						/>
 					) : (
-						<CategoryList attributes={ attributes } categories={ [] } />
+						<CategoryList
+							attributes={ attributes }
+							categories={ [] }
+						/>
 					) }
 				</div>
 			);
@@ -53,9 +59,15 @@ class EditorBlock extends Component {
 				{ categoryTree.length > 0 ? (
 					<div className={ classes }>
 						{ isDropdown ? (
-							<CategorySelect categories={ categoryTree } attributes={ attributes } />
+							<CategorySelect
+								categories={ categoryTree }
+								attributes={ attributes }
+							/>
 						) : (
-							<CategoryList categories={ categoryTree } attributes={ attributes } />
+							<CategoryList
+								categories={ categoryTree }
+								attributes={ attributes }
+							/>
 						) }
 					</div>
 				) : (

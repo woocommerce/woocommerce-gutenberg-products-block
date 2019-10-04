@@ -19,4 +19,8 @@ const getProps = ( el ) => {
 	};
 };
 
-renderFrontend( '.wp-block-woocommerce-product-categories', FrontendBlock, getProps );
+renderFrontend(
+	'.wp-block-woocommerce-product-categories',
+	FrontendBlock,
+	getProps
+);
