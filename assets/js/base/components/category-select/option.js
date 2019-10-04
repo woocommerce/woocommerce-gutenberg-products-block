@@ -29,13 +29,13 @@ const CategorySelectOption = ( { attributes, category = {}, depth = 0 } ) => {
 			<option key={ category.term_id } value={ category.permalink }>
 				{ '–'.repeat( depth ) } { category.name } { count }
 			</option>
-			{ !! category.children && category.children.length > 0 &&
+			{ !! category.children &&
+				category.children.length > 0 &&
 				renderChildren( {
 					attributes,
 					children: category.children,
 					depth: depth + 1,
-				} )
-			}
+				} ) }
 		</Fragment>
 	);
 };

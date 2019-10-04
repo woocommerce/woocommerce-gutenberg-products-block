@@ -26,13 +26,15 @@ const CategoryListItem = ( { attributes, category = {}, depth = 0 } ) => {
 			} ) }
 			aria-hidden={ isLoading }
 		>
-			<a href={ category.permalink }>
-				{ category.name }
-			</a>
+			<a href={ category.permalink }>{ category.name }</a>
 			{ count }
 
 			{ !! category.children && category.children.length > 0 && (
-				<CategoryList categories={ category.children } attributes={ attributes } depth={ depth + 1 } />
+				<CategoryList
+					categories={ category.children }
+					attributes={ attributes }
+					depth={ depth + 1 }
+				/>
 			) }
 		</li>
 	);

@@ -13,7 +13,9 @@ import CategorySelectOption from './option';
 import withComponentId from '../../hocs/with-component-id';
 
 const onNavigate = ( componentId ) => {
-	const element = document.getElementById( `prod-categories-${ componentId }` );
+	const element = document.getElementById(
+		`prod-categories-${ componentId }`
+	);
 	const url = element ? element.current.value : 'false';
 
 	if ( 'false' === url ) {
@@ -25,15 +27,17 @@ const onNavigate = ( componentId ) => {
 	}
 };
 
-const CategorySelect = ( { attributes, categories = [], depth = 0, componentId } ) => {
+const CategorySelect = ( {
+	attributes,
+	categories = [],
+	depth = 0,
+	componentId,
+} ) => {
 	const selectId = `prod-categories-${ componentId }`;
 	return (
 		<Fragment>
 			<div className="wc-block-product-categories__dropdown">
-				<label
-					className="screen-reader-text"
-					htmlFor={ selectId }
-				>
+				<label className="screen-reader-text" htmlFor={ selectId }>
 					{ __(
 						'Select a category',
 						'woo-gutenberg-products-block'
@@ -46,7 +50,7 @@ const CategorySelect = ( { attributes, categories = [], depth = 0, componentId }
 							'woo-gutenberg-products-block'
 						) }
 					</option>
-					{ categories.length > 0 && (
+					{ categories.length > 0 &&
 						categories.map( ( category, i ) => (
 							<CategorySelectOption
 								key={ category.term_id || i }
@@ -54,8 +58,7 @@ const CategorySelect = ( { attributes, categories = [], depth = 0, componentId }
 								category={ category }
 								depth={ depth }
 							/>
-						) )
-					) }
+						) ) }
 				</select>
 			</div>
 			<button
