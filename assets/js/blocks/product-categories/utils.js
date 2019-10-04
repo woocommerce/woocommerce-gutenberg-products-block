@@ -20,7 +20,10 @@ export const getCategories = ( fallback = [] ) => {
  * @param {Object} Attributes.
  * @return {Array} Array of terms.
  */
-export const formatCategories = ( categories = [], { hasEmpty, isHierarchical } ) => {
+export const formatCategories = (
+	categories = [],
+	{ hasEmpty, isHierarchical }
+) => {
 	if ( ! hasEmpty ) {
 		categories = removeEmptyCategories( categories );
 	}
@@ -38,9 +41,7 @@ export const formatCategories = ( categories = [], { hasEmpty, isHierarchical } 
  * @param {Array} categories  Array of terms.
  */
 export const removeEmptyCategories = ( categories = [] ) => {
-	return categories.filter(
-		( cat ) => !! cat.count
-	);
+	return categories.filter( ( cat ) => !! cat.count );
 };
 
 /**
@@ -75,4 +76,4 @@ export const buildCategoryTree = ( categories = [] ) => {
 	};
 
 	return fillWithChildren( termsByParent[ '0' ] || [] );
-}
+};
