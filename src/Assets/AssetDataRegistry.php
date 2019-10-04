@@ -189,6 +189,17 @@ class AssetDataRegistry {
 	}
 
 	/**
+	 * Interface for allowing other classes to see if data exists in the registry.
+	 *
+	 * @param string $key  The key used to reference the data being registered.
+	 *                     You can only register data that is not already in the
+	 *                     registry identified by the given key.
+	 */
+	public function isset( $key ) {
+		return isset( $this->data[ $key ] );
+	}
+
+	/**
 	 * Callback for registering the data script via WordPress API.
 	 *
 	 * @return void

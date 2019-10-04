@@ -52,7 +52,9 @@ class ProductCategories extends AbstractBlock {
 			\Automattic\WooCommerce\Blocks\Assets\AssetDataRegistry::class
 		);
 
-		$data_registry->add( 'productCategories', $this->get_category_objects() );
+		if ( ! $data_registry->isset( 'productCategories' ) ) {
+			$data_registry->add( 'productCategories', $this->get_category_objects() );
+		}
 
 		return $content;
 	}
