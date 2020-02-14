@@ -11,6 +11,7 @@ const chalk = require( 'chalk' );
 const { omit } = require( 'lodash' );
 const { DefinePlugin } = require( 'webpack' );
 const NODE_ENV = process.env.NODE_ENV || 'development';
+const { webpackAlias: coreE2EAlias } = require( '@woocommerce/e2e-env' );
 
 function findModuleMatch( module, match ) {
 	if ( module.request && match.test( module.request ) ) {
@@ -93,6 +94,7 @@ const getAlias = ( options = {} ) => {
 			__dirname,
 			`../assets/js/${ pathPart }previews/`
 		),
+		...coreE2EAlias,
 	};
 };
 

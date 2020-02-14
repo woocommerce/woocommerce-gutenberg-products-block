@@ -1,44 +1,9 @@
-language: php
+version: ~> 1.0
 
-dist: trusty
+import:
+  - source: node_modules/@woocommerce/e2e-env/.travis.yml
+    mode: deep_merge_prepend # Merge the package config first.
 
-sudo: false
-
-cache:
-    directories:
-        - vendor
-        - node_modules
-        - $HOME/.npm
-        - $HOME/.composer/cache
-
-branches:
-    only:
-        - master
-        - /release\/.*/
-
-before_install:
-    - timedatectl
-    - nvm install --latest-npm
-
-before_script:
-    - export PATH="$HOME/.composer/vendor/bin:$PATH"
-    - |
-        if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
-          phpenv config-rm xdebug.ini
-        else
-          echo "xdebug.ini does not exist"
-        fi
-    - |
-        if [[ ! -z "$WP_VERSION" ]] ; then
-          composer install --no-dev
-          # also installs woocommerce plugin
-          bash tests/bin/install-wp-tests.sh wgpb_admin root '' localhost $WP_VERSION
-          composer global require "phpunit/phpunit=4.8.*|5.7.*"
-        fi
-    - |
-        if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
-          composer install
-        fi
 jobs:
     fast_finish: true
     include:

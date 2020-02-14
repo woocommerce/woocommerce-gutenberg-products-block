@@ -1,9 +1,17 @@
+const { esLintConfig: baseConfig } = require( '@woocommerce/e2e-env' );
+
 module.exports = {
-	extends: [ 'plugin:@wordpress/eslint-plugin/recommended', 'prettier' ],
+	...baseConfig,
+	extends: [
+		...baseConfig.extends,
+		'plugin:@wordpress/eslint-plugin/recommended',
+		'prettier',
+	],
 	env: {
 		'jest/globals': true,
 	},
 	globals: {
+		...baseConfig.globals,
 		wcSettings: 'readonly',
 	},
 	plugins: [ 'jest', 'woocommerce' ],

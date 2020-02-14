@@ -58,6 +58,7 @@
 		"@storybook/addon-viewport": "5.3.12",
 		"@storybook/addons": "5.3.12",
 		"@storybook/react": "5.3.12",
+		"@woocommerce/e2e-env": "file:node_modules/@woocommerce/e2e-env",
 		"@wordpress/babel-preset-default": "4.10.0",
 		"@wordpress/base-styles": "1.4.0",
 		"@wordpress/blocks": "6.12.0",
