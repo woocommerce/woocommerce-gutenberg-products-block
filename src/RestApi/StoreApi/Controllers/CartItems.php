@@ -15,6 +15,7 @@ use \WP_REST_Server as RestServer;
 use \WP_REST_Controller as RestController;
 use \WP_REST_Response as RestResponse;
 use Automattic\WooCommerce\Blocks\RestApi\StoreApi\Schemas\CartItemSchema;
+use Automattic\WooCommerce\Blocks\RestApi\StoreApi\Schemas\CartSchema;
 use Automattic\WooCommerce\Blocks\RestApi\StoreApi\Utilities\CartController;
 
 /**
@@ -45,10 +46,18 @@ class CartItems extends RestController {
 	protected $schema;
 
 	/**
+	 * Cart schema instance.
+	 *
+	 * @var object
+	 */
+	protected $cart_schema;
+
+	/**
 	 * Setup API class.
 	 */
 	public function __construct() {
-		$this->schema = new CartItemSchema();
+		$this->schema      = new CartItemSchema();
+		$this->cart_schema = new CartSchema();
 	}
 
 	/**
@@ -219,7 +228,7 @@ class CartItems extends RestController {
 
 		$cart->remove_cart_item( $request['key'] );
 
-		return new RestResponse( null, 204 );
+		return new RestResponse( $this->cart_schema->get_item_response( $cart ), 200 );
 	}
 
 	/**

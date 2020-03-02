@@ -168,13 +168,13 @@ export function* removeItemFromCart( cartItemKey ) {
 	yield itemQuantityPending( cartItemKey, true );
 
 	try {
-		yield apiFetch( {
+		const cart = yield apiFetch( {
 			path: `/wc/store/cart/items/${ cartItemKey }`,
 			method: 'DELETE',
 			cache: 'no-store',
 		} );
 
-		yield receiveRemovedItem( cartItemKey );
+		yield receiveCart( cart );
 	} catch ( error ) {
 		yield receiveError( error );
 	}
