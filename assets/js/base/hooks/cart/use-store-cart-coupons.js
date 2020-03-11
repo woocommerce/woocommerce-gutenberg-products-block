@@ -6,12 +6,13 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { CART_STORE_KEY as storeKey } from '@woocommerce/block-data';
-import { useStoreNotices } from '@woocommerce/base-hooks';
 
 /**
  * Internal dependencies
  */
 import { useStoreCart } from './use-store-cart';
+import { useStoreNotices } from '../use-store-notices';
+import { useDispatchCalculating, useDispatchHasError } from '../checkout';
 
 /**
  * This is a custom hook for loading the Store API /cart/coupons endpoint and an
@@ -97,6 +98,13 @@ export const useStoreCartCoupons = () => {
 		},
 		[ addErrorNotice, addSuccessNotice, addInfoNotice ]
 	);
+
+	// Dispatch calculating increments on loading changes for checkout state.
+	// Each of the below are done individually to avoid unnecessary dispatches.
+	useDispatchCalculating( cartIsLoading );
+	useDispatchCalculating( results.isApplyingCoupon );
+	useDispatchCalculating( results.isRemovingCoupon );
+	useDispatchHasError( cartErrors.length > 0 );
 
 	return {
 		appliedCoupons: cartCoupons,

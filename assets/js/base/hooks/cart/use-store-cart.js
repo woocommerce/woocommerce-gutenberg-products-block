@@ -1,10 +1,15 @@
-/** @typedef { import('@woocommerce/type-defs/hooks').StoreCart } StoreCart */
-
 /**
  * External dependencies
  */
 import { CART_STORE_KEY as storeKey } from '@woocommerce/block-data';
 import { useSelect } from '@wordpress/data';
+
+/**
+ * Internal dependencies
+ */
+import { useDispatchCalculating, useDispatchHasError } from '../checkout';
+
+/** @typedef { import('@woocommerce/type-defs/hooks').StoreCart } StoreCart */
 
 /**
  * @constant
@@ -40,7 +45,7 @@ export const useStoreCart = ( options = { shouldSelect: true } ) => {
 	const results = useSelect(
 		( select ) => {
 			if ( ! shouldSelect ) {
-				return null;
+				return defaultCartData;
 			}
 			const store = select( storeKey );
 			const cartData = store.getCartData();
@@ -64,8 +69,11 @@ export const useStoreCart = ( options = { shouldSelect: true } ) => {
 		},
 		[ shouldSelect ]
 	);
-	if ( results === null ) {
-		return defaultCartData;
-	}
+
+	// React to loading and error status dispatch checkout status updates.
+	// Note these are done separately to avoid unnecessary dispatches.
+	useDispatchHasError( results.cartErrors.length > 0 );
+	useDispatchCalculating( results.cartIsLoading );
+
 	return results;
 };

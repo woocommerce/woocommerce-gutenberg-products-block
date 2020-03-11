@@ -4,13 +4,14 @@
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useState, useEffect } from '@wordpress/element';
 import { CART_STORE_KEY as storeKey } from '@woocommerce/block-data';
-import { usePrevious } from '@woocommerce/base-hooks';
 import { useDebounce } from 'use-debounce';
 
 /**
  * Internal dependencies
  */
 import { useStoreCart } from './use-store-cart';
+import { usePrevious } from '../use-previous';
+import { useDispatchCalculating, useDispatchHasError } from '../checkout';
 
 /**
  * @typedef {import('@woocommerce/type-defs/hooks').StoreCartItemQuantity} StoreCartItemQuantity
@@ -58,6 +59,10 @@ export const useStoreCartItemQuantity = ( cartItem ) => {
 			changeCartItemQuantity( cartItem.key, debouncedQuantity );
 		}
 	}, [ debouncedQuantity, cartItem.key ] );
+
+	// react to loading changes for incrementing total calculating status.
+	useDispatchCalculating( isPending );
+	useDispatchHasError( cartErrors.length > 0 );
 
 	return {
 		isPending,

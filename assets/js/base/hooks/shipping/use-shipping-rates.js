@@ -12,6 +12,7 @@ import { CART_STORE_KEY as storeKey } from '@woocommerce/block-data';
  */
 import { useStoreCart } from '../cart/use-store-cart';
 import { pluckAddress } from '../../utils';
+import { useDispatchCalculating, useDispatchHasError } from '../checkout';
 /**
  * This is a custom hook that is wired up to the `wc/store/cart/shipping-rates` route.
  * Given a a set of default fields keys, this will handle shipping form state and load
@@ -59,6 +60,10 @@ export const useShippingRates = ( addressFieldsKeys ) => {
 			updateShippingAddress( debouncedShippingAddress );
 		}
 	}, [ debouncedShippingAddress ] );
+
+	useDispatchCalculating( shippingRatesLoading );
+	useDispatchHasError( cartErrors.length > 0 );
+
 	return {
 		shippingRates,
 		shippingAddress,
