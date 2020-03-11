@@ -25,7 +25,11 @@ import {
 	useCallback,
 	useRef,
 } from '@wordpress/element';
-import { useShippingRates, useStoreCart } from '@woocommerce/base-hooks';
+import {
+	useShippingRates,
+	useSelectShippingRate,
+	useStoreCart,
+} from '@woocommerce/base-hooks';
 import { useCheckoutContext } from '@woocommerce/base-context';
 
 /**
@@ -107,9 +111,10 @@ export const ShippingMethodDataProvider = ( { children } ) => {
 	const [ shippingOptionsLoading, setShippingOptionsLoading ] = useState(
 		false
 	);
-	// @todo, this will need wired up to persistence (useSelectedRates?) which
-	// will be setup similar to `useShippingRates` (or maybe in the same hook?)
-	const [ selectedRates, setSelectedRates ] = useState( [] );
+	const {
+		selectShippingRate,
+		selectedShippingRates,
+	} = useSelectShippingRate();
 	const setShippingAddress = useCallback( ( address ) => {
 		setAddressState( ( prevAddress ) => ( { ...prevAddress, address } ) );
 	}, [] );
@@ -192,8 +197,8 @@ export const ShippingMethodDataProvider = ( { children } ) => {
 		shippingRates: shippingOptions,
 		setShippingRates: setShippingOptions,
 		shippingRatesLoading: shippingOptionsLoading,
-		selectedRates,
-		setSelectedRates,
+		selectedShippingRates,
+		selectShippingRate,
 		shippingAddress: currentShippingAddress,
 		setShippingAddress,
 		onShippingRateSuccess,

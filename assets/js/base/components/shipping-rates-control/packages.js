@@ -17,9 +17,10 @@ const Packages = ( {
 	renderOption,
 	shippingRates = [],
 } ) => {
-	const { selectShippingRate, selectedShippingRates } = useSelectShippingRate(
-		shippingRates
-	);
+	const {
+		selectShippingRate,
+		selectedShippingRates,
+	} = useSelectShippingRate();
 	return (
 		<div className="wc-block-shipping-rates-control">
 			{ shippingRates.map( ( shippingRate, i ) => (

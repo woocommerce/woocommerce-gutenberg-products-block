@@ -26,9 +26,9 @@
  * @property {boolean}              shippingRatesLoading  Whether or not the
  *                                                        shipping rates are
  *                                                        being loaded.
- * @property {string[]}             selectedRates         The ids of the rates
+ * @property {Object}               selectedShippingRates The ids of the rates
  *                                                        that are selected.
- * @property {Function}             setSelectedRates      A function for setting
+ * @property {Function}             selectShippingRate    A function for setting
  *                                                        the selected rates.
  * @property {CartShippingAddress}  shippingAddress       The current set
  *                                                        address for shipping.
