@@ -6,7 +6,7 @@ import { useReducer, useEffect } from '@wordpress/element';
 import isShallowEqual from '@wordpress/is-shallow-equal';
 import { useDebounce } from 'use-debounce';
 import { CART_STORE_KEY as storeKey } from '@woocommerce/block-data';
-
+import { useCheckoutContext } from '@woocommerce/base-context';
 /**
  * Internal dependencies
  */
@@ -28,6 +28,7 @@ import { pluckAddress } from '../../utils';
  */
 export const useShippingRates = ( addressFieldsKeys ) => {
 	const { cartErrors, shippingRates } = useStoreCart();
+	const { dispatchActions } = useCheckoutContext();
 	const addressFields = Object.fromEntries(
 		addressFieldsKeys.map( ( key ) => [ key, '' ] )
 	);
@@ -59,6 +60,13 @@ export const useShippingRates = ( addressFieldsKeys ) => {
 			updateShippingAddress( debouncedShippingAddress );
 		}
 	}, [ debouncedShippingAddress ] );
+	useEffect( () => {
+		if ( shippingRatesLoading ) {
+			dispatchActions.incrementCalculating();
+		} else {
+			dispatchActions.decrementCalculating();
+		}
+	}, [ shippingRatesLoading ] );
 	return {
 		shippingRates,
 		shippingAddress,
