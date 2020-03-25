@@ -8,7 +8,7 @@ import { select } from '@wordpress/data';
 window.wcTracks = window.wcTracks || {};
 window.wcTracks.recordEvent = window.wcTracks.recordEvent || function() {};
 
-export const selectPostInfo = () => {
+export const selectPostInfoProps = () => {
 	const postData = select( 'core/editor' );
 	return {
 		post_id: postData.getCurrentPostId(),
@@ -25,7 +25,7 @@ export const selectPostInfo = () => {
  */
 export const useTracksEvent = ( event, propsCallback ) => {
 	const recordEvent = useCallback(
-		( ...props ) => {
+		( props ) => {
 			let eventProps = props;
 			if ( typeof propsCallback === 'function' ) {
 				eventProps = {
