@@ -12,3 +12,4 @@ export * from './use-store-products';
 export * from './use-store-notices';
 export * from './use-query-state';
 export * from './use-throw-error';
+export * from './use-tracks-event';

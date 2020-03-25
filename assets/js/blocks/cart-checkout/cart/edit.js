@@ -19,6 +19,7 @@ import { EditorProvider, useEditorContext } from '@woocommerce/base-context';
 import { useSelect } from '@wordpress/data';
 import { __experimentalCreateInterpolateElement } from 'wordpress-element';
 import { getAdminLink } from '@woocommerce/settings';
+import { useTracksEvent, selectPostInfoProps } from '@woocommerce/base-hooks';
 
 /**
  * Internal dependencies
@@ -43,6 +44,15 @@ const BlockSettings = ( { attributes, setAttributes } ) => {
 			} );
 		}, [] ) || null;
 	const { currentPostId } = useEditorContext();
+
+	const trackShippingCalculatorToggle = useTracksEvent(
+		'cart_settings_shipping_calculator_toggle',
+		selectPostInfoProps
+	);
+	const trackSelectProceedDestination = useTracksEvent(
+		'cart_checkout_button_destination_page_select',
+		selectPostInfoProps
+	);
 
 	return (
 		<InspectorControls>
@@ -85,11 +95,14 @@ const BlockSettings = ( { attributes, setAttributes } ) => {
 						'woo-gutenberg-products-block'
 					) }
 					checked={ isShippingCalculatorEnabled }
-					onChange={ () =>
+					onChange={ () => {
+						trackShippingCalculatorToggle( {
+							enabled: ! isShippingCalculatorEnabled,
+						} );
 						setAttributes( {
 							isShippingCalculatorEnabled: ! isShippingCalculatorEnabled,
-						} )
-					}
+						} );
+					} }
 				/>
 				<ToggleControl
 					label={ __(
@@ -138,11 +151,23 @@ const BlockSettings = ( { attributes, setAttributes } ) => {
 								};
 							} ),
 						] }
-						onChange={ ( value ) =>
+						onChange={ ( value ) => {
+							const props = {
+								destination_page_id: parseInt( value, 10 ),
+								destination_custom: false,
+							};
+							if ( props.destination_page_id !== 0 ) {
+								props.destination_custom = true;
+								const page = pages.find(
+									( p ) => p.id === props.destination_page_id
+								);
+								props.destination_page_slug = page?.slug;
+							}
+							trackSelectProceedDestination( props );
 							setAttributes( {
-								checkoutPageId: parseInt( value, 10 ),
-							} )
-						}
+								checkoutPageId: props.destination_page_id,
+							} );
+						} }
 					/>
 				</PanelBody>
 			) }
