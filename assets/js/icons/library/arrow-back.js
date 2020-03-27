@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { SVG } from 'wordpress-components';
+import { SVG } from 'wordpress-primitives';
 
 const arrowBack = (
 	<SVG
