@@ -14,7 +14,6 @@ import {
 	ReturnToCartButton,
 	ShippingRatesControl,
 } from '@woocommerce/base-components/cart-checkout';
-import { ValidatedTextInput } from '@woocommerce/base-components/text-input';
 import CheckboxControl from '@woocommerce/base-components/checkbox-control';
 import { getCurrencyFromPriceResponse } from '@woocommerce/base-utils';
 import FormattedMonetaryAmount from '@woocommerce/base-components/formatted-monetary-amount';
@@ -45,6 +44,7 @@ import withScrollToTop from '@woocommerce/base-hocs/with-scroll-to-top';
 import CheckoutSidebar from './sidebar/index.js';
 import CheckoutOrderError from './checkout-order-error/index.js';
 import './style.scss';
+import { PhoneField, EmailField } from './fields';
 
 const Block = ( { isEditor = false, ...props } ) => (
 	<CheckoutProvider isEditor={ isEditor }>
@@ -164,19 +164,15 @@ const Checkout = ( {
 								</Fragment>
 							) }
 						>
-							<ValidatedTextInput
-								type="email"
-								label={ __(
-									'Email address',
-									'woo-gutenberg-products-block'
+							<EmailField />
+							{ ! SHIPPING_ENABLED &&
+								!! attributes.showPhoneField && (
+									<PhoneField
+										required={
+											attributes.requirePhoneField
+										}
+									/>
 								) }
-								value={ billingData.email }
-								autoComplete="email"
-								onChange={ ( newValue ) =>
-									setBillingData( { email: newValue } )
-								}
-								required={ true }
-							/>
 							<CheckboxControl
 								className="wc-block-checkout__keep-updated"
 								label={ __(
@@ -212,26 +208,7 @@ const Checkout = ( {
 									fieldConfig={ addressFields }
 								/>
 								{ attributes.showPhoneField && (
-									<ValidatedTextInput
-										type="tel"
-										label={
-											attributes.requirePhoneField
-												? __(
-														'Phone',
-														'woo-gutenberg-products-block'
-												  )
-												: __(
-														'Phone (optional)',
-														'woo-gutenberg-products-block'
-												  )
-										}
-										value={ billingData.phone }
-										autoComplete="tel"
-										onChange={ ( newValue ) =>
-											setBillingData( {
-												phone: newValue,
-											} )
-										}
+									<PhoneField
 										required={
 											attributes.requirePhoneField
 										}
