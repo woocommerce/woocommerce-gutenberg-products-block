@@ -44,7 +44,7 @@ import withScrollToTop from '@woocommerce/base-hocs/with-scroll-to-top';
 import CheckoutSidebar from './sidebar/index.js';
 import CheckoutOrderError from './checkout-order-error/index.js';
 import './style.scss';
-import { PhoneField, EmailField } from './fields';
+import { PhoneField, EmailField } from './fields/index.js';
 
 const Block = ( { isEditor = false, ...props } ) => (
 	<CheckoutProvider isEditor={ isEditor }>
