@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 import { normalizeLineItems } from '../express-payment/apple-pay/normalize';
-import { errorTypes, errorCodes } from '../payment-methods/stripe';
+import { errorTypes, errorCodes } from '../payment-methods/stripe/constants';
 
 /**
  * External dependencies

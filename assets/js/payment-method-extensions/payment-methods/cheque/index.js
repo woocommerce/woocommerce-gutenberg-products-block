@@ -7,6 +7,7 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import { PAYMENT_METHOD_NAME } from './constants';
+import { defaultPromise } from '../../utils';
 
 const EditPlaceHolder = () => <div>TODO: Edit preview soon...</div>;
 
@@ -23,11 +24,6 @@ const Content = ( props ) => {
 	) : null;
 };
 
-// This needs a generic/default that resolves true to save time.
-const chequePromise = new Promise( ( resolve ) => {
-	resolve( true );
-} );
-
 const offlineChequePaymentMethod = {
 	id: PAYMENT_METHOD_NAME,
 	label: (
@@ -37,7 +33,7 @@ const offlineChequePaymentMethod = {
 	),
 	content: <Content />,
 	edit: <EditPlaceHolder />,
-	canMakePayment: chequePromise,
+	canMakePayment: defaultPromise,
 	ariaLabel: __( 'Cheque payment method', 'woo-gutenberg-products-block' ),
 };
 
