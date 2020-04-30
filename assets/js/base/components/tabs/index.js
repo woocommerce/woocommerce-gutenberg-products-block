@@ -15,11 +15,23 @@ const Tabs = ( {
 	onSelect = () => null,
 	tabs,
 	activeClass = 'is-active',
+	initialTabName,
 	ariaLabel = __( 'Tabbed Content', 'woo-gutenberg-products-block' ),
 	children,
+	instanceId,
 	id,
 } ) => {
-	const tabState = useTabState();
+	const tabState = useTabState( {
+		selectedId: `${ instanceId }-${
+			initialTabName ? initialTabName : tabs[ 0 ].name
+		}`,
+	} );
+	if ( tabs.length === 0 ) {
+		return null;
+	}
+	if ( ! tabState.selectedId ) {
+		throw new Error( 'There is no available tab for the selected item' );
+	}
 	return (
 		<div className={ classnames( 'wc-block-components-tabs', className ) }>
 			<TabList
@@ -28,31 +40,39 @@ const Tabs = ( {
 				className={ 'wc-block-components-tabs__list' }
 				aria-label={ ariaLabel }
 			>
-				{ tabs.map( ( tab ) => (
+				{ tabs.map( ( { name, title, ariaLabel: tabAriaLabel } ) => (
 					<Tab
 						{ ...tabState }
-						id={ tab.name }
+						id={ `${ instanceId }-${ name }` }
 						className={ classnames(
 							'wc-block-components-tabs__item',
-							tab.className,
 							{
 								[ activeClass ]:
-									tab.name === tabState.selectedId,
+									// reakit uses the ID as the selectedId
+									`${ instanceId }-${ name }` ===
+									tabState.selectedId,
 							}
 						) }
-						onClick={ () => onSelect( tab.name ) }
+						onClick={ () => onSelect( name ) }
 						type="button"
-						key={ tab.name }
+						key={ name }
+						aria-label={ tabAriaLabel }
 					>
 						<span className="wc-block-components-tabs__item-content">
-							{ tab.title() }
+							{ title }
 						</span>
 					</Tab>
 				) ) }
 			</TabList>
 
 			{ tabs.map( ( { name } ) => (
-				<TabPanel { ...tabState } key={ name } tabId={ name }>
+				<TabPanel
+					{ ...tabState }
+					key={ name }
+					id={ `${ instanceId }-${ name }-view` }
+					tabId={ `${ instanceId }-${ name }` }
+					className="wc-block-components-tabs__content"
+				>
 					{ children( name ) }
 				</TabPanel>
 			) ) }
