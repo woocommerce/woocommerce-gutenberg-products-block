@@ -17,19 +17,15 @@ const Tabs = ( {
 	activeClass = 'is-active',
 	ariaLabel = __( 'Tabbed Content', 'woo-gutenberg-products-block' ),
 	children,
-	renderTab,
 	id,
 } ) => {
-	const { selectedId, ...tabState } = useTabState();
+	const tabState = useTabState();
 	return (
-		<>
+		<div className={ classnames( 'wc-block-components-tabs', className ) }>
 			<TabList
 				{ ...tabState }
 				id={ id }
-				className={ classnames(
-					'wc-block-components-tabs',
-					className
-				) }
+				className={ 'wc-block-components-tabs__list' }
 				aria-label={ ariaLabel }
 			>
 				{ tabs.map( ( tab ) => (
@@ -40,7 +36,8 @@ const Tabs = ( {
 							'wc-block-components-tabs__item',
 							tab.className,
 							{
-								[ activeClass ]: tab.name === selectedId,
+								[ activeClass ]:
+									tab.name === tabState.selectedId,
 							}
 						) }
 						onClick={ () => onSelect( tab.name ) }
@@ -54,12 +51,12 @@ const Tabs = ( {
 				) ) }
 			</TabList>
 
-			{ Object.keys( children ).map( ( name ) => (
+			{ tabs.map( ( { name } ) => (
 				<TabPanel { ...tabState } key={ name } tabId={ name }>
-					{ renderTab( name ) }
+					{ children( name ) }
 				</TabPanel>
 			) ) }
-		</>
+		</div>
 	);
 };
 

@@ -8,11 +8,11 @@ import {
 	useEmitResponse,
 } from '@woocommerce/base-hooks';
 import {
-	useCallback,
 	cloneElement,
 	useRef,
 	useEffect,
 	useState,
+	useMemo,
 } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import {
@@ -74,7 +74,7 @@ const PaymentMethods = () => {
 		currentPaymentMethodInterface.current = paymentMethodInterface;
 	}, [ paymentMethods, paymentMethodInterface, activePaymentMethod ] );
 
-	const getRenderedTab = useCallback(
+	const getRenderedTab = useMemo(
 		() => ( selectedTab ) => {
 			const paymentMethod = getPaymentMethod(
 				selectedTab,
@@ -92,7 +92,6 @@ const PaymentMethods = () => {
 		},
 		[ isEditor, activePaymentMethod ]
 	);
-
 	if (
 		! isInitialized ||
 		Object.keys( currentPaymentMethods.current ).length === 0
@@ -128,9 +127,9 @@ const PaymentMethods = () => {
 				'woo-gutenberg-products-block'
 			) }
 			id="wc-block-payment-methods"
-			children={ currentPaymentMethods.current }
-			renderTab={ getRenderedTab }
-		/>
+		>
+			{ getRenderedTab }
+		</Tabs>
 	);
 
 	const renderedSavedPaymentOptions = (
