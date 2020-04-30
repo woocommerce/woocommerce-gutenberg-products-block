@@ -44,6 +44,7 @@ const Tabs = ( {
 					<Tab
 						{ ...tabState }
 						id={ `${ instanceId }-${ name }` }
+						manual={ true }
 						className={ classnames(
 							'wc-block-components-tabs__item',
 							{
