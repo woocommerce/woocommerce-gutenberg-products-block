@@ -123,15 +123,14 @@ const PaymentMethods = () => {
 					};
 				}
 			) }
-			initialTabName={ activePaymentMethod }
 			ariaLabel={ __(
 				'Payment Methods',
 				'woo-gutenberg-products-block'
 			) }
 			id="wc-block-payment-methods"
-		>
-			{ getRenderedTab() }
-		</Tabs>
+			children={ currentPaymentMethods.current }
+			renderTab={ getRenderedTab }
+		/>
 	);
 
 	const renderedSavedPaymentOptions = (
