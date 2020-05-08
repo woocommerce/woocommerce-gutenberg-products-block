@@ -7,20 +7,13 @@ import {
 	useStoreNotices,
 	useEmitResponse,
 } from '@woocommerce/base-hooks';
-import {
-	cloneElement,
-	useRef,
-	useEffect,
-	useState,
-	useMemo,
-} from '@wordpress/element';
+import { cloneElement, useRef, useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import {
 	useEditorContext,
 	usePaymentMethodDataContext,
 } from '@woocommerce/base-context';
 import { PaymentMethodIcons } from '@woocommerce/base-components/cart-checkout';
-
 /**
  * Internal dependencies
  */
@@ -74,28 +67,7 @@ const PaymentMethods = () => {
 		currentPaymentMethodInterface.current = paymentMethodInterface;
 	}, [ paymentMethods, paymentMethodInterface, activePaymentMethod ] );
 
-	const getRenderedTab = useMemo(
-		() => ( selectedTab ) => {
-			const paymentMethod = getPaymentMethod(
-				selectedTab,
-				currentPaymentMethods.current,
-				isEditor
-			);
-			return paymentMethod ? (
-				<PaymentMethodErrorBoundary isEditor={ isEditor }>
-					{ cloneElement( paymentMethod, {
-						activePaymentMethod,
-						...currentPaymentMethodInterface.current,
-					} ) }
-				</PaymentMethodErrorBoundary>
-			) : null;
-		},
-		[ isEditor, activePaymentMethod ]
-	);
-	if (
-		! isInitialized ||
-		Object.keys( currentPaymentMethods.current ).length === 0
-	) {
+	if ( isInitialized && Object.keys( currentPaymentMethods.current ).length === 0 ) {
 		return <NoPaymentMethods />;
 	}
 	const renderedTabs = (
@@ -110,6 +82,11 @@ const PaymentMethods = () => {
 					const { label, ariaLabel } = currentPaymentMethods.current[
 						name
 					];
+					const paymentMethod = getPaymentMethod(
+						name,
+						currentPaymentMethods.current,
+						isEditor
+					);
 					return {
 						name,
 						title:
@@ -119,6 +96,14 @@ const PaymentMethods = () => {
 										components: { PaymentMethodIcons },
 								  } ),
 						ariaLabel,
+						content: paymentMethod ? (
+							<PaymentMethodErrorBoundary isEditor={ isEditor }>
+								{ cloneElement( paymentMethod, {
+									activePaymentMethod,
+									...currentPaymentMethodInterface.current,
+								} ) }
+							</PaymentMethodErrorBoundary>
+						) : null,
 					};
 				}
 			) }
@@ -128,9 +113,7 @@ const PaymentMethods = () => {
 				'woo-gutenberg-products-block'
 			) }
 			id="wc-block-payment-methods"
-		>
-			{ getRenderedTab }
-		</Tabs>
+		/>
 	);
 
 	const renderedSavedPaymentOptions = (
