@@ -16,6 +16,7 @@ import { decodeEntities } from '@wordpress/html-entities';
 import './style.scss';
 
 const Policies = () => {
+	console.log( PRIVACY_URL, TERMS_URL );
 	return (
 		<ul className="wc-block-components-checkout-policies">
 			{ PRIVACY_URL && (

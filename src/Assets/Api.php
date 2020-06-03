@@ -91,7 +91,7 @@ class Api {
 		wp_register_script( $handle, $src, $dependencies, $version, true );
 
 		if ( $has_i18n && function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( $handle, 'woo-gutenberg-products-block', $this->package->get_path( 'languages' ) );
+			wp_set_script_translations( $handle, 'woo-gutenberg-products-block' );
 		}
 	}
 

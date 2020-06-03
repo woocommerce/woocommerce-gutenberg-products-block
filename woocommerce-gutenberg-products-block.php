@@ -198,7 +198,7 @@ function woocommerce_blocks_get_php_translation_from_core( $translation, $text, 
 	// When translation is the same, that could mean the string is not translated.
 	// In that case, load it from core.
 	if ( $translation === $text ) {
-		return translate( $text, 'woocommerce' ); // phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction, WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.TextDomainMismatch
+		return __( $text, 'woocommerce' ); // phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction, WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.TextDomainMismatch
 	}
 	return $translation;
 }

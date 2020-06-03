@@ -176,7 +176,7 @@ class Assets {
 		if ( is_numeric( $page ) && $page > 0 ) {
 			$page = get_post( $page );
 		}
-		if ( ! is_a( $page, '\WP_Post' ) ) {
+		if ( ! is_a( $page, '\WP_Post' ) || $page->post_status !== 'publish' ) {
 			return [
 				'id'        => 0,
 				'title'     => '',
@@ -228,7 +228,7 @@ class Assets {
 		wp_register_script( $handle, $src, apply_filters( 'woocommerce_blocks_register_script_dependencies', $dependencies, $handle ), $version, true );
 
 		if ( $has_i18n && function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( $handle, 'woo-gutenberg-products-block', dirname( __DIR__ ) . '/languages' );
+			wp_set_script_translations( $handle, 'woo-gutenberg-products-block' );
 		}
 	}
 
