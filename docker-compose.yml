@@ -73,6 +73,13 @@ services:
       - ./:/var/www/html/wp-content/plugins/woocommerce-gutenberg-products-block
       - wordpress:/var/www/html
 
+  wait:
+    depends_on:
+      - db
+      - wordpress-www
+      - wordpress-cli
+    image: adighe/wait
+    command: './wait.sh --wait "cat /var/www/html/wp-content/themes/storefront/index.php" --command "ls -la" '
 volumes:
   db:
   wordpress:
