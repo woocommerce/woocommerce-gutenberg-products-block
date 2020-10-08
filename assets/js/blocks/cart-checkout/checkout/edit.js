@@ -348,9 +348,7 @@ const CheckoutEditor = ( { attributes, setAttributes } ) => {
 					) }
 				>
 					<StoreNoticesProvider context="wc/checkout">
-						<Disabled>
-							<Block attributes={ attributes } />
-						</Disabled>
+						<Block attributes={ attributes } />
 					</StoreNoticesProvider>
 				</BlockErrorBoundary>
 			</div>

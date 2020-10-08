@@ -2,13 +2,22 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { CHECKOUT_SHOW_LOGIN_REMINDER } from '@woocommerce/block-settings';
+import {
+	CHECKOUT_SHOW_LOGIN_REMINDER,
+	LOGIN_URL,
+} from '@woocommerce/block-settings';
 import { useCheckoutContext } from '@woocommerce/base-context';
 
 /**
  * Internal dependencies
  */
-import { LOGIN_TO_CHECKOUT_URL } from '../utils';
+/**
+ * External dependencies
+ */
+
+const LOGIN_TO_CHECKOUT_URL = `${ LOGIN_URL }?redirect_to=${ encodeURIComponent(
+	window.location.href
+) }`;
 
 const LoginPrompt = () => {
 	const { customerId } = useCheckoutContext();

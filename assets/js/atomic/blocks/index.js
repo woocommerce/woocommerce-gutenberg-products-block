@@ -13,3 +13,5 @@ import './product-elements/category-list';
 import './product-elements/tag-list';
 import './product-elements/stock-indicator';
 import './product-elements/add-to-cart';
+import './cart-checkout-elements/address-step';
+import './cart-checkout-elements/shipping-step';

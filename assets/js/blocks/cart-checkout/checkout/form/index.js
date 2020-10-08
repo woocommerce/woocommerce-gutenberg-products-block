@@ -4,14 +4,11 @@
 import Form from '@woocommerce/base-components/form';
 import { useCheckoutContext } from '@woocommerce/base-context';
 import PropTypes from 'prop-types';
+import { InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * Internal dependencies
  */
-import AddressStep from './address-step';
-import OrderNotesStep from './order-notes-step';
-import PaymentMethodStep from './payment-method-step';
-import ShippingOptionsStep from './shipping-options-step';
 import './style.scss';
 
 const CheckoutForm = ( {
@@ -24,20 +21,27 @@ const CheckoutForm = ( {
 	allowCreateAccount,
 } ) => {
 	const { onSubmit } = useCheckoutContext();
-
+	const TEMPLATE = [
+		[
+			'woocommerce/address-step',
+			{
+				requireCompanyField,
+				requirePhoneField,
+				showApartmentField,
+				showCompanyField,
+				showPhoneField,
+				allowCreateAccount,
+			},
+		],
+		[ 'woocommerce/shipping-step', {} ],
+	];
 	return (
 		<Form className="wc-block-checkout__form" onSubmit={ onSubmit }>
-			<AddressStep
-				requireCompanyField={ requireCompanyField }
-				requirePhoneField={ requirePhoneField }
-				showApartmentField={ showApartmentField }
-				showCompanyField={ showCompanyField }
-				showPhoneField={ showPhoneField }
-				allowCreateAccount={ allowCreateAccount }
+			<InnerBlocks
+				templateLock="insert"
+				renderAppender={ false }
+				template={ TEMPLATE }
 			/>
-			<ShippingOptionsStep />
-			<PaymentMethodStep />
-			<OrderNotesStep showOrderNotes={ showOrderNotes } />
 		</Form>
 	);
 };
@@ -52,3 +56,12 @@ CheckoutForm.propTypes = {
 };
 
 export default CheckoutForm;
+
+/*
+<ShippingOptionsStep />
+<PaymentMethodStep />
+<OrderNotesStep showOrderNotes={ showOrderNotes } />
+
+[ 'woocommerce/payment-step', {} ],
+[ 'woocommerce/order-not-step', { showOrderNotes } ],
+*/

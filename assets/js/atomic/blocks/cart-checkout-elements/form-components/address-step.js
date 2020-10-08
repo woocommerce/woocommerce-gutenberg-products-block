@@ -4,7 +4,11 @@
 import { useMemo } from '@wordpress/element';
 import PropTypes from 'prop-types';
 import { useCheckoutAddress } from '@woocommerce/base-hooks';
-import { useShippingDataContext } from '@woocommerce/base-context';
+import {
+	useCheckoutContext,
+	useEditorContext,
+	useShippingDataContext,
+} from '@woocommerce/base-context';
 
 /**
  * Internal dependencies
@@ -22,6 +26,11 @@ const AddressStep = ( {
 	showPhoneField,
 	allowCreateAccount,
 } ) => {
+	console.log(
+		useCheckoutContext(),
+		useEditorContext(),
+		useShippingDataContext()
+	);
 	const {
 		defaultAddressFields,
 		billingFields,

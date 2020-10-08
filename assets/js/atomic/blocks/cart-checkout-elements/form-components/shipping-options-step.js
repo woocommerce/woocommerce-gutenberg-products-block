@@ -51,6 +51,7 @@ const renderShippingRatesControlOption = ( option ) => {
 const ShippingOptionsStep = () => {
 	const { isProcessing: checkoutIsProcessing } = useCheckoutContext();
 	const { isEditor } = useEditorContext();
+
 	const {
 		shippingRates,
 		shippingRatesLoading,
