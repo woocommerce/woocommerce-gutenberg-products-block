@@ -12,6 +12,8 @@ const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
 const chalk = require( 'chalk' );
 const { kebabCase } = require( 'lodash' );
 const CreateFileWebpack = require( 'create-file-webpack' );
+const ReactRefreshWebpackPlugin = require( '@pmmmwh/react-refresh-webpack-plugin' );
+const webpack = require( 'webpack' );
 
 /**
  * Internal dependencies
@@ -278,11 +280,15 @@ const getFrontConfig = ( options = {} ) => {
 								require.resolve(
 									'@babel/plugin-proposal-class-properties'
 								),
-								NODE_ENV === 'production'
-									? require.resolve(
-											'babel-plugin-transform-react-remove-prop-types'
-									  )
-									: false,
+								NODE_ENV === 'production' &&
+									require.resolve(
+										'babel-plugin-transform-react-remove-prop-types'
+									),
+
+								NODE_ENV !== 'production' && [
+									require.resolve( 'react-refresh/babel' ),
+									{ skipEnvCheck: true },
+								],
 							].filter( Boolean ),
 						},
 					},
@@ -308,6 +314,11 @@ const getFrontConfig = ( options = {} ) => {
 				/dashicon/,
 				( result ) => ( result.resource = dashIconReplacementModule )
 			),
+			NODE_ENV !== 'production' &&
+				new webpack.HotModuleReplacementPlugin( {
+					skipEnvCheck: true,
+				} ),
+			NODE_ENV !== 'production' && new ReactRefreshWebpackPlugin(),
 		],
 		resolve,
 	};
