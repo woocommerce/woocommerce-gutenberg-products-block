@@ -48,6 +48,7 @@ tests/cli/vendor
 # Built files
 /build/
 bin/languages
+bin/woocommerce
 woocommerce-gutenberg-products-block.zip
 storybook-static/
 blocks.ini
