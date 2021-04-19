@@ -25,3 +25,5 @@ Every release includes specific testing instructions for new features and bug fi
 - [4.5.0](./450.md)
     - [4.5.2](./452.md)
 - [4.6.0](./460.md)
+- [4.7.0](./470.md)
+- [4.7.2](./472.md)
