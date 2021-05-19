@@ -1,35 +1,38 @@
 /**
  * External dependencies
  */
-import PropTypes from 'prop-types';
 import { ValidatedTextInput } from '@woocommerce/base-components/text-input';
-import {
-	BillingCountryInput,
-	ShippingCountryInput,
-} from '@woocommerce/base-components/country-input';
-import {
-	BillingStateInput,
-	ShippingStateInput,
-} from '@woocommerce/base-components/state-input';
 import { useValidationContext } from '@woocommerce/base-context';
 import { useEffect, useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { withInstanceId } from '@woocommerce/base-hocs/with-instance-id';
 import { useShallowEqual } from '@woocommerce/base-hooks';
-import { defaultAddressFields } from '@woocommerce/settings';
+import {
+	defaultAddressFields,
+	EnteredAddress,
+	AddressField,
+	AddressFields,
+} from '@woocommerce/settings';
+import { __experimentalApplyValidationFunctionsForField } from '@woocommerce/base-components/cart-checkout/address-form/registry';
+import {
+	BillingStateInput,
+	ShippingStateInput,
+} from '@woocommerce/base-components/state-input';
 
 /**
  * Internal dependencies
  */
 import prepareAddressFields from './prepare-address-fields';
+import { validatePostcode } from './validate-postcode';
+import { BillingCountryInput, ShippingCountryInput } from '../../country-input';
 
 // If it's the shipping address form and the user starts entering address
 // values without having set the country first, show an error.
 const validateShippingCountry = (
-	values,
-	setValidationErrors,
-	clearValidationError,
-	hasValidationError
+	values: EnteredAddress,
+	setValidationErrors: ( errors: Record< string, unknown > ) => void,
+	clearValidationError: ( error: string ) => void,
+	hasValidationError: boolean
 ) => {
 	if (
 		! hasValidationError &&
@@ -65,12 +68,20 @@ const validateShippingCountry = (
  */
 const AddressForm = ( {
 	id,
-	fields = Object.keys( defaultAddressFields ),
-	fieldConfig = {},
+	fields = Object.keys( defaultAddressFields ) as ( keyof AddressFields )[],
+	fieldConfig = {} as Record< keyof AddressFields, Partial< AddressField > >,
 	instanceId,
 	onChange,
 	type = 'shipping',
 	values,
+}: {
+	id: string | number;
+	fields: ( keyof AddressFields )[];
+	fieldConfig: Record< keyof AddressFields, Partial< AddressField > >;
+	instanceId: number;
+	onChange: ( address: EnteredAddress ) => void;
+	type: 'shipping' | 'billing';
+	values: EnteredAddress;
 } ) => {
 	const {
 		getValidationError,
@@ -80,8 +91,9 @@ const AddressForm = ( {
 
 	const currentFields = useShallowEqual( fields );
 
-	const countryValidationError =
-		getValidationError( 'shipping-missing-country' ) || {};
+	const countryValidationError = ( getValidationError(
+		'shipping-missing-country'
+	) || {} ) as { message: string; hidden: boolean };
 
 	const addressFormFields = useMemo( () => {
 		return prepareAddressFields(
@@ -97,8 +109,10 @@ const AddressForm = ( {
 				values,
 				setValidationErrors,
 				clearValidationError,
-				countryValidationError.message &&
+				!! (
+					countryValidationError.message &&
 					! countryValidationError.hidden
+				)
 			);
 		}
 	}, [
@@ -110,7 +124,22 @@ const AddressForm = ( {
 		type,
 	] );
 
-	id = id || instanceId;
+	useEffect( () => {
+		validatePostcode(
+			values.postcode,
+			values.country,
+			setValidationErrors,
+			clearValidationError,
+			type
+		);
+	}, [
+		values.postcode,
+		values.country,
+		setValidationErrors,
+		clearValidationError,
+	] );
+
+	id = ( id || instanceId ).toString();
 
 	return (
 		<div id={ id } className="wc-block-components-address-form">
@@ -135,15 +164,28 @@ const AddressForm = ( {
 							}
 							value={ values.country }
 							autoComplete={ field.autocomplete }
-							onChange={ ( newValue ) =>
+							onChange={ ( newValue ) => {
 								onChange( {
 									...values,
 									country: newValue,
 									state: '',
 									city: '',
 									postcode: '',
-								} )
-							}
+								} );
+							} }
+							onBlur={ ( value ) => {
+								clearValidationError(
+									`${ id }-${ field.key }`
+								);
+								__experimentalApplyValidationFunctionsForField(
+									value,
+									field.key,
+									values,
+									type,
+									`${ id }-${ field.key }`,
+									setValidationErrors
+								);
+							} }
 							errorId={
 								type === 'shipping'
 									? 'shipping-missing-country'
@@ -178,10 +220,37 @@ const AddressForm = ( {
 									state: newValue,
 								} )
 							}
+							onBlur={ ( value ) => {
+								clearValidationError(
+									`${ id }-${ field.key }`
+								);
+								__experimentalApplyValidationFunctionsForField(
+									value,
+									field.key,
+									values,
+									type,
+									`${ id }-${ field.key }`,
+									setValidationErrors
+								);
+							} }
 							errorMessage={ field.errorMessage }
 							required={ field.required }
 						/>
 					);
+				}
+
+				let customValidationProps = {};
+				if ( field.key === 'postcode' ) {
+					customValidationProps = {
+						customValidation: ( value: string ) =>
+							validatePostcode(
+								value,
+								values.country,
+								setValidationErrors,
+								clearValidationError,
+								type
+							),
+					};
 				}
 
 				return (
@@ -195,29 +264,31 @@ const AddressForm = ( {
 						value={ values[ field.key ] }
 						autoCapitalize={ field.autocapitalize }
 						autoComplete={ field.autocomplete }
-						onChange={ ( newValue ) =>
+						onChange={ ( newValue: string ) =>
 							onChange( {
 								...values,
 								[ field.key ]: newValue,
 							} )
 						}
+						onBlur={ ( value: string ) => {
+							clearValidationError( `${ id }-${ field.key }` );
+							__experimentalApplyValidationFunctionsForField(
+								value,
+								field.key,
+								values,
+								type,
+								`${ id }-${ field.key }`,
+								setValidationErrors
+							);
+						} }
 						errorMessage={ field.errorMessage }
 						required={ field.required }
+						{ ...customValidationProps }
 					/>
 				);
 			} ) }
 		</div>
 	);
-};
-
-AddressForm.propTypes = {
-	onChange: PropTypes.func.isRequired,
-	values: PropTypes.object.isRequired,
-	fields: PropTypes.arrayOf(
-		PropTypes.oneOf( Object.keys( defaultAddressFields ) )
-	),
-	fieldConfig: PropTypes.object,
-	type: PropTypes.oneOf( [ 'billing', 'shipping' ] ),
 };
 
 export default withInstanceId( AddressForm );

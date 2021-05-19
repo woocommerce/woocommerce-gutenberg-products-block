@@ -8,6 +8,6 @@
 		{ "path": "./assets/js/base/components" },
 		{ "path": "./packages" },
 		{ "path": "./assets/js/extensions/google-analytics" },
-		{ "path": "./assets/js/base/context" }
+		{ "path": "./assets/js/base/context" },
 	]
 }

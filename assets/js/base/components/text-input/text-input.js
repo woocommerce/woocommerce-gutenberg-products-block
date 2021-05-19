@@ -57,8 +57,8 @@ const TextInput = forwardRef(
 						onChange( event.target.value );
 					} }
 					onFocus={ () => setIsActive( true ) }
-					onBlur={ () => {
-						onBlur();
+					onBlur={ ( event ) => {
+						onBlur( event.target.value );
 						setIsActive( false );
 					} }
 					aria-label={ ariaLabel || label }

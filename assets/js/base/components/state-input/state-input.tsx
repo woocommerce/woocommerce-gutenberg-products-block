@@ -13,6 +13,7 @@ import classnames from 'classnames';
 import { ValidatedTextInput } from '../text-input';
 import { ValidatedSelect } from '../select';
 import './style.scss';
+import type { StateInputWithStatesProps } from './StateInputProps';
 
 const StateInput = ( {
 	className,
@@ -24,7 +25,7 @@ const StateInput = ( {
 	autoComplete = 'off',
 	value = '',
 	required = false,
-} ) => {
+}: StateInputWithStatesProps ): JSX.Element => {
 	const countryStates = states[ country ];
 	const options = useMemo(
 		() =>
@@ -110,22 +111,6 @@ const StateInput = ( {
 			required={ required }
 		/>
 	);
-};
-
-StateInput.propTypes = {
-	states: PropTypes.objectOf(
-		PropTypes.oneOfType( [
-			PropTypes.array,
-			PropTypes.objectOf( PropTypes.string ),
-		] )
-	).isRequired,
-	onChange: PropTypes.func.isRequired,
-	autoComplete: PropTypes.string,
-	id: PropTypes.string,
-	className: PropTypes.string,
-	country: PropTypes.string,
-	label: PropTypes.string,
-	value: PropTypes.string,
 };
 
 export default StateInput;

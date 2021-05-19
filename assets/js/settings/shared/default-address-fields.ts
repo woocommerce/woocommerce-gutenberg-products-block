@@ -11,13 +11,15 @@ export interface AddressField {
 	// The HTML autocomplete attribute value. See https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 	autocomplete: string;
 	// How this field value is capitalized.
-	autocapitalize?: string;
+	autocapitalize?: 'sentences' | 'characters';
 	// Set to true if the field is required.
 	required: boolean;
 	// Set to true if the field should not be rendered.
 	hidden: boolean;
 	// Fields will be sorted and render in this order, lowest to highest.
 	index: number;
+	priority?: number;
+	errorMessage?: string;
 }
 
 export interface AddressFields {
@@ -58,6 +60,7 @@ export type KeyedAddressField = AddressField & {
 export type ShippingAddress = EnteredAddress;
 export type BillingAddress = EnteredAddress;
 export type CountryAddressFields = Record< string, AddressFields >;
+export type AddressType = 'billing' | 'shipping';
 
 /**
  * Default address field properties.
