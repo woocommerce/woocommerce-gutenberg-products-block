@@ -116,3 +116,30 @@ registerBlockComponent( {
 		)
 	),
 } );
+
+registerBlockComponent( {
+	blockName: 'woocommerce/checkout-shipping-address',
+	component: lazy( () =>
+		import(
+			/* webpackChunkName: "atomic-block-components/checkout-shipping-address" */ './checkout-elements/shipping-address/block'
+		)
+	),
+} );
+
+registerBlockComponent( {
+	blockName: 'woocommerce/checkout-form-step',
+	component: lazy( () =>
+		import(
+			/* webpackChunkName: "atomic-block-components/checkout-form-step" */ './checkout-elements/form-step/block'
+		)
+	),
+} );
+
+registerBlockComponent( {
+	blockName: 'woocommerce/checkout-contact-information',
+	component: lazy( () =>
+		import(
+			/* webpackChunkName: "atomic-block-components/checkout-contact-information" */ './checkout-elements/contact-information/block'
+		)
+	),
+} );
