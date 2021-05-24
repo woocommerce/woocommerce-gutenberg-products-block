@@ -7,7 +7,7 @@ import { isExperimentalBuild } from '@woocommerce/block-settings';
 /**
  * Internal dependencies
  */
-import save from '../save';
+import save from '../../save-block';
 
 /**
  * Holds default config for this collection of blocks.

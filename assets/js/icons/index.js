@@ -20,6 +20,7 @@ export { default as exclamation } from './library/exclamation';
 export { default as external } from './library/external';
 export { default as folderStarred } from './library/folder-starred';
 export { default as folder } from './library/folder';
+export { default as formStep } from './library/form-step';
 export { default as grid } from './library/grid';
 export { default as heading } from './library/heading';
 export { default as image } from './library/image';
