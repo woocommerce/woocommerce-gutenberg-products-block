@@ -156,6 +156,8 @@ final class BlockTypesController {
 			'checkout-form-step',
 			'checkout-shipping-address',
 			'checkout-contact-information',
+			'checkout-fields-block',
+			'checkout-totals-block',
 		];
 	}
 }

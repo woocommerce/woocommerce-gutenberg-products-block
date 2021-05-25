@@ -47,6 +47,7 @@ const blocks = {
 	},
 	'checkout-i2': {
 		customDir: 'cart-checkout/checkout-i2',
+		isExperimental: true,
 	},
 	'single-product': {
 		isExperimental: true,

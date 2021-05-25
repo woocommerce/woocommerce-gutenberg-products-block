@@ -7,7 +7,7 @@ import { registerExperimentalBlockType } from '@woocommerce/block-settings';
  * Internal dependencies
  */
 import attributes from './attributes';
-import edit from './edit';
+import { Edit, Save } from './edit';
 import {
 	BLOCK_TITLE as title,
 	BLOCK_ICON as icon,
@@ -22,7 +22,9 @@ const blockConfig = {
 		foreground: '#874FB9',
 	},
 	attributes,
-	edit,
+	apiVersion: 2,
+	edit: Edit,
+	save: Save,
 };
 
 registerExperimentalBlockType( 'woocommerce/checkout-shipping-address', {
