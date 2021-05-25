@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl, Disabled } from '@wordpress/components';
 
 /**
@@ -10,15 +10,17 @@ import { PanelBody, ToggleControl, Disabled } from '@wordpress/components';
  */
 import Block from './block';
 
-const Edit = ( {
+export const Edit = ( {
 	attributes: { allowCreateAccount = true },
 	setAttributes,
 }: {
 	attributes: { allowCreateAccount: boolean };
 	setAttributes: ( attributes: Record< string, unknown > ) => void;
 } ): JSX.Element => {
+	const blockProps = useBlockProps();
+
 	return (
-		<>
+		<div { ...blockProps }>
 			<InspectorControls>
 				<PanelBody
 					title={ __(
@@ -43,8 +45,10 @@ const Edit = ( {
 			<Disabled>
 				<Block allowCreateAccount={ allowCreateAccount } />
 			</Disabled>
-		</>
+		</div>
 	);
 };
 
-export default Edit;
+export const Save = (): JSX.Element => {
+	return <div { ...useBlockProps.save() } />;
+};

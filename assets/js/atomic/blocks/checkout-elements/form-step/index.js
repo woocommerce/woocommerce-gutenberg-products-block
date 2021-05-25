@@ -8,8 +8,7 @@ import { formStep, Icon } from '@woocommerce/icons';
 /**
  * Internal dependencies
  */
-import edit from './edit';
-import { saveInnerblocks } from '../../save-block';
+import { Edit, Save } from './edit';
 
 const blockConfig = {
 	title: __( 'Form Step', 'woo-gutenberg-products-block' ),
@@ -36,8 +35,8 @@ const blockConfig = {
 		},
 	},
 	apiVersion: 2,
-	edit,
-	save: saveInnerblocks,
+	edit: Edit,
+	save: Save,
 };
 
 registerExperimentalBlockType( 'woocommerce/checkout-form-step', {

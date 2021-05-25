@@ -17,7 +17,7 @@ import { PanelBody, ToggleControl } from '@wordpress/components';
 import StepHeading from './step-heading';
 import './style.scss';
 
-const Edit = ( {
+export const Edit = ( {
 	attributes: { title = '', description = '', showStepNumber = true },
 	setAttributes,
 }: {
@@ -72,7 +72,7 @@ const Edit = ( {
 				</p>
 				<div className="wc-block-components-checkout-step__content">
 					<InnerBlocks
-						allowedBlocks={ {} }
+						allowedBlocks={ [] }
 						template={ [] }
 						templateLock={ false }
 						orientation="vertical"
@@ -83,4 +83,14 @@ const Edit = ( {
 	);
 };
 
-export default Edit;
+export const Save = (): JSX.Element => {
+	return (
+		<div
+			{ ...useBlockProps.save( {
+				className: 'is-loading',
+			} ) }
+		>
+			<InnerBlocks.Content />
+		</div>
+	);
+};

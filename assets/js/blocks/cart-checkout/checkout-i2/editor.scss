@@ -1,29 +1,24 @@
-.editor-styles-wrapper {
-	.wp-block h4.wc-block-components-checkout-step__title {
-		@include font-size(regular);
-		line-height: 24px;
-		margin: 0 $gap-small 0 0;
+[data-type="woocommerce/checkout-i2"] {
+	.block-editor-block-list__layout {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: baseline;
 	}
 }
-.wc-block-checkout__controls-text {
-	color: #999;
-	font-style: italic;
+
+[data-type="woocommerce/checkout-fields-block"] {
+	flex: 1;
+	padding-right: 2em;
+
+	.block-editor-block-list__layout {
+		display: block;
+	}
 }
 
-.components-base-control--nested {
-	padding-left: 52px;
-	margin-top: -12px;
-}
+[data-type="woocommerce/checkout-totals-block"] {
+	flex-basis: 30%;
 
-.wc-block-checkout__page-notice {
-	margin: 0;
-}
-
-.components-panel__body-title .components-button {
-	opacity: 1;
-}
-
-.wp-block-woocommerce-checkout.is-editor-preview {
-	max-height: 1000px;
-	overflow: hidden;
+	.block-editor-block-list__layout {
+		display: block;
+	}
 }
