@@ -118,7 +118,7 @@ const entries = {
 		blocks: './assets/js/index.js',
 
 		// Blocks
-		...getBlockEntries( 'index.js' ),
+		...getBlockEntries( 'index.{t,j}s{,x}' ),
 	},
 	frontend: {
 		reviews: './assets/js/blocks/reviews/frontend.js',
