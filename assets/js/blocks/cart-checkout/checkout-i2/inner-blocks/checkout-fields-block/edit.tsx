@@ -14,11 +14,15 @@ const ALLOWED_BLOCKS = [
 	'woocommerce/checkout-shipping-address-block',
 	'woocommerce/checkout-contact-information-block',
 	'woocommerce/checkout-billing-address-block',
+	'woocommerce/checkout-order-note-block',
+	'woocommerce/checkout-actions-block',
 ];
 const TEMPLATE: InnerBlockTemplate[] = [
 	[ 'woocommerce/checkout-contact-information-block', {}, [] ],
 	[ 'woocommerce/checkout-shipping-address-block', {}, [] ],
 	[ 'woocommerce/checkout-billing-address-block', {}, [] ],
+	[ 'woocommerce/checkout-order-note-block', {}, [] ],
+	[ 'woocommerce/checkout-actions-block', {}, [] ],
 ];
 
 // @todo templateLock all prevents load after saving content for some reason.
