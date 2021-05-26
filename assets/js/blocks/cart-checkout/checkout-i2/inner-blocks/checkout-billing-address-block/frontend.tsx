@@ -2,6 +2,8 @@
  * External dependencies
  */
 import withFilteredAttributes from '@woocommerce/base-hocs/with-filtered-attributes';
+import { FormStep } from '@woocommerce/base-components/cart-checkout';
+import { useCheckoutContext } from '@woocommerce/base-context';
 
 /**
  * Internal dependencies
@@ -9,4 +11,39 @@ import withFilteredAttributes from '@woocommerce/base-hocs/with-filtered-attribu
 import Block from './block';
 import attributes from './attributes';
 
-export default withFilteredAttributes( attributes )( Block );
+const FrontendBlock = ( {
+	title,
+	description,
+	requireCompanyField,
+	showApartmentField,
+	showCompanyField,
+	showStepNumber,
+}: {
+	title: string;
+	description: string;
+	requireCompanyField: boolean;
+	showApartmentField: boolean;
+	showCompanyField: boolean;
+	showStepNumber: boolean;
+} ) => {
+	const { isProcessing: checkoutIsProcessing } = useCheckoutContext();
+
+	return (
+		<FormStep
+			id="billing-fields"
+			disabled={ checkoutIsProcessing }
+			className="wc-block-checkout__billing-fields"
+			title={ title }
+			description={ description }
+			showStepNumber={ showStepNumber }
+		>
+			<Block
+				requireCompanyField={ requireCompanyField }
+				showApartmentField={ showApartmentField }
+				showCompanyField={ showCompanyField }
+			/>
+		</FormStep>
+	);
+};
+
+export default withFilteredAttributes( attributes )( FrontendBlock );
