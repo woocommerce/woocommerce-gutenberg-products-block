@@ -8,7 +8,7 @@ import { registerFeaturePluginBlockType } from '@woocommerce/block-settings';
  * Internal dependencies
  */
 import { Edit, Save } from './edit';
-import formStepAttributes from '../../form-step/attributes';
+import attributes from './attributes';
 
 registerFeaturePluginBlockType(
 	'woocommerce/checkout-contact-information-block',
@@ -24,22 +24,7 @@ registerFeaturePluginBlockType(
 			html: false,
 			multiple: false,
 		},
-		attributes: {
-			...formStepAttributes( {
-				defaultTitle: __(
-					'Contact information',
-					'woo-gutenberg-products-block'
-				),
-				defaultDescription: __(
-					"We'll use this email to send you details and updates about your order.",
-					'woo-gutenberg-products-block'
-				),
-			} ),
-			allowCreateAccount: {
-				type: 'boolean',
-				default: false,
-			},
-		},
+		attributes,
 		apiVersion: 2,
 		edit: Edit,
 		save: Save,

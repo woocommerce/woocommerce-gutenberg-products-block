@@ -8,7 +8,7 @@ import { registerFeaturePluginBlockType } from '@woocommerce/block-settings';
  * Internal dependencies
  */
 import { Edit, Save } from './edit';
-import formStepAttributes from '../../form-step/attributes';
+import attributes from './attributes';
 
 registerFeaturePluginBlockType( 'woocommerce/checkout-shipping-address-block', {
 	title: __( 'Shipping Address', 'woo-gutenberg-products-block' ),
@@ -22,42 +22,7 @@ registerFeaturePluginBlockType( 'woocommerce/checkout-shipping-address-block', {
 		html: false,
 		multiple: false,
 	},
-	attributes: {
-		...formStepAttributes( {
-			defaultTitle: __(
-				'Shipping address',
-				'woo-gutenberg-products-block'
-			),
-			defaultDescription: __(
-				'Enter the address where you want your order delivered.',
-				'woo-gutenberg-products-block'
-			),
-		} ),
-		showCompanyField: {
-			type: 'boolean',
-			default: false,
-		},
-		requireCompanyField: {
-			type: 'boolean',
-			default: false,
-		},
-		allowCreateAccount: {
-			type: 'boolean',
-			default: false,
-		},
-		showApartmentField: {
-			type: 'boolean',
-			default: true,
-		},
-		showPhoneField: {
-			type: 'boolean',
-			default: true,
-		},
-		requirePhoneField: {
-			type: 'boolean',
-			default: false,
-		},
-	},
+	attributes,
 	apiVersion: 2,
 	edit: Edit,
 	save: Save,
