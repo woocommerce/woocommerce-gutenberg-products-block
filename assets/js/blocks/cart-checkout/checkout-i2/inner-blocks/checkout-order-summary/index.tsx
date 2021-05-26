@@ -21,7 +21,24 @@ registerFeaturePluginBlockType( 'woocommerce/checkout-order-summary-block', {
 		html: false,
 		multiple: false,
 	},
-	attributes: {},
+	attributes: {
+		showCompanyField: {
+			type: 'boolean',
+			default: false,
+		},
+		requireCompanyField: {
+			type: 'boolean',
+			default: false,
+		},
+		allowCreateAccount: {
+			type: 'boolean',
+			default: false,
+		},
+		showApartmentField: {
+			type: 'boolean',
+			default: true,
+		},
+	},
 	apiVersion: 2,
 	edit: Edit,
 	save: Save,
