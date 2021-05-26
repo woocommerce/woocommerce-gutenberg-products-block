@@ -9,9 +9,11 @@ const attributes = ( {
 		'Step description text.',
 		'woo-gutenberg-products-block'
 	),
+	defaultShowStepNumber = true,
 }: {
 	defaultTitle: string;
 	defaultDescription: string;
+	defaultShowStepNumber: boolean;
 } ): Record< string, Record< string, unknown > > => ( {
 	title: {
 		type: 'string',
@@ -23,7 +25,7 @@ const attributes = ( {
 	},
 	showStepNumber: {
 		type: 'boolean',
-		default: true,
+		default: defaultShowStepNumber,
 	},
 } );
 
