@@ -1,42 +1,22 @@
 /**
  * External dependencies
  */
-import classnames from 'classnames';
-import {
-	AddressForm,
-	FormStep,
-} from '@woocommerce/base-components/cart-checkout';
-import {
-	useCheckoutAddress,
-	useCheckoutContext,
-} from '@woocommerce/base-context';
+import { __ } from '@wordpress/i18n';
+import { AddressForm } from '@woocommerce/base-components/cart-checkout';
+import { useCheckoutAddress } from '@woocommerce/base-context';
+import CheckboxControl from '@woocommerce/base-components/checkbox-control';
 
-const Block = ( {
-	attributes: { title = '', description = '', showStepNumber = true },
-}: {
-	attributes: { title: string; description: string; showStepNumber: boolean };
-} ): JSX.Element => {
+const Block = (): JSX.Element => {
 	const {
 		defaultAddressFields,
 		setShippingFields,
 		shippingFields,
+		setShippingAsBilling,
+		shippingAsBilling,
 	} = useCheckoutAddress();
-	const { isProcessing: checkoutIsProcessing } = useCheckoutContext();
 
 	return (
-		<FormStep
-			id="shipping-fields"
-			disabled={ checkoutIsProcessing }
-			className={ classnames(
-				'wc-block-checkout__shipping-fields',
-				'wc-block-components-checkout-step',
-				{
-					'wc-block-components-checkout-step--with-step-number': showStepNumber,
-				}
-			) }
-			title={ title }
-			description={ description }
-		>
+		<>
 			<AddressForm
 				id="shipping"
 				type="shipping"
@@ -45,7 +25,18 @@ const Block = ( {
 				fields={ Object.keys( defaultAddressFields ) }
 				fieldConfig={ {} }
 			/>
-		</FormStep>
+			<CheckboxControl
+				className="wc-block-checkout__use-address-for-billing"
+				label={ __(
+					'Use same address for billing',
+					'woo-gutenberg-products-block'
+				) }
+				checked={ shippingAsBilling }
+				onChange={ ( checked: boolean ) =>
+					setShippingAsBilling( checked )
+				}
+			/>
+		</>
 	);
 };
 

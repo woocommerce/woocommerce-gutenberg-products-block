@@ -18,6 +18,7 @@ import FormStepHeading from './form-step-heading';
 export interface FormStepBlockProps {
 	attributes: { title: string; description: string; showStepNumber: boolean };
 	setAttributes: ( attributes: Record< string, unknown > ) => void;
+	className?: string;
 	children?: React.ReactNode;
 }
 
@@ -27,10 +28,11 @@ export interface FormStepBlockProps {
 export const FormStepBlock = ( {
 	attributes: { title = '', description = '', showStepNumber = true },
 	setAttributes,
+	className = '',
 	children,
 }: FormStepBlockProps ): JSX.Element => {
 	const blockProps = useBlockProps( {
-		className: classnames( 'wc-block-components-checkout-step', {
+		className: classnames( 'wc-block-components-checkout-step', className, {
 			'wc-block-components-checkout-step--with-step-number': showStepNumber,
 		} ),
 	} );

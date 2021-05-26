@@ -3,25 +3,32 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import { Sidebar } from '@woocommerce/base-components/sidebar-layout';
 
 /**
  * Internal dependencies
  */
-import { Column } from '../../columns';
 import type { InnerBlockTemplate } from '../../types';
 
 const ALLOWED_BLOCKS: string[] = [];
 const TEMPLATE: InnerBlockTemplate[] = [];
 
 export const Edit = (): JSX.Element => {
+	const blockProps = useBlockProps();
+
 	return (
-		<Column
-			allowedBlocks={ ALLOWED_BLOCKS }
-			template={ TEMPLATE }
-			templateLock="insert"
-		>
-			<h2>{ __( 'Checkout Totals', 'woo-gutenberg-products-block' ) }</h2>
-		</Column>
+		<Sidebar>
+			<div { ...blockProps }>
+				<h2>
+					{ __( 'Checkout Totals', 'woo-gutenberg-products-block' ) }
+				</h2>
+				<InnerBlocks
+					allowedBlocks={ ALLOWED_BLOCKS }
+					template={ TEMPLATE }
+					templateLock={ 'insert' }
+				/>
+			</div>
+		</Sidebar>
 	);
 };
 

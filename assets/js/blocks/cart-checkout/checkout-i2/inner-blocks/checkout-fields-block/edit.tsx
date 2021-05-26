@@ -3,32 +3,41 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import { Main } from '@woocommerce/base-components/sidebar-layout';
 
 /**
  * Internal dependencies
  */
-import { Column } from '../../columns';
 import type { InnerBlockTemplate } from '../../types';
 
 const ALLOWED_BLOCKS = [
 	'woocommerce/checkout-shipping-address-block',
 	'woocommerce/checkout-contact-information-block',
+	'woocommerce/checkout-billing-address-block',
 ];
 const TEMPLATE: InnerBlockTemplate[] = [
 	[ 'woocommerce/checkout-contact-information-block', {}, [] ],
 	[ 'woocommerce/checkout-shipping-address-block', {}, [] ],
+	[ 'woocommerce/checkout-billing-address-block', {}, [] ],
 ];
 
+// @todo templateLock all prevents load after saving content for some reason.
 export const Edit = (): JSX.Element => {
-	// templateLock all prevents load after saving content for some reason.
+	const blockProps = useBlockProps();
+
 	return (
-		<Column
-			allowedBlocks={ ALLOWED_BLOCKS }
-			template={ TEMPLATE }
-			templateLock="insert"
-		>
-			<h2>{ __( 'Checkout Fields', 'woo-gutenberg-products-block' ) }</h2>
-		</Column>
+		<Main>
+			<div { ...blockProps }>
+				<h2>
+					{ __( 'Checkout Fields', 'woo-gutenberg-products-block' ) }
+				</h2>
+				<InnerBlocks
+					allowedBlocks={ ALLOWED_BLOCKS }
+					template={ TEMPLATE }
+					templateLock={ 'insert' }
+				/>
+			</div>
+		</Main>
 	);
 };
 
