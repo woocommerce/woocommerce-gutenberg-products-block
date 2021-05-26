@@ -8,7 +8,7 @@ import { registerFeaturePluginBlockType } from '@woocommerce/block-settings';
  * Internal dependencies
  */
 import { Edit, Save } from './edit';
-import formStepAttributes from '../../form-step/attributes';
+import attributes from './attributes';
 
 registerFeaturePluginBlockType( 'woocommerce/checkout-billing-address-block', {
 	title: __( 'Billing Address', 'woo-gutenberg-products-block' ),
@@ -22,18 +22,7 @@ registerFeaturePluginBlockType( 'woocommerce/checkout-billing-address-block', {
 		html: false,
 		multiple: false,
 	},
-	attributes: {
-		...formStepAttributes( {
-			defaultTitle: __(
-				'Billing address',
-				'woo-gutenberg-products-block'
-			),
-			defaultDescription: __(
-				'Enter the address that matches your card or payment method.',
-				'woo-gutenberg-products-block'
-			),
-		} ),
-	},
+	attributes,
 	apiVersion: 2,
 	edit: Edit,
 	save: Save,

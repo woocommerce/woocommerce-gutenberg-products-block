@@ -7,6 +7,7 @@ import { registerFeaturePluginBlockType } from '@woocommerce/block-settings';
 /**
  * Internal dependencies
  */
+import attributes from './attributes';
 import { Edit, Save } from './edit';
 
 registerFeaturePluginBlockType( 'woocommerce/checkout-actions-block', {
@@ -21,16 +22,7 @@ registerFeaturePluginBlockType( 'woocommerce/checkout-actions-block', {
 		html: false,
 		multiple: false,
 	},
-	attributes: {
-		cartPageId: {
-			type: 'number',
-			default: 0,
-		},
-		showReturnToCart: {
-			type: 'boolean',
-			default: true,
-		},
-	},
+	attributes,
 	apiVersion: 2,
 	edit: Edit,
 	save: Save,
