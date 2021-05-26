@@ -12,9 +12,21 @@ import { AddressForm } from '@woocommerce/base-components/cart-checkout';
 /**
  * Internal dependencies
  */
-import PhoneNumber from './phone-number';
+import PhoneNumber from '../../phone-number';
 
-const Block = (): JSX.Element => {
+const Block = ( {
+	showCompanyField = false,
+	showApartmentField = false,
+	showPhoneField = false,
+	requireCompanyField = false,
+	requirePhoneField = false,
+}: {
+	showCompanyField: boolean;
+	showApartmentField: boolean;
+	showPhoneField: boolean;
+	requireCompanyField: boolean;
+	requirePhoneField: boolean;
+} ): JSX.Element => {
 	const {
 		defaultAddressFields,
 		billingFields,
@@ -23,13 +35,6 @@ const Block = (): JSX.Element => {
 	} = useCheckoutAddress();
 	const { needsShipping } = useShippingDataContext();
 	const { dispatchCheckoutEvent } = useStoreEvents();
-
-	// @todo where do these live?
-	const requirePhoneField = true;
-	const showPhoneField = true;
-	const showCompanyField = true;
-	const requireCompanyField = false;
-	const showApartmentField = true;
 
 	const addressFieldsConfig = useMemo( () => {
 		return {
