@@ -13,10 +13,12 @@ import type { InnerBlockTemplate } from '../../types';
 const ALLOWED_BLOCKS = [
 	'woocommerce/checkout-shipping-address-block',
 	'woocommerce/checkout-contact-information-block',
+	'woocommerce/checkout-actions-block',
 ];
 const TEMPLATE: InnerBlockTemplate[] = [
 	[ 'woocommerce/checkout-contact-information-block', {}, [] ],
 	[ 'woocommerce/checkout-shipping-address-block', {}, [] ],
+	[ 'woocommerce/checkout-actions-block', {}, [] ],
 ];
 
 export const Edit = (): JSX.Element => {
