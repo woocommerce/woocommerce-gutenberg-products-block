@@ -10,44 +10,17 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import { Column } from '../../columns';
 import type { InnerBlockTemplate } from '../../types';
 
-const ALLOWED_BLOCKS = [ 'woocommerce/checkout-form-step' ];
+const ALLOWED_BLOCKS = [
+	'woocommerce/checkout-shipping-address-block',
+	'woocommerce/checkout-contact-information-block',
+];
 const TEMPLATE: InnerBlockTemplate[] = [
-	[
-		'woocommerce/checkout-form-step',
-		{
-			title: __( 'Contact information', 'woo-gutenberg-products-block' ),
-			description: __(
-				"We'll use these details to send you updates about your order.",
-				'woo-gutenberg-products-block'
-			),
-		},
-		[ [ 'woocommerce/checkout-contact-information', {}, [] ] ],
-	],
-	[
-		'woocommerce/checkout-form-step',
-		{
-			title: __( 'Shipping address', 'woo-gutenberg-products-block' ),
-			description: __(
-				'Enter the address where you want your order delivered.',
-				'woo-gutenberg-products-block'
-			),
-		},
-		[ [ 'woocommerce/checkout-shipping-address', {}, [] ] ],
-	],
-	[
-		'woocommerce/checkout-form-step',
-		{
-			title: __( 'Billing address', 'woo-gutenberg-products-block' ),
-			description: __(
-				'Enter the address that matches your card or payment method.',
-				'woo-gutenberg-products-block'
-			),
-		},
-		[],
-	],
+	[ 'woocommerce/checkout-contact-information-block', {}, [] ],
+	[ 'woocommerce/checkout-shipping-address-block', {}, [] ],
 ];
 
 export const Edit = (): JSX.Element => {
+	// templateLock all prevents load after saving content for some reason.
 	return (
 		<Column
 			allowedBlocks={ ALLOWED_BLOCKS }

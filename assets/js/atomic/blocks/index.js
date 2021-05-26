@@ -13,6 +13,3 @@ import './product-elements/category-list';
 import './product-elements/tag-list';
 import './product-elements/stock-indicator';
 import './product-elements/add-to-cart';
-import './checkout-elements/shipping-address';
-import './checkout-elements/form-step';
-import './checkout-elements/contact-information';
