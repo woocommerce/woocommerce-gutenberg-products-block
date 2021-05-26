@@ -6,14 +6,16 @@ import { ValidatedTextInput } from '@woocommerce/base-components/text-input';
 
 /**
  * Renders a phone number input.
- *
- * @param {Object} props Component props.
- * @param {boolean} props.isRequired Is the phone number required or optional.
- * @param {Function} props.onChange Event fired when the input changes.
- * @param {string} props.value Value of the input.
- * @return {*} The component.
  */
-const PhoneNumber = ( { isRequired = false, value = '', onChange } ) => {
+const PhoneNumber = ( {
+	isRequired = false,
+	value = '',
+	onChange,
+}: {
+	isRequired: boolean;
+	value: string;
+	onChange: ( value: string ) => void;
+} ): JSX.Element => {
 	return (
 		<ValidatedTextInput
 			id="phone"
