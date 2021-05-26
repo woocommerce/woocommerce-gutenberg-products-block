@@ -18,6 +18,7 @@ registerFeaturePluginBlockType( 'woocommerce/checkout-order-note-block', {
 		html: false,
 		multiple: false,
 	},
+	attributes: {},
 	apiVersion: 2,
 	edit: Edit,
 	save: Save,

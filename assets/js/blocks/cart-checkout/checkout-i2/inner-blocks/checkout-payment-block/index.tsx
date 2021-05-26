@@ -8,7 +8,7 @@ import { registerFeaturePluginBlockType } from '@woocommerce/block-settings';
  * Internal dependencies
  */
 import { Edit, Save } from './edit';
-import formStepAttributes from '../../form-step/attributes';
+import attributes from './attributes';
 
 registerFeaturePluginBlockType( 'woocommerce/checkout-payment-block', {
 	title: __( 'Payment Method', 'woo-gutenberg-products-block' ),
@@ -22,18 +22,7 @@ registerFeaturePluginBlockType( 'woocommerce/checkout-payment-block', {
 		html: false,
 		multiple: false,
 	},
-	attributes: {
-		...formStepAttributes( {
-			defaultTitle: __(
-				'Payment Method',
-				'woo-gutenberg-products-block'
-			),
-			defaultDescription: __(
-				'Select a payment method below.',
-				'woo-gutenberg-products-block'
-			),
-		} ),
-	},
+	attributes,
 	apiVersion: 2,
 	edit: Edit,
 	save: Save,
