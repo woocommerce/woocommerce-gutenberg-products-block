@@ -10,8 +10,10 @@ import { Sidebar } from '@woocommerce/base-components/sidebar-layout';
  */
 import type { InnerBlockTemplate } from '../../types';
 
-const ALLOWED_BLOCKS: string[] = [];
-const TEMPLATE: InnerBlockTemplate[] = [];
+const ALLOWED_BLOCKS: string[] = [ 'woocommerce/checkout-order-summary-block' ];
+const TEMPLATE: InnerBlockTemplate[] = [
+	[ 'woocommerce/checkout-order-summary-block', {}, [] ],
+];
 
 export const Edit = (): JSX.Element => {
 	const blockProps = useBlockProps();
