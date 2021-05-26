@@ -14,6 +14,7 @@ const ALLOWED_BLOCKS = [
 	'woocommerce/checkout-shipping-address-block',
 	'woocommerce/checkout-contact-information-block',
 	'woocommerce/checkout-billing-address-block',
+	'woocommerce/checkout-payment-block',
 	'woocommerce/checkout-order-note-block',
 	'woocommerce/checkout-actions-block',
 ];
@@ -21,6 +22,7 @@ const TEMPLATE: InnerBlockTemplate[] = [
 	[ 'woocommerce/checkout-contact-information-block', {}, [] ],
 	[ 'woocommerce/checkout-shipping-address-block', {}, [] ],
 	[ 'woocommerce/checkout-billing-address-block', {}, [] ],
+	[ 'woocommerce/checkout-payment-block', {}, [] ],
 	[ 'woocommerce/checkout-order-note-block', {}, [] ],
 	[ 'woocommerce/checkout-actions-block', {}, [] ],
 ];
