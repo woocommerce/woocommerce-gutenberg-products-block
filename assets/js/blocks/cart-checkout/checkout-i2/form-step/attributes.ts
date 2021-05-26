@@ -13,7 +13,7 @@ const attributes = ( {
 }: {
 	defaultTitle: string;
 	defaultDescription: string;
-	defaultShowStepNumber: boolean;
+	defaultShowStepNumber?: boolean;
 } ): Record< string, Record< string, unknown > > => ( {
 	title: {
 		type: 'string',

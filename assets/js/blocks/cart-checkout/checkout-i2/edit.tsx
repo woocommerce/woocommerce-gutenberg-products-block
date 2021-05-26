@@ -3,7 +3,11 @@
  */
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { SidebarLayout } from '@woocommerce/base-components/sidebar-layout';
-
+import { CheckoutProvider, EditorProvider } from '@woocommerce/base-context';
+import {
+	previewCart,
+	previewSavedPaymentMethods,
+} from '@woocommerce/resource-previews';
 /**
  * Internal dependencies
  */
@@ -23,17 +27,23 @@ const TEMPLATE = [
 
 export const Edit = (): JSX.Element => {
 	return (
-		<Columns>
-			<SidebarLayout className={ 'wc-block-checkout' }>
-				<form className="wc-block-components-form wc-block-checkout__form">
-					<InnerBlocks
-						allowedBlocks={ ALLOWED_BLOCKS }
-						template={ TEMPLATE }
-						templateLock="all"
-					/>
-				</form>
-			</SidebarLayout>
-		</Columns>
+		<EditorProvider
+			previewData={ { previewCart, previewSavedPaymentMethods } }
+		>
+			<CheckoutProvider>
+				<Columns>
+					<SidebarLayout className={ 'wc-block-checkout' }>
+						<form className="wc-block-components-form wc-block-checkout__form">
+							<InnerBlocks
+								allowedBlocks={ ALLOWED_BLOCKS }
+								template={ TEMPLATE }
+								templateLock="all"
+							/>
+						</form>
+					</SidebarLayout>
+				</Columns>
+			</CheckoutProvider>
+		</EditorProvider>
 	);
 };
 
