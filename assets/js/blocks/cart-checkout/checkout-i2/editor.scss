@@ -1,4 +1,7 @@
 [data-type="woocommerce/checkout-i2"] {
+	.wc-block-components-sidebar-layout {
+		display: block;
+	}
 	.block-editor-block-list__layout {
 		display: flex;
 		flex-flow: row wrap;
@@ -7,17 +10,12 @@
 }
 
 [data-type="woocommerce/checkout-fields-block"] {
-	flex: 1;
-	padding-right: 2em;
-
 	.block-editor-block-list__layout {
 		display: block;
 	}
 }
 
 [data-type="woocommerce/checkout-totals-block"] {
-	flex-basis: 30%;
-
 	.block-editor-block-list__layout {
 		display: block;
 	}

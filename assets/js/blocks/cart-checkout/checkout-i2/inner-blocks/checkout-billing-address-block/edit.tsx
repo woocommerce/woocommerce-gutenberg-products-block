@@ -14,7 +14,7 @@ export const Edit = ( props: FormStepBlockProps ): JSX.Element => {
 	return (
 		<FormStepBlock
 			{ ...props }
-			className="wc-block-checkout__shipping-fields"
+			className="wc-block-checkout__billing-fields"
 		>
 			<Disabled>
 				<Block />

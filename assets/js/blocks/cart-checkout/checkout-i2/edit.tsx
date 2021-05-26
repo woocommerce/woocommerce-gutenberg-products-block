@@ -2,6 +2,7 @@
  * External dependencies
  */
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
+import { SidebarLayout } from '@woocommerce/base-components/sidebar-layout';
 
 /**
  * Internal dependencies
@@ -22,12 +23,16 @@ const TEMPLATE = [
 
 export const Edit = (): JSX.Element => {
 	return (
-		<Columns className="wc-block-checkout">
-			<InnerBlocks
-				allowedBlocks={ ALLOWED_BLOCKS }
-				template={ TEMPLATE }
-				templateLock="all"
-			/>
+		<Columns>
+			<SidebarLayout className={ 'wc-block-checkout' }>
+				<form className="wc-block-components-form wc-block-checkout__form">
+					<InnerBlocks
+						allowedBlocks={ ALLOWED_BLOCKS }
+						template={ TEMPLATE }
+						templateLock="all"
+					/>
+				</form>
+			</SidebarLayout>
 		</Columns>
 	);
 };
