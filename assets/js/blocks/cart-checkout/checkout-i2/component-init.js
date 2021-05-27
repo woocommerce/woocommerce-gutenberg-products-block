@@ -9,7 +9,6 @@ import { WC_BLOCKS_BUILD_URL } from '@woocommerce/block-settings';
  * Internal dependencies
  */
 
-import PaymentBlock from './inner-blocks/checkout-payment-block/frontend';
 // Modify webpack publicPath at runtime based on location of WordPress Plugin.
 // eslint-disable-next-line no-undef,camelcase
 __webpack_public_path__ = WC_BLOCKS_BUILD_URL;
@@ -61,7 +60,11 @@ registerBlockComponent( {
 
 registerBlockComponent( {
 	blockName: 'woocommerce/checkout-payment-block',
-	component: PaymentBlock,
+	component: lazy( () =>
+		import(
+			/* webpackChunkName: "checkout-blocks/payment" */ './inner-blocks/checkout-payment-block/frontend'
+		)
+	),
 } );
 
 registerBlockComponent( {
