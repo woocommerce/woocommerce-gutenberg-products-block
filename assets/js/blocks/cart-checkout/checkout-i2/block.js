@@ -4,6 +4,7 @@
 import {
 	CheckoutProvider,
 	StoreNoticesProvider,
+	ValidationContextProvider,
 } from '@woocommerce/base-context';
 
 /** @typedef {import('react')} React */
@@ -16,12 +17,13 @@ import {
  */
 const Block = ( { children } ) => {
 	const noticeContext = 'woocommerce/checkout-i2';
-
 	return (
 		<CheckoutProvider>
-			<StoreNoticesProvider context={ noticeContext }>
-				{ children }
-			</StoreNoticesProvider>
+			<ValidationContextProvider>
+				<StoreNoticesProvider context={ noticeContext }>
+					{ children }
+				</StoreNoticesProvider>
+			</ValidationContextProvider>
 		</CheckoutProvider>
 	);
 };
