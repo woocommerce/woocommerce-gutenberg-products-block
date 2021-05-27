@@ -11,6 +11,7 @@ import { Main } from '@woocommerce/base-components/sidebar-layout';
 import type { InnerBlockTemplate } from '../../types';
 
 const ALLOWED_BLOCKS = [
+	'woocommerce/checkout-express-payment',
 	'woocommerce/checkout-shipping-address-block',
 	'woocommerce/checkout-contact-information-block',
 	'woocommerce/checkout-billing-address-block',
@@ -19,6 +20,7 @@ const ALLOWED_BLOCKS = [
 	'woocommerce/checkout-actions-block',
 ];
 const TEMPLATE: InnerBlockTemplate[] = [
+	[ 'woocommerce/checkout-express-payment', {}, [] ],
 	[ 'woocommerce/checkout-contact-information-block', {}, [] ],
 	[ 'woocommerce/checkout-shipping-address-block', {}, [] ],
 	[ 'woocommerce/checkout-billing-address-block', {}, [] ],
