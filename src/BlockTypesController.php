@@ -168,6 +168,13 @@ final class BlockTypesController {
 			'product-tag-list',
 			'product-stock-indicator',
 			'product-add-to-cart',
+			'checkout-billing-address-block',
+			'checkout-actions-block',
+			'checkout-contact-information-block',
+			'checkout-order-note-block',
+			'checkout-order-summary-block',
+			'checkout-payment-block',
+			'checkout-shipping-address-block',
 		];
 	}
 }
