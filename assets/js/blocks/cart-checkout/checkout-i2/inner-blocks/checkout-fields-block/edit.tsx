@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import { Main } from '@woocommerce/base-components/sidebar-layout';
 
@@ -13,6 +12,7 @@ import type { InnerBlockTemplate } from '../../types';
 const ALLOWED_BLOCKS = [
 	'woocommerce/checkout-express-payment',
 	'woocommerce/checkout-shipping-address-block',
+	'woocommerce/checkout-shipping-methods',
 	'woocommerce/checkout-contact-information-block',
 	'woocommerce/checkout-billing-address-block',
 	'woocommerce/checkout-payment-block',
@@ -24,6 +24,7 @@ const TEMPLATE: InnerBlockTemplate[] = [
 	[ 'woocommerce/checkout-contact-information-block', {}, [] ],
 	[ 'woocommerce/checkout-shipping-address-block', {}, [] ],
 	[ 'woocommerce/checkout-billing-address-block', {}, [] ],
+	[ 'woocommerce/checkout-shipping-methods', {}, [] ],
 	[ 'woocommerce/checkout-payment-block', {}, [] ],
 	[ 'woocommerce/checkout-order-note-block', {}, [] ],
 	[ 'woocommerce/checkout-actions-block', {}, [] ],
@@ -36,9 +37,6 @@ export const Edit = (): JSX.Element => {
 	return (
 		<Main>
 			<div { ...blockProps }>
-				<h2>
-					{ __( 'Checkout Fields', 'woo-gutenberg-products-block' ) }
-				</h2>
 				<InnerBlocks
 					allowedBlocks={ ALLOWED_BLOCKS }
 					template={ TEMPLATE }

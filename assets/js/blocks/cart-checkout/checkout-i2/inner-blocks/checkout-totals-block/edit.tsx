@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import { Sidebar } from '@woocommerce/base-components/sidebar-layout';
 
@@ -21,9 +20,6 @@ export const Edit = (): JSX.Element => {
 	return (
 		<Sidebar>
 			<div { ...blockProps }>
-				<h2>
-					{ __( 'Checkout Totals', 'woo-gutenberg-products-block' ) }
-				</h2>
 				<InnerBlocks
 					allowedBlocks={ ALLOWED_BLOCKS }
 					template={ TEMPLATE }
