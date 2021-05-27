@@ -1,7 +1,13 @@
 /**
  * External dependencies
  */
+import { useStoreCart, useEmitResponse } from '@woocommerce/base-context/hooks';
 import withFilteredAttributes from '@woocommerce/base-hocs/with-filtered-attributes';
+import { FormStep } from '@woocommerce/base-components/cart-checkout';
+import {
+	useCheckoutContext,
+	StoreNoticesProvider,
+} from '@woocommerce/base-context';
 
 /**
  * Internal dependencies
@@ -9,4 +15,36 @@ import withFilteredAttributes from '@woocommerce/base-hocs/with-filtered-attribu
 import Block from './block';
 import attributes from './attributes';
 
-export default withFilteredAttributes( attributes )( Block );
+const FrontendBlock = ( {
+	title,
+	description,
+	showStepNumber,
+}: {
+	title: string;
+	description: string;
+	showStepNumber: boolean;
+} ) => {
+	const { isProcessing: checkoutIsProcessing } = useCheckoutContext();
+	const { cartNeedsPayment } = useStoreCart();
+	const { noticeContexts } = useEmitResponse();
+
+	if ( ! cartNeedsPayment ) {
+		return null;
+	}
+	return (
+		<FormStep
+			id="payment-method"
+			disabled={ checkoutIsProcessing }
+			className="wc-block-checkout__payment-method"
+			title={ title }
+			description={ description }
+			showStepNumber={ showStepNumber }
+		>
+			<StoreNoticesProvider context={ noticeContexts.PAYMENTS }>
+				<Block />
+			</StoreNoticesProvider>
+		</FormStep>
+	);
+};
+
+export default withFilteredAttributes( attributes )( FrontendBlock );
