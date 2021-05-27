@@ -2,13 +2,17 @@
  * External dependencies
  */
 import { getValidBlockAttributes } from '@woocommerce/base-utils';
-import { renderParentBlock } from '@woocommerce/atomic-utils';
+import {
+	withStoreCartApiHydration,
+	withRestApiHydration,
+} from '@woocommerce/block-hocs';
+
 /**
  * Internal dependencies
  */
 import Block from './block';
 import blockAttributes from './attributes';
-import { renderStandaloneBlocks } from './render-standalone-blocks';
+import { renderParentBlock } from './render-parent-block';
 
 const getProps = ( el ) => {
 	return {
@@ -17,10 +21,8 @@ const getProps = ( el ) => {
 };
 
 renderParentBlock( {
-	Block,
+	Block: withStoreCartApiHydration( withRestApiHydration( Block ) ),
 	blockName: 'woocommerce/checkout-i2',
 	selector: '.wp-block-woocommerce-checkout-i2',
 	getProps,
 } );
-
-renderStandaloneBlocks();
