@@ -11,3 +11,4 @@ import './checkout-order-note-block';
 import './checkout-order-summary';
 import './checkout-payment-block';
 import './checkout-express-payment';
+import './checkout-shipping-methods';
