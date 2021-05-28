@@ -1,12 +1,15 @@
 /**
  * External dependencies
  */
-import { createContext, useContext } from '@wordpress/element';
+import { createContext, useContext, useState } from '@wordpress/element';
+import { defaultAddressFields } from '@woocommerce/settings';
 
 /**
  * Internal dependencies
  */
 import { useCustomerData } from '../../../hooks/use-customer-data';
+import { useCheckoutContext } from '../checkout-state';
+import { useStoreCart } from '../../../hooks/cart/use-store-cart';
 
 /**
  * @typedef {import('@woocommerce/type-defs/contexts').CustomerDataContext} CustomerDataContext
@@ -54,6 +57,8 @@ const CustomerDataContext = createContext( {
 	shippingAddress: defaultShippingAddress,
 	setBillingData: () => null,
 	setShippingAddress: () => null,
+	shippingAsBilling: true,
+	setShippingAsBilling: () => null,
 } );
 
 /**
@@ -61,6 +66,18 @@ const CustomerDataContext = createContext( {
  */
 export const useCustomerDataContext = () => {
 	return useContext( CustomerDataContext );
+};
+
+/**
+ * Compare two addresses and see if they are the same.
+ *
+ * @param {Object} address1 First address.
+ * @param {Object} address2 Second address.
+ */
+const isSameAddress = ( address1, address2 ) => {
+	return Object.keys( defaultAddressFields ).every(
+		( field ) => address1[ field ] === address2[ field ]
+	);
 };
 
 /**
@@ -76,6 +93,13 @@ export const CustomerDataProvider = ( { children } ) => {
 		setBillingData,
 		setShippingAddress,
 	} = useCustomerData();
+	const { cartNeedsShipping: needsShipping } = useStoreCart();
+	const { customerId } = useCheckoutContext();
+	const [ shippingAsBilling, setShippingAsBilling ] = useState(
+		() =>
+			needsShipping &&
+			( ! customerId || isSameAddress( shippingAddress, billingData ) )
+	);
 
 	/**
 	 * @type {CustomerDataContext}
@@ -85,6 +109,8 @@ export const CustomerDataProvider = ( { children } ) => {
 		shippingAddress,
 		setBillingData,
 		setShippingAddress,
+		shippingAsBilling,
+		setShippingAsBilling,
 	};
 
 	return (

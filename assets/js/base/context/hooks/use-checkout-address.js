@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { defaultAddressFields } from '@woocommerce/settings';
-import { useState, useEffect, useCallback, useRef } from '@wordpress/element';
+import { useEffect, useCallback, useRef } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -10,42 +10,21 @@ import { useState, useEffect, useCallback, useRef } from '@wordpress/element';
 import {
 	useShippingDataContext,
 	useCustomerDataContext,
-	useCheckoutContext,
 } from '../providers/cart-checkout';
-
-/**
- * Compare two addresses and see if they are the same.
- *
- * @param {Object} address1 First address.
- * @param {Object} address2 Second address.
- */
-const isSameAddress = ( address1, address2 ) => {
-	return Object.keys( defaultAddressFields ).every(
-		( field ) => address1[ field ] === address2[ field ]
-	);
-};
 
 /**
  * Custom hook for exposing address related functionality for the checkout address form.
  */
 export const useCheckoutAddress = () => {
-	const { customerId } = useCheckoutContext();
 	const { needsShipping } = useShippingDataContext();
 	const {
 		billingData,
 		setBillingData,
 		shippingAddress,
 		setShippingAddress,
+		shippingAsBilling,
+		setShippingAsBilling,
 	} = useCustomerDataContext();
-
-	// This tracks the state of the "shipping as billing" address checkbox. It's
-	// initial value is true (if shipping is needed), however, if the user is
-	// logged in and they have a different billing address, we can toggle this off.
-	const [ shippingAsBilling, setShippingAsBilling ] = useState(
-		() =>
-			needsShipping &&
-			( ! customerId || isSameAddress( shippingAddress, billingData ) )
-	);
 
 	const currentShippingAsBilling = useRef( shippingAsBilling );
 	const previousBillingData = useRef( billingData );
@@ -78,9 +57,8 @@ export const useCheckoutAddress = () => {
 		[ needsShipping, setShippingAddress, setBillingData ]
 	);
 
-	// When the "Use same address" checkbox is toggled we need to update the current billing address to reflect this;
-	// that is either setting the billing address to the shipping address, or restoring the billing address to it's
-	// previous state.
+	// When the "Use same address" checkbox is toggled we need to update the current billing address to reflect this.
+	// This either sets the billing address to the shipping address, or restores the billing address to it's previous state.
 	useEffect( () => {
 		if ( currentShippingAsBilling.current !== shippingAsBilling ) {
 			if ( shippingAsBilling ) {
@@ -107,6 +85,7 @@ export const useCheckoutAddress = () => {
 		void setBillingData( {
 			email: value,
 		} );
+
 	const setPhone = ( value ) =>
 		void setBillingData( {
 			phone: value,
