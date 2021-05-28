@@ -9,7 +9,7 @@ import { registerFeaturePluginBlockType } from '@woocommerce/block-settings';
  */
 import { Edit, Save } from './edit';
 
-registerFeaturePluginBlockType( 'woocommerce/checkout-express-payment', {
+registerFeaturePluginBlockType( 'woocommerce/checkout-express-payment-block', {
 	title: __( 'Express Checkout', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce',
 	description: __(

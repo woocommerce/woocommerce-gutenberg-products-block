@@ -21,6 +21,7 @@ import {
 	getSetting,
 } from '@woocommerce/settings';
 import { LOGIN_URL } from '@woocommerce/block-settings';
+import withScrollToTop from '@woocommerce/base-hocs/with-scroll-to-top';
 
 /**
  * Internal dependencies
@@ -139,4 +140,4 @@ const Checkout = ( { attributes, scrollToTop, children } ) => {
 	);
 };
 
-export default Block;
+export default withScrollToTop( Block );

@@ -214,7 +214,7 @@ class Api {
 						sprintf( 'console.error( "%s" );', $error_message )
 					);
 
-					$cart_checkout_scripts = [ 'wc-cart-block', 'wc-cart-block-frontend', 'wc-checkout-block', 'wc-checkout-block-frontend' ];
+					$cart_checkout_scripts = [ 'wc-cart-block', 'wc-cart-block-frontend', 'wc-checkout-block', 'wc-checkout-block-frontend', 'wc-checkout-block-i2', 'wc-checkout-i2-block-frontend' ];
 					foreach ( $cart_checkout_scripts as $script_handle ) {
 						if (
 							! array_key_exists( $script_handle, $wp_scripts->registered ) ||
