@@ -8,7 +8,13 @@ const FrontendBlock = ( {
 }: {
 	children: JSX.Element;
 } ): JSX.Element => {
-	return <Main>{ children }</Main>;
+	return (
+		<Main>
+			<form className="wc-block-components-form wc-block-checkout__form">
+				{ children }
+			</form>
+		</Main>
+	);
 };
 
 export default FrontendBlock;

@@ -37,11 +37,13 @@ export const Edit = (): JSX.Element => {
 	return (
 		<Main>
 			<div { ...blockProps }>
-				<InnerBlocks
-					allowedBlocks={ ALLOWED_BLOCKS }
-					template={ TEMPLATE }
-					templateLock={ 'insert' }
-				/>
+				<form className="wc-block-components-form wc-block-checkout__form">
+					<InnerBlocks
+						allowedBlocks={ ALLOWED_BLOCKS }
+						template={ TEMPLATE }
+						templateLock={ 'insert' }
+					/>
+				</form>
 			</div>
 		</Main>
 	);
