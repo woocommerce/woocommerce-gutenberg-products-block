@@ -4,6 +4,7 @@
 import withFilteredAttributes from '@woocommerce/base-hocs/with-filtered-attributes';
 import { FormStep } from '@woocommerce/base-components/cart-checkout';
 import { useCheckoutContext } from '@woocommerce/base-context';
+import { useCheckoutAddress } from '@woocommerce/base-context/hooks';
 
 /**
  * Internal dependencies
@@ -25,8 +26,13 @@ const FrontendBlock = ( {
 	showApartmentField: boolean;
 	showCompanyField: boolean;
 	showStepNumber: boolean;
-} ) => {
+} ): JSX.Element | null => {
 	const { isProcessing: checkoutIsProcessing } = useCheckoutContext();
+	const { showBillingFields } = useCheckoutAddress();
+
+	if ( ! showBillingFields ) {
+		return null;
+	}
 
 	return (
 		<FormStep

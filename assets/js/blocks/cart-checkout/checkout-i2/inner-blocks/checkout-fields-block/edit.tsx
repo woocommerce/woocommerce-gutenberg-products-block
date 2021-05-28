@@ -35,7 +35,7 @@ export const Edit = (): JSX.Element => {
 	const blockProps = useBlockProps();
 
 	return (
-		<Main>
+		<Main className="wc-block-checkout__main">
 			<div { ...blockProps }>
 				<form className="wc-block-components-form wc-block-checkout__form">
 					<InnerBlocks

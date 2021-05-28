@@ -6,6 +6,7 @@ import { ValidatedTextInput } from '@woocommerce/base-components/text-input';
 import {
 	useCheckoutContext,
 	useCheckoutAddress,
+	useStoreEvents,
 } from '@woocommerce/base-context';
 import { getSetting } from '@woocommerce/settings';
 import CheckboxControl from '@woocommerce/base-components/checkbox-control';
@@ -25,10 +26,11 @@ const Block = ( {
 		setShouldCreateAccount,
 	} = useCheckoutContext();
 	const { billingFields, setEmail } = useCheckoutAddress();
+	const { dispatchCheckoutEvent } = useStoreEvents();
 
 	const onChangeEmail = ( value ) => {
 		setEmail( value );
-		//dispatchCheckoutEvent( 'set-email-address' );
+		dispatchCheckoutEvent( 'set-email-address' );
 	};
 
 	const createAccountUI = ! customerId &&
