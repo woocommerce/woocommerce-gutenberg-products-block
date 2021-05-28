@@ -14,6 +14,24 @@ import { WC_BLOCKS_BUILD_URL } from '@woocommerce/block-settings';
 __webpack_public_path__ = WC_BLOCKS_BUILD_URL;
 
 registerBlockComponent( {
+	blockName: 'woocommerce/checkout-fields-block',
+	component: lazy( () =>
+		import(
+			/* webpackChunkName: "checkout-blocks/fields" */ './inner-blocks/checkout-fields-block/frontend'
+		)
+	),
+} );
+
+registerBlockComponent( {
+	blockName: 'woocommerce/checkout-totals-block',
+	component: lazy( () =>
+		import(
+			/* webpackChunkName: "checkout-blocks/totals" */ './inner-blocks/checkout-totals-block/frontend'
+		)
+	),
+} );
+
+registerBlockComponent( {
 	blockName: 'woocommerce/checkout-billing-address-block',
 	component: lazy( () =>
 		import(

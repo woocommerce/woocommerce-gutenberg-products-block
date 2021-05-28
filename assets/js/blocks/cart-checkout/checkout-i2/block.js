@@ -11,6 +11,7 @@ import {
 import BlockErrorBoundary from '@woocommerce/base-components/block-error-boundary';
 import { CURRENT_USER_IS_ADMIN } from '@woocommerce/settings';
 import { createInterpolateElement } from 'wordpress-element';
+import { SidebarLayout } from '@woocommerce/base-components/sidebar-layout';
 
 /**
  * Internal dependencies
@@ -51,7 +52,9 @@ const Block = ( { children } ) => {
 				>
 					<StoreNoticesProvider context={ noticeContext }>
 						<ValidationContextProvider>
-							{ children }
+							<SidebarLayout className="wc-block-checkout">
+								{ children }
+							</SidebarLayout>
 						</ValidationContextProvider>
 					</StoreNoticesProvider>
 				</BlockErrorBoundary>

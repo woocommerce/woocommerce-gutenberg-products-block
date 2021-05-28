@@ -168,6 +168,8 @@ final class BlockTypesController {
 			'product-tag-list',
 			'product-stock-indicator',
 			'product-add-to-cart',
+			'checkout-fields-block',
+			'checkout-totals-block',
 			'checkout-billing-address-block',
 			'checkout-actions-block',
 			'checkout-contact-information-block',
