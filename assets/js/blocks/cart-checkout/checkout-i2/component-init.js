@@ -89,3 +89,12 @@ registerBlockComponent( {
 		)
 	),
 } );
+
+registerBlockComponent( {
+	blockName: 'woocommerce/checkout-express-payment-block',
+	component: lazy( () =>
+		import(
+			/* webpackChunkName: "checkout-blocks/express-payment" */ './inner-blocks/checkout-express-payment/block'
+		)
+	),
+} );
