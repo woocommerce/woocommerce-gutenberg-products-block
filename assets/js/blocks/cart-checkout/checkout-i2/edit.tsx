@@ -33,13 +33,11 @@ export const Edit = (): JSX.Element => {
 			<CheckoutProvider>
 				<Columns>
 					<SidebarLayout className={ 'wc-block-checkout' }>
-						<form className="wc-block-components-form wc-block-checkout__form">
-							<InnerBlocks
-								allowedBlocks={ ALLOWED_BLOCKS }
-								template={ TEMPLATE }
-								templateLock="all"
-							/>
-						</form>
+						<InnerBlocks
+							allowedBlocks={ ALLOWED_BLOCKS }
+							template={ TEMPLATE }
+							templateLock="all"
+						/>
 					</SidebarLayout>
 				</Columns>
 			</CheckoutProvider>
