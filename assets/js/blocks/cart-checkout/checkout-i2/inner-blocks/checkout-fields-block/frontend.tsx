@@ -9,7 +9,7 @@ const FrontendBlock = ( {
 	children: JSX.Element;
 } ): JSX.Element => {
 	return (
-		<Main>
+		<Main className="wc-block-checkout__main">
 			<form className="wc-block-components-form wc-block-checkout__form">
 				{ children }
 			</form>

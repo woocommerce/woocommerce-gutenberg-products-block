@@ -18,7 +18,7 @@ export const Edit = (): JSX.Element => {
 	const blockProps = useBlockProps();
 
 	return (
-		<Sidebar>
+		<Sidebar className="wc-block-checkout__sidebar">
 			<div { ...blockProps }>
 				<InnerBlocks
 					allowedBlocks={ ALLOWED_BLOCKS }
