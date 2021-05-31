@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import { decodeEntities } from '@wordpress/html-entities';
 import classnames from 'classnames';
+import { createInterpolateElement } from 'wordpress-element';
 
 /**
  * Internal dependencies
@@ -15,10 +16,19 @@ const ProductName = ( {
 	disabled = false,
 	name,
 	permalink = '',
+	format = '<name/>',
 	...props
 } ) => {
+
 	const classes = classnames( 'wc-block-components-product-name', className );
-	return disabled ? (
+
+	if ( ! format.includes( '<name/>' ) ) {
+		format = '<name/>';
+		// eslint-disable-next-line no-console
+		console.error( 'Product name formats need to include the `<name/>` tag.' );
+	}
+
+	const productNameComponent = disabled ? (
 		<span className={ classes } { ...props }>
 			{ decodeEntities( name ) }
 		</span>
@@ -27,6 +37,10 @@ const ProductName = ( {
 			{ decodeEntities( name ) }
 		</a>
 	);
+
+	return createInterpolateElement( format, {
+		name: productNameComponent
+	} );
 };
 
 ProductName.propTypes = {

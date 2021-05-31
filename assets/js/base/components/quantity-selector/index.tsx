@@ -16,6 +16,7 @@ import './style.scss';
 interface QuantitySelectorProps {
 	className?: string;
 	quantity?: number;
+	step?: number;
 	minimum?: number;
 	maximum: number;
 	onChange: ( newQuantity: number ) => void;
@@ -26,6 +27,7 @@ interface QuantitySelectorProps {
 const QuantitySelector = ( {
 	className,
 	quantity = 1,
+	step = 1,
 	minimum = 1,
 	maximum,
 	onChange = () => {
@@ -39,9 +41,10 @@ const QuantitySelector = ( {
 		className
 	);
 
+	const hasStep = step > 1;
 	const hasMaximum = typeof maximum !== 'undefined';
-	const canDecrease = quantity > minimum;
-	const canIncrease = ! hasMaximum || quantity < maximum;
+	const canDecrease = quantity - step >= minimum;
+	const canIncrease = ! hasMaximum || quantity + step <= maximum;
 
 	/**
 	 * Handles keyboard up and down keys to change quantity value.
@@ -61,12 +64,12 @@ const QuantitySelector = ( {
 
 			if ( isArrowDown && canDecrease ) {
 				event.preventDefault();
-				onChange( quantity - 1 );
+				onChange( quantity - step );
 			}
 
 			if ( isArrowUp && canIncrease ) {
 				event.preventDefault();
-				onChange( quantity + 1 );
+				onChange( quantity + step );
 			}
 		},
 		[ quantity, onChange, canIncrease, canDecrease ]
@@ -78,19 +81,33 @@ const QuantitySelector = ( {
 				className="wc-block-components-quantity-selector__input"
 				disabled={ disabled }
 				type="number"
-				step="1"
-				min="0"
+				step={ step }
+				min={ minimum }
 				value={ quantity }
 				onKeyDown={ quantityInputOnKeyDown }
 				onChange={ ( event ) => {
-					let value =
-						! isNumber( event.target.value ) || ! event.target.value
-							? 0
-							: parseInt( event.target.value, 10 );
+					const valueIsNumber =
+						event.target.value &&
+						( isNumber( event.target.value ) ||
+							parseInt( event.target.value, 10 ).toString() ===
+								event.target.value );
+					let value = ! valueIsNumber
+						? quantity
+						: parseInt( event.target.value, 10 );
+
 					if ( hasMaximum ) {
-						value = Math.min( value, maximum );
+						value = Math.min(
+							value,
+							Math.floor( maximum / step ) * step
+						);
 					}
+
+					if ( hasStep ) {
+						value = value % step ? quantity : value;
+					}
+
 					value = Math.max( value, minimum );
+
 					if ( value !== quantity ) {
 						onChange( value );
 					}
@@ -112,7 +129,7 @@ const QuantitySelector = ( {
 				className="wc-block-components-quantity-selector__button wc-block-components-quantity-selector__button--minus"
 				disabled={ disabled || ! canDecrease }
 				onClick={ () => {
-					const newQuantity = quantity - 1;
+					const newQuantity = quantity - step;
 					onChange( newQuantity );
 					speak(
 						sprintf(
@@ -136,7 +153,7 @@ const QuantitySelector = ( {
 				disabled={ disabled || ! canIncrease }
 				className="wc-block-components-quantity-selector__button wc-block-components-quantity-selector__button--plus"
 				onClick={ () => {
-					const newQuantity = quantity + 1;
+					const newQuantity = quantity + step;
 					onChange( newQuantity );
 					speak(
 						sprintf(

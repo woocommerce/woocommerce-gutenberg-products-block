@@ -26,6 +26,7 @@ import {
 	__experimentalApplyCheckoutFilter,
 	mustBeString,
 	mustContain,
+	mustContainPreivousValues,
 } from '@woocommerce/blocks-checkout';
 import Dinero from 'dinero.js';
 import { useCallback, useMemo } from '@wordpress/element';
@@ -65,7 +66,10 @@ const CartLineItemRow = ( {
 		description: fullDescription = '',
 		low_stock_remaining: lowStockRemaining = null,
 		show_backorder_badge: showBackorderBadge = false,
+		quantity = 1,
+		quantity_min: quantityMin = 1,
 		quantity_limit: quantityLimit = 99,
+		quantity_step: quantityStep = 1,
 		permalink = '',
 		images = [],
 		variation = [],
@@ -104,7 +108,9 @@ const CartLineItemRow = ( {
 	} = lineItem;
 
 	const {
-		quantity,
+		quantity: itemQuantity,
+		isUpdatingItemQuantity,
+		setUpdatingItemQuantity,
 		setItemQuantity,
 		removeItem,
 		isPendingDelete,
@@ -113,6 +119,11 @@ const CartLineItemRow = ( {
 
 	const productPriceValidation = useCallback(
 		( value ) => mustBeString( value ) && mustContain( value, '<price/>' ),
+		[]
+	);
+
+	const productNameValidation = useCallback(
+		( value ) => mustBeString( value ) && mustContain( value, '<name/>' ),
 		[]
 	);
 
@@ -148,7 +159,7 @@ const CartLineItemRow = ( {
 	const saleAmountSingle = regularAmountSingle.subtract(
 		purchaseAmountSingle
 	);
-	const saleAmount = saleAmountSingle.multiply( quantity );
+	const saleAmount = saleAmountSingle.multiply( itemQuantity );
 	const totalsCurrency = getCurrencyFromPriceResponse( totals );
 	let lineSubtotal = parseInt( totals.line_subtotal, 10 );
 	if ( getSetting( 'displayCartPricesIncludingTax', false ) ) {
@@ -163,9 +174,22 @@ const CartLineItemRow = ( {
 	const isProductHiddenFromCatalog =
 		catalogVisibility === 'hidden' || catalogVisibility === 'search';
 
+	// Allow extensions to add extra cart item classes.
+
+	const cartItemClassNameFilter = __experimentalApplyCheckoutFilter<
+		Array< string >
+	>( {
+		filterName: 'cartItemClass',
+		defaultValue: [],
+		extensions,
+		arg,
+		validation: ( value, previousValue ) =>
+			mustContainPreivousValues< string >( value, previousValue ),
+	} );
+
 	// Allow extensions to filter how the price is displayed. Ie: prepending or appending some values.
 
-	const productPriceFormat = __experimentalApplyCheckoutFilter( {
+	const productPriceFormat = __experimentalApplyCheckoutFilter< string >( {
 		filterName: 'cartItemPrice',
 		defaultValue: '<price/>',
 		extensions,
@@ -173,7 +197,7 @@ const CartLineItemRow = ( {
 		validation: productPriceValidation,
 	} );
 
-	const subtotalPriceFormat = __experimentalApplyCheckoutFilter( {
+	const subtotalPriceFormat = __experimentalApplyCheckoutFilter< string >( {
 		filterName: 'subtotalPriceFormat',
 		defaultValue: '<price/>',
 		extensions,
@@ -181,7 +205,7 @@ const CartLineItemRow = ( {
 		validation: productPriceValidation,
 	} );
 
-	const saleBadgePriceFormat = __experimentalApplyCheckoutFilter( {
+	const saleBadgePriceFormat = __experimentalApplyCheckoutFilter< string >( {
 		filterName: 'saleBadgePriceFormat',
 		defaultValue: '<price/>',
 		extensions,
@@ -189,11 +213,25 @@ const CartLineItemRow = ( {
 		validation: productPriceValidation,
 	} );
 
+	// Allow extensions to filter and format product names.
+
+	const productNameFormat = __experimentalApplyCheckoutFilter< string >( {
+		filterName: 'productNameFormat',
+		defaultValue: '<name/>',
+		extensions,
+		arg,
+		validation: productNameValidation,
+	} );
+
 	return (
 		<tr
-			className={ classnames( 'wc-block-cart-items__row', {
-				'is-disabled': isPendingDelete,
-			} ) }
+			className={ classnames(
+				'wc-block-cart-items__row',
+				cartItemClassNameFilter,
+				{
+					'is-disabled': isPendingDelete,
+				}
+			) }
 		>
 			{ /* If the image has no alt text, this link is unnecessary and can be hidden. */ }
 			<td
@@ -212,79 +250,92 @@ const CartLineItemRow = ( {
 				) }
 			</td>
 			<td className="wc-block-cart-item__product">
-				<ProductName
-					disabled={ isPendingDelete || isProductHiddenFromCatalog }
-					name={ name }
-					permalink={ permalink }
-				/>
-				{ showBackorderBadge ? (
-					<ProductBackorderBadge />
-				) : (
-					!! lowStockRemaining && (
-						<ProductLowStockBadge
-							lowStockRemaining={ lowStockRemaining }
-						/>
-					)
-				) }
-
-				<div className="wc-block-cart-item__prices">
-					<ProductPrice
-						currency={ priceCurrency }
-						regularPrice={ getAmountFromRawPrice(
-							regularAmountSingle,
-							priceCurrency
-						) }
-						price={ getAmountFromRawPrice(
-							purchaseAmountSingle,
-							priceCurrency
-						) }
-						format={ subtotalPriceFormat }
+				<div className={ classnames( 'wc-block-cart-item__wrap' ) }>
+					<ProductName
+						disabled={
+							isPendingDelete || isProductHiddenFromCatalog
+						}
+						name={ name }
+						permalink={ permalink }
+						format={ productNameFormat }
 					/>
-				</div>
-
-				<ProductSaleBadge
-					currency={ priceCurrency }
-					saleAmount={ getAmountFromRawPrice(
-						saleAmountSingle,
-						priceCurrency
+					{ showBackorderBadge ? (
+						<ProductBackorderBadge />
+					) : (
+						!! lowStockRemaining && (
+							<ProductLowStockBadge
+								lowStockRemaining={ lowStockRemaining }
+							/>
+						)
 					) }
-					format={ saleBadgePriceFormat }
-				/>
 
-				<ProductMetadata
-					shortDescription={ shortDescription }
-					fullDescription={ fullDescription }
-					itemData={ itemData }
-					variation={ variation }
-				/>
+					<div className="wc-block-cart-item__prices">
+						<ProductPrice
+							currency={ priceCurrency }
+							regularPrice={ getAmountFromRawPrice(
+								regularAmountSingle,
+								priceCurrency
+							) }
+							price={ getAmountFromRawPrice(
+								purchaseAmountSingle,
+								priceCurrency
+							) }
+							format={ subtotalPriceFormat }
+						/>
+					</div>
 
-				<div className="wc-block-cart-item__quantity">
-					<QuantitySelector
-						disabled={ isPendingDelete }
-						quantity={ quantity }
-						maximum={ quantityLimit }
-						onChange={ ( newQuantity ) => {
-							setItemQuantity( newQuantity );
-							dispatchStoreEvent( 'cart-set-item-quantity', {
-								product: lineItem,
-								quantity: newQuantity,
-							} );
-						} }
-						itemName={ name }
+					<ProductSaleBadge
+						currency={ priceCurrency }
+						saleAmount={ getAmountFromRawPrice(
+							saleAmountSingle,
+							priceCurrency
+						) }
+						format={ saleBadgePriceFormat }
 					/>
-					<button
-						className="wc-block-cart-item__remove-link"
-						onClick={ () => {
-							removeItem();
-							dispatchStoreEvent( 'cart-remove-item', {
-								product: lineItem,
-								quantity,
-							} );
-						} }
-						disabled={ isPendingDelete }
-					>
-						{ __( 'Remove item', 'woo-gutenberg-products-block' ) }
-					</button>
+
+					<ProductMetadata
+						shortDescription={ shortDescription }
+						fullDescription={ fullDescription }
+						itemData={ itemData }
+						variation={ variation }
+					/>
+
+					<div className="wc-block-cart-item__quantity">
+						<QuantitySelector
+							disabled={ isPendingDelete }
+							quantity={
+								isUpdatingItemQuantity ? itemQuantity : quantity
+							}
+							step={ quantityStep }
+							minimum={ quantityMin }
+							maximum={ quantityLimit }
+							onChange={ ( newQuantity ) => {
+								setUpdatingItemQuantity( true );
+								setItemQuantity( newQuantity );
+								dispatchStoreEvent( 'cart-set-item-quantity', {
+									product: lineItem,
+									quantity: newQuantity,
+								} );
+							} }
+							itemName={ name }
+						/>
+						<button
+							className="wc-block-cart-item__remove-link"
+							onClick={ () => {
+								removeItem();
+								dispatchStoreEvent( 'cart-remove-item', {
+									product: lineItem,
+									quantity: itemQuantity,
+								} );
+							} }
+							disabled={ isPendingDelete }
+						>
+							{ __(
+								'Remove item',
+								'woo-gutenberg-products-block'
+							) }
+						</button>
+					</div>
 				</div>
 			</td>
 			<td className="wc-block-cart-item__total">
@@ -295,7 +346,7 @@ const CartLineItemRow = ( {
 						price={ subtotalPrice.getAmount() }
 					/>
 
-					{ quantity > 1 && (
+					{ itemQuantity > 1 && (
 						<ProductSaleBadge
 							currency={ priceCurrency }
 							saleAmount={ getAmountFromRawPrice(

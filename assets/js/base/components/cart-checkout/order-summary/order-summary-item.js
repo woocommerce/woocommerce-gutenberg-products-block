@@ -52,6 +52,11 @@ const OrderSummaryItem = ( { cartItem } ) => {
 		[]
 	);
 
+	const productNameValidation = useCallback(
+		( value ) => mustBeString( value ) && mustContain( value, '<name/>' ),
+		[]
+	);
+
 	const arg = useMemo(
 		() => ( {
 			context: 'summary',
@@ -110,6 +115,15 @@ const OrderSummaryItem = ( { cartItem } ) => {
 		validation: productPriceValidation,
 	} );
 
+	// Allow extensions to filter and format product names.
+	const productNameFormat = __experimentalApplyCheckoutFilter( {
+		filterName: 'productNameFormat',
+		defaultValue: '<name/>',
+		extensions,
+		arg,
+		validation: productNameValidation,
+	} );
+
 	return (
 		<div className="wc-block-components-order-summary-item">
 			<div className="wc-block-components-order-summary-item__image">
@@ -130,6 +144,7 @@ const OrderSummaryItem = ( { cartItem } ) => {
 					disabled={ true }
 					name={ name }
 					permalink={ permalink }
+					format={ productNameFormat }
 				/>
 				<ProductPrice
 					currency={ priceCurrency }

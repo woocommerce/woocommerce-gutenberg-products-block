@@ -43,6 +43,23 @@ export const mustContain = ( value: string, label: string ): true | Error => {
 };
 
 /**
+ * Checks if a value of type array passed contains all previous values
+ */
+export const mustContainPreivousValues = < T >(
+	value: T[],
+	previousValue: T[]
+): true | Error => {
+	if ( ! previousValue.every( ( item: T ) => value.includes( item ) ) ) {
+		throw Error(
+			__(
+				'Returned value must include all original items.',
+				'woo-gutenberg-products-block'
+			)
+		);
+	}
+	return true;
+};
+/**
  * A function that always return true.
  * We need to have a single instance of this function so it doesn't
  * invalidate our memo comparison.

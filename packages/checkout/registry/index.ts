@@ -74,7 +74,7 @@ export const __experimentalApplyCheckoutFilter = < T >( {
 	/** Object containing arguments for the filter function. */
 	arg: CheckoutFilterArguments;
 	/** Function that needs to return true when the filtered value is passed in order for the filter to be applied. */
-	validation: ( value: unknown ) => true | Error;
+	validation?: ( value: T, previousValue: T ) => true | Error;
 } ): T => {
 	return useMemo( () => {
 		const filters = getCheckoutFilters( filterName );
@@ -96,7 +96,7 @@ export const __experimentalApplyCheckoutFilter = < T >( {
 						)
 					);
 				}
-				value = validation( newValue ) ? newValue : value;
+				value = validation( newValue, value ) ? newValue : value;
 			} catch ( e ) {
 				if ( CURRENT_USER_IS_ADMIN ) {
 					throw e;
