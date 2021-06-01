@@ -21,6 +21,7 @@ registerFeaturePluginBlockType( 'woocommerce/checkout-fields-block', {
 		html: false,
 		multiple: false,
 	},
+	parent: [ 'woocommerce/checkout-i2' ],
 	attributes: {},
 	apiVersion: 2,
 	edit: Edit,

@@ -21,6 +21,7 @@ registerFeaturePluginBlockType( 'woocommerce/checkout-express-payment-block', {
 		html: false,
 		multiple: false,
 	},
+	parent: [ 'woocommerce/checkout-fields-block' ],
 	attributes: {},
 	apiVersion: 2,
 	edit: Edit,
