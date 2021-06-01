@@ -103,6 +103,7 @@ export const useCheckoutAddress = () => {
 		setPhone,
 		shippingAsBilling,
 		setShippingAsBilling,
+		showShippingFields: needsShipping,
 		showBillingFields:
 			! needsShipping || ! currentShippingAsBilling.current,
 	};
