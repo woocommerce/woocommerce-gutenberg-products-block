@@ -3,7 +3,7 @@
  */
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import { Main } from '@woocommerce/base-components/sidebar-layout';
-
+import { getRegisteredBlocks } from '@woocommerce/blocks-checkout';
 /**
  * Internal dependencies
  */
@@ -18,6 +18,7 @@ const ALLOWED_BLOCKS = [
 	'woocommerce/checkout-payment-block',
 	'woocommerce/checkout-order-note-block',
 	'woocommerce/checkout-actions-block',
+	...getRegisteredBlocks( 'fields' ),
 ];
 const TEMPLATE: InnerBlockTemplate[] = [
 	[ 'woocommerce/checkout-express-payment-block', {}, [] ],

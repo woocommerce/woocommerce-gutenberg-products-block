@@ -23,7 +23,6 @@ export const renderInnerBlocks = ( {
 	depth = 1,
 } ) => {
 	const blockMap = getBlockMap( parentBlockName );
-
 	return Array.from( children ).map( ( el, index ) => {
 		const componentProps = {
 			...el.dataset,
