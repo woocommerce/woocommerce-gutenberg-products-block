@@ -22,6 +22,7 @@ registerFeaturePluginBlockType( 'woocommerce/checkout-shipping-address-block', {
 		html: false,
 		multiple: false,
 	},
+	parent: [ 'woocommerce/checkout-fields-block' ],
 	attributes,
 	apiVersion: 2,
 	edit: Edit,
