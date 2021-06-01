@@ -25,6 +25,7 @@ const TEMPLATE = [
 	[ 'woocommerce/checkout-totals-block', {}, [] ],
 ];
 
+// @todo templateLock all prevents load after saving content for some reason.
 export const Edit = (): JSX.Element => {
 	return (
 		<EditorProvider
@@ -36,7 +37,7 @@ export const Edit = (): JSX.Element => {
 						<InnerBlocks
 							allowedBlocks={ ALLOWED_BLOCKS }
 							template={ TEMPLATE }
-							templateLock="all"
+							templateLock="insert"
 						/>
 					</SidebarLayout>
 				</Columns>

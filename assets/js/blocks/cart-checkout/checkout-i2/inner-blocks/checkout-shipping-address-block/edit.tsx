@@ -17,14 +17,7 @@ import { FormStepBlock } from '../../form-step';
 import Block from './block';
 
 export const Edit = ( {
-	attributes: {
-		showCompanyField,
-		showApartmentField,
-		showPhoneField,
-		requireCompanyField,
-		requirePhoneField,
-		...attributes
-	},
+	attributes,
 	setAttributes,
 }: {
 	attributes: {
@@ -39,6 +32,14 @@ export const Edit = ( {
 	};
 	setAttributes: ( attributes: Record< string, unknown > ) => void;
 } ): JSX.Element => {
+	const {
+		showCompanyField,
+		showApartmentField,
+		showPhoneField,
+		requireCompanyField,
+		requirePhoneField,
+	} = attributes;
+
 	return (
 		<FormStepBlock
 			setAttributes={ setAttributes }
