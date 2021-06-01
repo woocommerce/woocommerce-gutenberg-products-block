@@ -21,6 +21,7 @@ registerFeaturePluginBlockType( 'woocommerce/checkout-order-summary-block', {
 		html: false,
 		multiple: false,
 	},
+	parent: [ 'woocommerce/checkout-totals-block' ],
 	attributes: {
 		showCompanyField: {
 			type: 'boolean',
