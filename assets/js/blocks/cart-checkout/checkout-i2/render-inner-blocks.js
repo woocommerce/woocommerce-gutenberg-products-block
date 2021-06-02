@@ -1,7 +1,13 @@
 /**
  * External dependencies
  */
-import { Suspense, cloneElement, isValidElement } from '@wordpress/element';
+import { useStoreCart } from '@woocommerce/base-context';
+import {
+	Suspense,
+	cloneElement,
+	isValidElement,
+	Children,
+} from '@wordpress/element';
 import parse from 'html-react-parser';
 
 /**
@@ -59,10 +65,27 @@ export const renderInnerBlocks = ( {
 				key={ `${ parentBlockName }_${ depth }_${ index }_suspense` }
 				fallback={ <div className="wc-block-placeholder" /> }
 			>
-				<LayoutComponent { ...componentProps }>
-					{ componentChildren }
-				</LayoutComponent>
+				<WrapperComponent>
+					<LayoutComponent { ...componentProps }>
+						{ componentChildren }
+					</LayoutComponent>
+				</WrapperComponent>
 			</Suspense>
 		);
+	} );
+};
+
+const WrapperComponent = ( { children } ) => {
+	// we need to pluck out receiveCart.
+	// eslint-disable-next-line no-unused-vars
+	const { extensions, receiveCart, ...cart } = useStoreCart();
+	return Children.map( children, ( child ) => {
+		if ( isValidElement( child ) ) {
+			return cloneElement( child, {
+				extensions,
+				cart,
+			} );
+		}
+		return child;
 	} );
 };
