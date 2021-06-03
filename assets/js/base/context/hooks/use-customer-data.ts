@@ -132,7 +132,10 @@ export const useCustomerData = (): {
 	const setShippingAddress = useCallback( ( newData ) => {
 		setCustomerData( ( prevState ) => ( {
 			...prevState,
-			shippingAddress: newData,
+			shippingAddress: {
+				...prevState.shippingAddress,
+				...newData,
+			},
 		} ) );
 	}, [] );
 

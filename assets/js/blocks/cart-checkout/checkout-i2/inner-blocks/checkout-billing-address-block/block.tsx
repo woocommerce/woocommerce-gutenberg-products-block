@@ -2,7 +2,6 @@
  * External dependencies
  */
 import { useMemo } from '@wordpress/element';
-import { useShippingDataContext } from '@woocommerce/base-context';
 import {
 	useStoreEvents,
 	useCheckoutAddress,
@@ -33,7 +32,6 @@ const Block = ( {
 		setBillingFields,
 		setPhone,
 	} = useCheckoutAddress();
-	const { needsShipping } = useShippingDataContext();
 	const { dispatchCheckoutEvent } = useStoreEvents();
 
 	const addressFieldsConfig = useMemo( () => {
@@ -61,7 +59,7 @@ const Block = ( {
 				fields={ Object.keys( defaultAddressFields ) }
 				fieldConfig={ addressFieldsConfig }
 			/>
-			{ showPhoneField && ! needsShipping && (
+			{ showPhoneField && (
 				<PhoneNumber
 					isRequired={ requirePhoneField }
 					value={ billingFields.phone }

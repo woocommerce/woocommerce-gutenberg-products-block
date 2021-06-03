@@ -31,8 +31,7 @@ const Block = ( {
 		shippingFields,
 		setShippingAsBilling,
 		shippingAsBilling,
-		billingFields,
-		setPhone,
+		setShippingPhone,
 	} = useCheckoutAddress();
 	const { dispatchCheckoutEvent } = useStoreEvents();
 
@@ -61,9 +60,9 @@ const Block = ( {
 			{ showPhoneField && (
 				<PhoneNumber
 					isRequired={ requirePhoneField }
-					value={ billingFields.phone }
+					value={ shippingFields.phone }
 					onChange={ ( value ) => {
-						setPhone( value );
+						setShippingPhone( value );
 						dispatchCheckoutEvent( 'set-phone-number', {
 							step: 'shipping',
 						} );

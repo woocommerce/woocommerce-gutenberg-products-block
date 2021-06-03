@@ -47,6 +47,7 @@ export const defaultShippingAddress = {
 	state: '',
 	postcode: '',
 	country: '',
+	phone: '',
 };
 
 /**

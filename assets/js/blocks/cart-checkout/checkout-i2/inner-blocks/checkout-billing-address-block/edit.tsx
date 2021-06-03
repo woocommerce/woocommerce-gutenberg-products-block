@@ -20,7 +20,9 @@ export const Edit = ( {
 	attributes: {
 		showCompanyField,
 		showApartmentField,
+		showPhoneField,
 		requireCompanyField,
+		requirePhoneField,
 		...attributes
 	},
 	setAttributes,
@@ -31,7 +33,9 @@ export const Edit = ( {
 		showStepNumber: boolean;
 		showCompanyField: boolean;
 		showApartmentField: boolean;
+		showPhoneField: boolean;
 		requireCompanyField: boolean;
+		requirePhoneField: boolean;
 	};
 	setAttributes: ( attributes: Record< string, unknown > ) => void;
 } ): JSX.Element => {
@@ -93,6 +97,30 @@ export const Edit = ( {
 							} )
 						}
 					/>
+					<ToggleControl
+						label={ __( 'Phone', 'woo-gutenberg-products-block' ) }
+						checked={ showPhoneField }
+						onChange={ () =>
+							setAttributes( {
+								showPhoneField: ! showPhoneField,
+							} )
+						}
+					/>
+					{ showPhoneField && (
+						<CheckboxControl
+							label={ __(
+								'Require phone number?',
+								'woo-gutenberg-products-block'
+							) }
+							checked={ requirePhoneField }
+							onChange={ () =>
+								setAttributes( {
+									requirePhoneField: ! requirePhoneField,
+								} )
+							}
+							className="components-base-control--nested"
+						/>
+					) }
 				</PanelBody>
 			</InspectorControls>
 			<Disabled>
@@ -100,6 +128,7 @@ export const Edit = ( {
 					showCompanyField={ showCompanyField }
 					showApartmentField={ showApartmentField }
 					requireCompanyField={ requireCompanyField }
+					showPhoneField={ showPhoneField }
 				/>
 			</Disabled>
 		</FormStepBlock>
