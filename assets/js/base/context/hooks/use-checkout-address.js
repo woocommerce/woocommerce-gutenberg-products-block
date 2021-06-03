@@ -81,20 +81,29 @@ export const useCheckoutAddress = () => {
 		}
 	}, [ shippingAsBilling, setBillingData, shippingAddress, billingData ] );
 
-	const setEmail = ( value ) =>
-		void setBillingData( {
-			email: value,
-		} );
+	const setEmail = useCallback(
+		( value ) =>
+			void setBillingData( {
+				email: value,
+			} ),
+		[ setBillingData ]
+	);
 
-	const setPhone = ( value ) =>
-		void setBillingData( {
-			phone: value,
-		} );
+	const setPhone = useCallback(
+		( value ) =>
+			void setBillingData( {
+				phone: value,
+			} ),
+		[ setBillingData ]
+	);
 
-	const setShippingPhone = ( value ) =>
-		void setShippingFields( {
-			phone: value,
-		} );
+	const setShippingPhone = useCallback(
+		( value ) =>
+			void setShippingFields( {
+				phone: value,
+			} ),
+		[ setShippingFields ]
+	);
 
 	// Note that currentShippingAsBilling is returned rather than the current state of shippingAsBilling--this is so that
 	// the billing fields are not rendered before sync (billing field values are debounced and would be outdated)

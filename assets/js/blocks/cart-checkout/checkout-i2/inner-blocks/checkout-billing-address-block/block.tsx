@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { useMemo } from '@wordpress/element';
+import { useMemo, useEffect } from '@wordpress/element';
 import {
 	useStoreEvents,
 	useCheckoutAddress,
@@ -34,6 +34,13 @@ const Block = ( {
 	} = useCheckoutAddress();
 	const { dispatchCheckoutEvent } = useStoreEvents();
 
+	// Clears data if fields are hidden.
+	useEffect( () => {
+		if ( ! showPhoneField ) {
+			setPhone( '' );
+		}
+	}, [ showPhoneField, setPhone ] );
+
 	const addressFieldsConfig = useMemo( () => {
 		return {
 			company: {
@@ -51,7 +58,7 @@ const Block = ( {
 			<AddressForm
 				id="billing"
 				type="billing"
-				onChange={ ( values ) => {
+				onChange={ ( values: Record< string, unknown > ) => {
 					setBillingFields( values );
 					dispatchCheckoutEvent( 'set-billing-address' );
 				} }

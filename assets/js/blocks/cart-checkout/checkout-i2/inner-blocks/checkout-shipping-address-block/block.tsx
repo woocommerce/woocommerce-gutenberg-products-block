@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useMemo } from '@wordpress/element';
+import { useMemo, useEffect } from '@wordpress/element';
 import { AddressForm } from '@woocommerce/base-components/cart-checkout';
 import { useCheckoutAddress, useStoreEvents } from '@woocommerce/base-context';
 import CheckboxControl from '@woocommerce/base-components/checkbox-control';
@@ -35,6 +35,13 @@ const Block = ( {
 	} = useCheckoutAddress();
 	const { dispatchCheckoutEvent } = useStoreEvents();
 
+	// Clears data if fields are hidden.
+	useEffect( () => {
+		if ( ! showPhoneField ) {
+			setShippingPhone( '' );
+		}
+	}, [ showPhoneField, setShippingPhone ] );
+
 	const addressFieldsConfig = useMemo( () => {
 		return {
 			company: {
@@ -52,7 +59,10 @@ const Block = ( {
 			<AddressForm
 				id="shipping"
 				type="shipping"
-				onChange={ setShippingFields }
+				onChange={ ( values: Record< string, unknown > ) => {
+					setShippingFields( values );
+					dispatchCheckoutEvent( 'set-shipping-address' );
+				} }
 				values={ shippingFields }
 				fields={ Object.keys( defaultAddressFields ) }
 				fieldConfig={ addressFieldsConfig }
