@@ -28,70 +28,70 @@
 			display: block;
 		}
 	}
-}
 
-// @todo these styles replace the need for SidebarLayout styles. We define styles here so placeholder elements (loading state) for the checkout has the same sidebar type layout before JS loads.
-.wp-block-woocommerce-checkout-i2 {
-	display: flex;
-	flex-wrap: wrap;
-	margin: 0 auto $gap;
-	position: relative;
+	// @todo these styles replace the need for SidebarLayout styles. We define styles here so placeholder elements (loading state) for the checkout has the same sidebar type layout before JS loads.
+	&.wp-block-woocommerce-checkout-i2 {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 auto $gap;
+		position: relative;
 
-	.wp-block-woocommerce-checkout-fields-block {
-		box-sizing: border-box;
-		margin: 0;
-		padding-right: percentage($gap-largest / 1060px); // ~1060px is the default width of the content area in Storefront.
-		width: 65%;
-	}
-	.wp-block-woocommerce-checkout-totals-block {
-		box-sizing: border-box;
-		margin: 0;
-		padding-left: percentage($gap-large / 1060px);
-		width: 35%;
+		.wp-block-woocommerce-checkout-fields-block {
+			box-sizing: border-box;
+			margin: 0;
+			padding-right: percentage($gap-largest / 1060px); // ~1060px is the default width of the content area in Storefront.
+			width: 65%;
+		}
+		.wp-block-woocommerce-checkout-totals-block {
+			box-sizing: border-box;
+			margin: 0;
+			padding-left: percentage($gap-large / 1060px);
+			width: 35%;
 
-		.wc-block-components-panel > h2 {
-			@include font-size(regular);
-			@include reset-box();
-			@include reset-typography();
-			.wc-block-components-panel__button {
-				font-weight: 400;
+			.wc-block-components-panel > h2 {
+				@include font-size(regular);
+				@include reset-box();
+				@include reset-typography();
+				.wc-block-components-panel__button {
+					font-weight: 400;
+				}
 			}
 		}
 	}
-}
 
-.is-medium,
-.is-small,
-.is-mobile {
-	&.wp-block-woocommerce-checkout-i2 {
-		flex-direction: column;
-		margin: 0 auto $gap;
+	.is-medium,
+	.is-small,
+	.is-mobile {
+		&.wp-block-woocommerce-checkout-i2 {
+			flex-direction: column;
+			margin: 0 auto $gap;
 
-		.wp-block-woocommerce-checkout-fields-block {
-			padding: 0;
-			width: 100%;
+			.wp-block-woocommerce-checkout-fields-block {
+				padding: 0;
+				width: 100%;
+			}
+			.wp-block-woocommerce-checkout-totals-block {
+				padding: 0;
+				width: 100%;
+			}
 		}
+	}
+
+	.is-large {
 		.wp-block-woocommerce-checkout-totals-block {
-			padding: 0;
-			width: 100%;
+			.wc-block-components-totals-item,
+			.wc-block-components-panel {
+				padding-left: $gap;
+				padding-right: $gap;
+			}
 		}
 	}
-}
 
-.is-large {
-	.wp-block-woocommerce-checkout-totals-block {
-		.wc-block-components-totals-item,
-		.wc-block-components-panel {
-			padding-left: $gap;
-			padding-right: $gap;
+	// For Twenty Twenty we need to increase specificity a bit more.
+	.theme-twentytwenty {
+		.wp-block-woocommerce-checkout-totals-block .wc-block-components-panel > h2 {
+			@include font-size(large);
+			@include reset-box();
 		}
-	}
-}
-
-// For Twenty Twenty we need to increase specificity a bit more.
-.theme-twentytwenty {
-	.wp-block-woocommerce-checkout-totals-block .wc-block-components-panel > h2 {
-		@include font-size(large);
-		@include reset-box();
 	}
 }
