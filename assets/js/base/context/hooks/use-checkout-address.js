@@ -66,12 +66,13 @@ export const useCheckoutAddress = () => {
 				setBillingData( shippingAddress );
 			} else {
 				const {
-					// We need to pluck out email and phone from previous billing data because they can be empty, causing the current email and phone to get emptied. See issue #4155
+					// We need to pluck out email from previous billing data because they can be empty, causing the current email and phone to get emptied. See issue #4155
 					/* eslint-disable no-unused-vars */
 					email,
 					/* eslint-enable no-unused-vars */
 					...billingAddress
 				} = previousBillingData.current;
+
 				setBillingData( {
 					...billingAddress,
 				} );
@@ -85,15 +86,13 @@ export const useCheckoutAddress = () => {
 			email: value,
 		} );
 
-	const setPhone = ( value ) => void setBillingPhone( value );
-
-	const setBillingPhone = ( value ) =>
+	const setPhone = ( value ) =>
 		void setBillingData( {
 			phone: value,
 		} );
 
 	const setShippingPhone = ( value ) =>
-		void setShippingAddress( {
+		void setShippingFields( {
 			phone: value,
 		} );
 
@@ -107,7 +106,6 @@ export const useCheckoutAddress = () => {
 		setBillingFields,
 		setEmail,
 		setPhone,
-		setBillingPhone,
 		setShippingPhone,
 		shippingAsBilling,
 		setShippingAsBilling,
