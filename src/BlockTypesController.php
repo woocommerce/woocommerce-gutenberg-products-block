@@ -163,6 +163,7 @@ final class BlockTypesController {
 			'checkout-payment-block',
 			'checkout-shipping-address-block',
 			'checkout-express-payment-block',
+			'checkout-newsletter-block',
 		];
 	}
 }

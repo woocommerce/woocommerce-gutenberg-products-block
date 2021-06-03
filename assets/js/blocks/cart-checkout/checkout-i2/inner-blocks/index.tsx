@@ -4,6 +4,7 @@
 import './checkout-fields-block';
 import './checkout-totals-block';
 import './checkout-shipping-address-block';
+import './checkout-newsletter-block';
 import './checkout-contact-information-block';
 import './checkout-billing-address-block';
 import './checkout-actions-block';

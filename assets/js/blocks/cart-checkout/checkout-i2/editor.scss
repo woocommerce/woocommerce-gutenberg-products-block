@@ -20,3 +20,16 @@
 		display: block;
 	}
 }
+
+.wp-block-woocommerce-checkout-newsletter-block .wc-block-components-checkbox {
+	padding-left: 0;
+}
+
+.wc-blocks-newsletter {
+	display: flex;
+	align-items: center;
+	textarea {
+		top: -5px;
+		position: relative;
+	}
+}
