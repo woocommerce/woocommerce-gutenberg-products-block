@@ -10,6 +10,7 @@ import {
 /**
  * Internal dependencies
  */
+import './style.scss';
 import Block from './block';
 import blockAttributes from './attributes';
 import { renderParentBlock } from './render-parent-block';

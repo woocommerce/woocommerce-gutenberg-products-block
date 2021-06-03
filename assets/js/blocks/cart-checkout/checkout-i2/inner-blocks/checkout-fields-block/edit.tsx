@@ -12,7 +12,7 @@ import type { InnerBlockTemplate } from '../../types';
 const ALLOWED_BLOCKS = [
 	'woocommerce/checkout-express-payment-block',
 	'woocommerce/checkout-shipping-address-block',
-	'woocommerce/checkout-shipping-methods',
+	'woocommerce/checkout-shipping-methods-block',
 	'woocommerce/checkout-contact-information-block',
 	'woocommerce/checkout-billing-address-block',
 	'woocommerce/checkout-payment-block',
@@ -26,7 +26,7 @@ const TEMPLATE: InnerBlockTemplate[] = [
 	[ 'woocommerce/checkout-contact-information-block', {}, [] ],
 	[ 'woocommerce/checkout-shipping-address-block', {}, [] ],
 	[ 'woocommerce/checkout-billing-address-block', {}, [] ],
-	[ 'woocommerce/checkout-shipping-methods', {}, [] ],
+	[ 'woocommerce/checkout-shipping-methods-block', {}, [] ],
 	[ 'woocommerce/checkout-payment-block', {}, [] ],
 	[ 'woocommerce/checkout-order-note-block', {}, [] ],
 	[ 'woocommerce/checkout-actions-block', {}, [] ],

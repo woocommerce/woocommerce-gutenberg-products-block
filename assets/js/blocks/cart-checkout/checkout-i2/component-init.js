@@ -76,7 +76,7 @@ registerBlockComponent( {
 	blockName: 'woocommerce/checkout-order-summary-block',
 	component: lazy( () =>
 		import(
-			/* webpackChunkName: "checkout-blocks/order-summary" */ './inner-blocks/checkout-order-summary/block'
+			/* webpackChunkName: "checkout-blocks/order-summary" */ './inner-blocks/checkout-order-summary-block/block'
 		)
 	),
 } );
@@ -103,7 +103,16 @@ registerBlockComponent( {
 	blockName: 'woocommerce/checkout-express-payment-block',
 	component: lazy( () =>
 		import(
-			/* webpackChunkName: "checkout-blocks/express-payment" */ './inner-blocks/checkout-express-payment/block'
+			/* webpackChunkName: "checkout-blocks/express-payment" */ './inner-blocks/checkout-express-payment-block/block'
+		)
+	),
+} );
+
+registerBlockComponent( {
+	blockName: 'woocommerce/checkout-shipping-methods-block',
+	component: lazy( () =>
+		import(
+			/* webpackChunkName: "checkout-blocks/shipping-methods" */ './inner-blocks/checkout-shipping-methods-block/frontend'
 		)
 	),
 } );

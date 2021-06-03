@@ -10,7 +10,7 @@ import { registerFeaturePluginBlockType } from '@woocommerce/block-settings';
 import { Edit, Save } from './edit';
 import attributes from './attributes';
 
-registerFeaturePluginBlockType( 'woocommerce/checkout-shipping-methods', {
+registerFeaturePluginBlockType( 'woocommerce/checkout-shipping-methods-block', {
 	title: __( 'Shipping Methods', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce',
 	description: __(
