@@ -162,6 +162,7 @@ final class BlockTypesController {
 			'checkout-order-summary-block',
 			'checkout-payment-block',
 			'checkout-shipping-address-block',
+			'checkout-shipping-methods-block',
 			'checkout-express-payment-block',
 		];
 	}
