@@ -76,7 +76,7 @@ class CheckoutI2 extends AbstractBlock {
 		wp_dequeue_script( 'selectWoo' );
 		wp_dequeue_style( 'select2' );
 
-		return $this->inject_html_data_attributes( $content . $this->get_skeleton(), $attributes );
+		return $this->inject_html_data_attributes( $content, $attributes );
 	}
 
 	/**
@@ -234,70 +234,6 @@ class CheckoutI2 extends AbstractBlock {
 		$this->asset_data_registry->hydrate_api_request( '/wc/store/cart' );
 		$this->asset_data_registry->hydrate_api_request( '/wc/store/checkout' );
 		remove_filter( 'woocommerce_store_api_disable_nonce_check', '__return_true' );
-	}
-
-	/**
-	 * Render skeleton markup for the checkout block.
-	 */
-	protected function get_skeleton() {
-		return '
-			<div class="wc-block-skeleton wc-block-components-sidebar-layout wc-block-checkout wc-block-checkout--is-loading wc-block-checkout--skeleton hidden" aria-hidden="true">
-				<div class="wc-block-components-main wc-block-checkout__main">
-					<div class="wc-block-components-express-payment wc-block-components-express-payment--checkout"></div>
-					<div class="wc-block-components-express-payment-continue-rule wc-block-components-express-payment-continue-rule--checkout"><span></span></div>
-					<form class="wc-block-checkout__form">
-						<fieldset class="wc-block-checkout__contact-fields wc-block-components-checkout-step">
-							<div class="wc-block-components-checkout-step__heading">
-								<div class="wc-block-components-checkout-step__title"></div>
-							</div>
-							<div class="wc-block-components-checkout-step__container">
-								<div class="wc-block-components-checkout-step__content">
-									<span></span>
-								</div>
-							</div>
-						</fieldset>
-						<fieldset class="wc-block-checkout__contact-fields wc-block-components-checkout-step">
-							<div class="wc-block-components-checkout-step__heading">
-								<div class="wc-block-components-checkout-step__title"></div>
-							</div>
-							<div class="wc-block-components-checkout-step__container">
-								<div class="wc-block-components-checkout-step__content">
-									<span></span>
-								</div>
-							</div>
-						</fieldset>
-						<fieldset class="wc-block-checkout__contact-fields wc-block-components-checkout-step">
-							<div class="wc-block-components-checkout-step__heading">
-								<div class="wc-block-components-checkout-step__title"></div>
-							</div>
-							<div class="wc-block-components-checkout-step__container">
-								<div class="wc-block-components-checkout-step__content">
-									<span></span>
-								</div>
-							</div>
-						</fieldset>
-						<fieldset class="wc-block-checkout__contact-fields wc-block-components-checkout-step">
-							<div class="wc-block-components-checkout-step__heading">
-								<div class="wc-block-components-checkout-step__title"></div>
-							</div>
-							<div class="wc-block-components-checkout-step__container">
-								<div class="wc-block-components-checkout-step__content">
-									<span></span>
-								</div>
-							</div>
-						</fieldset>
-					</form>
-				</div>
-				<div class="wc-block-components-sidebar wc-block-checkout__sidebar">
-					<div class="components-card"></div>
-				</div>
-				<div class="wc-block-components-main wc-block-checkout__main-totals">
-					<div class="wc-block-checkout__actions">
-						<button class="components-button button wc-block-button wc-block-components-checkout-place-order-button">&nbsp;</button>
-					</div>
-				</div>
-			</div>
-		' . $this->get_skeleton_inline_script();
 	}
 
 	/**
