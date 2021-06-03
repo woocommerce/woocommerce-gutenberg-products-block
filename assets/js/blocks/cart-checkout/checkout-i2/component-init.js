@@ -98,3 +98,12 @@ registerBlockComponent( {
 		)
 	),
 } );
+
+registerBlockComponent( {
+	blockName: 'woocommerce/checkout-shipping-methods-block',
+	component: lazy( () =>
+		import(
+			/* webpackChunkName: "checkout-blocks/shipping-methods" */ './inner-blocks/checkout-shipping-methods-block/frontend'
+		)
+	),
+} );
