@@ -19,6 +19,15 @@ registerBlockComponent( {
 } );
 
 registerBlockComponent( {
+	blockName: 'woocommerce/checkout-newsletter-block',
+	component: lazy( () =>
+		import(
+			/* webpackChunkName: "checkout-blocks/newsletter" */ './inner-blocks/checkout-newsletter-block/block'
+		)
+	),
+} );
+
+registerBlockComponent( {
 	blockName: 'woocommerce/checkout-totals-block',
 	component: lazy( () =>
 		import(
