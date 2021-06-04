@@ -3,7 +3,7 @@
  */
 import classnames from 'classnames';
 
-export const save = ( { attributes } ) => {
+const save = ( { attributes } ) => {
 	return (
 		<div className={ classnames( 'is-loading', attributes.className ) } />
 	);
