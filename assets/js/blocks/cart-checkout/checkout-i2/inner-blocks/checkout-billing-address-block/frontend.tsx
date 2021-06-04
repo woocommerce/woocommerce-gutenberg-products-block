@@ -19,6 +19,7 @@ const FrontendBlock = ( {
 	showApartmentField,
 	showCompanyField,
 	showPhoneField,
+	requirePhoneField,
 	showStepNumber,
 }: {
 	title: string;
@@ -27,6 +28,7 @@ const FrontendBlock = ( {
 	showApartmentField: boolean;
 	showCompanyField: boolean;
 	showPhoneField: boolean;
+	requirePhoneField: boolean;
 	showStepNumber: boolean;
 } ): JSX.Element | null => {
 	const { isProcessing: checkoutIsProcessing } = useCheckoutContext();
@@ -50,6 +52,7 @@ const FrontendBlock = ( {
 				showApartmentField={ showApartmentField }
 				showCompanyField={ showCompanyField }
 				showPhoneField={ showPhoneField }
+				requirePhoneField={ requirePhoneField }
 			/>
 		</FormStep>
 	);
