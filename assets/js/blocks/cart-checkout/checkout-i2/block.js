@@ -26,6 +26,7 @@ import withScrollToTop from '@woocommerce/base-hocs/with-scroll-to-top';
 /**
  * Internal dependencies
  */
+import './style.scss';
 import EmptyCart from './empty-cart';
 import CheckoutOrderError from './checkout-order-error';
 

@@ -9,7 +9,7 @@ import { registerFeaturePluginBlockType } from '@woocommerce/block-settings';
  * Internal dependencies
  */
 import { Edit, Save } from './edit';
-import blockAttributes from './attributes';
+import { blockName, blockAttributes } from './attributes';
 import './inner-blocks';
 import './editor.scss';
 
@@ -36,4 +36,4 @@ const settings = {
 	save: Save,
 };
 
-registerFeaturePluginBlockType( 'woocommerce/checkout-i2', settings );
+registerFeaturePluginBlockType( blockName, settings );

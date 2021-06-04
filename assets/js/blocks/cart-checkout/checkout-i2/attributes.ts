@@ -3,7 +3,8 @@
  */
 import { getSetting } from '@woocommerce/settings';
 
-const blockAttributes = {
+export const blockName = 'woocommerce/checkout-i2';
+export const blockAttributes = {
 	isPreview: {
 		type: 'boolean',
 		default: false,
@@ -58,5 +59,3 @@ const blockAttributes = {
 		default: getSetting( 'displayCartPricesIncludingTax', false ),
 	},
 };
-
-export default blockAttributes;
