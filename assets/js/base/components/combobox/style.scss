@@ -16,6 +16,7 @@
 			@include reset-typography();
 			@include font-size(regular);
 
+			box-sizing: border-box;
 			outline: inherit;
 			border: 1px solid $input-border-gray;
 			background: #fff;
@@ -64,6 +65,7 @@
 			border: 1px solid $input-border-gray;
 			border-top: 0;
 			margin: 3em 0 0 0;
+			padding: 0;
 			max-height: 300px;
 			min-width: 100%;
 			overflow: auto;
