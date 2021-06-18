@@ -83,7 +83,6 @@
 
 				&.is-selected {
 					background-color: $gray-300;
-
 					.has-dark-controls & {
 						background-color: $select-item-dark;
 					}
@@ -95,6 +94,7 @@
 				&:active {
 					background-color: #00669e;
 					color: #fff;
+
 				}
 			}
 		}
@@ -124,7 +124,8 @@
 		}
 	}
 
-	&.is-active {
+	&.is-active,
+	&.has-focus {
 		.wc-block-components-combobox-control label.components-base-control__label {
 			transform: translateY(#{$gap-smallest}) scale(0.75);
 		}
