@@ -10,6 +10,7 @@
 		.components-combobox-control__suggestions-container {
 			@include reset-typography();
 			@include reset-box();
+			position: relative;
 		}
 		input.components-combobox-control__input {
 			@include reset-typography();
@@ -58,11 +59,11 @@
 		}
 		.components-form-token-field__suggestions-list {
 			position: absolute;
-			top: 3em;
 			z-index: 10;
 			background-color: $select-dropdown-light;
 			border: 1px solid $input-border-gray;
-			margin: -1px 0 0 0;
+			border-top: 0;
+			margin: 3em 0 0 0;
 			max-height: 300px;
 			min-width: 100%;
 			overflow: auto;
