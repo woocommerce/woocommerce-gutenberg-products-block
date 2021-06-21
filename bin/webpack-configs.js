@@ -310,7 +310,7 @@ const getFrontConfig = ( options = {} ) => {
 						options: {
 							presets: [
 								[
-									'@babel/preset-env',
+									'@wordpress/babel-preset-default',
 									{
 										modules: false,
 										targets: {
@@ -327,9 +327,6 @@ const getFrontConfig = ( options = {} ) => {
 								),
 								require.resolve(
 									'@babel/plugin-transform-react-jsx'
-								),
-								require.resolve(
-									'@babel/plugin-proposal-async-generator-functions'
 								),
 								require.resolve(
 									'@babel/plugin-transform-runtime'
@@ -403,7 +400,7 @@ const getPaymentsConfig = ( options = {} ) => {
 						options: {
 							presets: [
 								[
-									'@babel/preset-env',
+									'@wordpress/babel-preset-default',
 									{
 										modules: false,
 										targets: {
@@ -420,9 +417,6 @@ const getPaymentsConfig = ( options = {} ) => {
 								),
 								require.resolve(
 									'@babel/plugin-transform-react-jsx'
-								),
-								require.resolve(
-									'@babel/plugin-proposal-async-generator-functions'
 								),
 								require.resolve(
 									'@babel/plugin-transform-runtime'
@@ -509,9 +503,9 @@ const getExtensionsConfig = ( options = {} ) => {
 								require.resolve(
 									'@babel/plugin-transform-react-jsx'
 								),
-								require.resolve(
-									'@babel/plugin-proposal-async-generator-functions'
-								),
+								// require.resolve(
+								// 	'@babel/plugin-proposal-async-generator-functions'
+								// ),
 								require.resolve(
 									'@babel/plugin-transform-runtime'
 								),

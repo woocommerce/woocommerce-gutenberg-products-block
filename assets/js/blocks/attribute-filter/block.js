@@ -161,33 +161,6 @@ const AttributeFilterBlock = ( {
 		queryState.attributes,
 	] );
 
-	// Track checked STATE changes - if state changes, update the query.
-	useEffect( () => {
-		if ( ! blockAttributes.showFilterButton ) {
-			onSubmit( checked );
-		}
-	}, [ blockAttributes.showFilterButton, checked, onSubmit ] );
-
-	const checkedQuery = useMemo( () => {
-		return productAttributesQuery
-			.filter(
-				( { attribute } ) => attribute === attributeObject.taxonomy
-			)
-			.flatMap( ( { slug } ) => slug );
-	}, [ productAttributesQuery, attributeObject.taxonomy ] );
-
-	const currentCheckedQuery = useShallowEqual( checkedQuery );
-	const previousCheckedQuery = usePrevious( currentCheckedQuery );
-	// Track ATTRIBUTES QUERY changes so the block reflects current filters.
-	useEffect( () => {
-		if (
-			! isShallowEqual( previousCheckedQuery, currentCheckedQuery ) && // checked query changed
-			! isShallowEqual( checked, currentCheckedQuery ) // checked query doesn't match the UI
-		) {
-			setChecked( currentCheckedQuery );
-		}
-	}, [ checked, currentCheckedQuery, previousCheckedQuery ] );
-
 	/**
 	 * Returns an array of term objects that have been chosen via the checkboxes.
 	 */
@@ -226,6 +199,33 @@ const AttributeFilterBlock = ( {
 			blockAttributes.queryType,
 		]
 	);
+
+	// Track checked STATE changes - if state changes, update the query.
+	useEffect( () => {
+		if ( ! blockAttributes.showFilterButton ) {
+			onSubmit( checked );
+		}
+	}, [ blockAttributes.showFilterButton, checked, onSubmit ] );
+
+	const checkedQuery = useMemo( () => {
+		return productAttributesQuery
+			.filter(
+				( { attribute } ) => attribute === attributeObject.taxonomy
+			)
+			.flatMap( ( { slug } ) => slug );
+	}, [ productAttributesQuery, attributeObject.taxonomy ] );
+
+	const currentCheckedQuery = useShallowEqual( checkedQuery );
+	const previousCheckedQuery = usePrevious( currentCheckedQuery );
+	// Track ATTRIBUTES QUERY changes so the block reflects current filters.
+	useEffect( () => {
+		if (
+			! isShallowEqual( previousCheckedQuery, currentCheckedQuery ) && // checked query changed
+			! isShallowEqual( checked, currentCheckedQuery ) // checked query doesn't match the UI
+		) {
+			setChecked( currentCheckedQuery );
+		}
+	}, [ checked, currentCheckedQuery, previousCheckedQuery ] );
 
 	const multiple =
 		blockAttributes.displayStyle !== 'dropdown' ||
@@ -305,9 +305,13 @@ const AttributeFilterBlock = ( {
 				if ( ! previouslyChecked ) {
 					newChecked.push( checkedValue );
 					newChecked.sort();
-					announceFilterChange( { filterAdded: checkedValue } );
+					announceFilterChange( {
+						filterAdded: checkedValue,
+					} );
 				} else {
-					announceFilterChange( { filterRemoved: checkedValue } );
+					announceFilterChange( {
+						filterRemoved: checkedValue,
+					} );
 				}
 			}
 
