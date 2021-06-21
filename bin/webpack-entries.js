@@ -87,6 +87,8 @@ const entries = {
 			'./node_modules/wordpress-components/src/spinner/style.scss',
 		'snackbar-notice-style':
 			'./node_modules/wordpress-components/src/snackbar/style.scss',
+		'combobox-control-style':
+			'./node_modules/wordpress-components/src/combobox-control/style.scss',
 
 		'general-style': glob.sync( './assets/**/*.scss', {
 			ignore: [

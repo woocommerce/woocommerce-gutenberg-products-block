@@ -137,6 +137,13 @@ const AddressForm = ( {
 		<div id={ id } className="wc-block-components-address-form">
 			{ addressFormFields.map( ( field ) => {
 				if ( field.hidden ) {
+					// clear hidden field value.
+					if ( values[ field.key ] ) {
+						onChange( {
+							...values,
+							[ field.key ]: '',
+						} );
+					}
 					return null;
 				}
 
@@ -161,8 +168,6 @@ const AddressForm = ( {
 									...values,
 									country: newValue,
 									state: '',
-									city: '',
-									postcode: '',
 								} )
 							}
 							errorId={

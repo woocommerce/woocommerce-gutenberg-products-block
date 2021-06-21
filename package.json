@@ -96,6 +96,7 @@
 		"@types/jest": "26.0.23",
 		"@types/lodash": "4.14.170",
 		"@types/react": "16.14.8",
+		"@types/wordpress__components": "^9.8.6",
 		"@types/wordpress__data": "4.6.9",
 		"@types/wordpress__data-controls": "1.0.5",
 		"@types/wordpress__deprecated": "2.4.2",
@@ -199,7 +200,6 @@
 		"trim-html": "0.1.9",
 		"use-debounce": "3.4.3",
 		"wordpress-components": "npm:@wordpress/components@11.1.5",
-		"@types/wordpress-components": "npm:@types/wordpress__components@9.8.6",
 		"wordpress-compose": "npm:@wordpress/compose@3.23.1",
 		"wordpress-element": "npm:@wordpress/element@2.18.0"
 	},
