@@ -6,7 +6,7 @@ import md5 from 'md5';
 import { setLocaleData } from '@wordpress/i18n';
 import { blocksConfig } from '@woocommerce/block-settings';
 
-export const loadChunkTranslations = ( file: string, domain: string ): void => {
+export const lazyTranslations = ( file: string, domain: string ): void => {
 	const hash = md5( `${ file }` );
 	console.log( `loading translations for ${ file } (${ hash })` );
 	window
@@ -29,4 +29,4 @@ export const loadChunkTranslations = ( file: string, domain: string ): void => {
 		} );
 };
 
-export default loadChunkTranslations;
+export default lazyTranslations;
