@@ -15,6 +15,8 @@ interface WcBlocksConfig {
 	defaultAvatar: string;
 	restApiRoutes: Record< string, string[] >;
 	wordCountType: WordCountType;
+	langDir: string;
+	locale: string;
 }
 
 export const blocksConfig = getSetting( 'wcBlocksConfig', {
@@ -24,6 +26,8 @@ export const blocksConfig = getSetting( 'wcBlocksConfig', {
 	defaultAvatar: '',
 	restApiRoutes: {},
 	wordCountType: 'words',
+	langDir: '',
+	locale: '',
 } ) as WcBlocksConfig;
 
 export const WC_BLOCKS_IMAGE_URL = blocksConfig.pluginUrl + 'images/';
