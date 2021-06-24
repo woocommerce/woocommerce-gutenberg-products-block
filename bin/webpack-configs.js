@@ -11,6 +11,7 @@ const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const CreateFileWebpack = require( 'create-file-webpack' );
 const CircularDependencyPlugin = require( 'circular-dependency-plugin' );
+const RequireChunkCallbackPlugin = require( './require-chunk-callback-plugin' );
 
 /**
  * Internal dependencies
@@ -45,6 +46,7 @@ const sharedPlugins = [
 		requestToExternal,
 		requestToHandle,
 	} ),
+	new RequireChunkCallbackPlugin(),
 ].filter( Boolean );
 
 /**
