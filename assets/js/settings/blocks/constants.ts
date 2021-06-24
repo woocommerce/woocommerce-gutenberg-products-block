@@ -15,7 +15,7 @@ interface WcBlocksConfig {
 	defaultAvatar: string;
 	restApiRoutes: Record< string, string[] >;
 	wordCountType: WordCountType;
-	langDir: string;
+	languageUrl: string;
 	locale: string;
 }
 
@@ -26,7 +26,7 @@ export const blocksConfig = getSetting( 'wcBlocksConfig', {
 	defaultAvatar: '',
 	restApiRoutes: {},
 	wordCountType: 'words',
-	langDir: '',
+	languageUrl: '',
 	locale: '',
 } ) as WcBlocksConfig;
 

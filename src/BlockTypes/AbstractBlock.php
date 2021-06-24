@@ -350,7 +350,7 @@ abstract class AbstractBlock {
 					],
 					'defaultAvatar' => get_avatar_url( 0, [ 'force_default' => true ] ),
 					'locale'        => determine_locale(),
-					'langDir'       => str_replace( ABSPATH, site_url( '/' ), WP_LANG_DIR ) . '/plugins',
+					'languageUrl'   => str_replace( ABSPATH, site_url( '/' ), WP_LANG_DIR ) . '/plugins',
 
 					/*
 					 * translators: If your word count is based on single characters (e.g. East Asian characters),
