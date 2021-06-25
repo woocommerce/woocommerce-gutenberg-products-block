@@ -7,7 +7,11 @@ declare let __webpack_public_path__: string;
  */
 import { registerBlockComponent } from '@woocommerce/blocks-registry';
 import { lazy } from '@wordpress/element';
-import { WC_BLOCKS_BUILD_URL, blocksConfig } from '@woocommerce/block-settings';
+import {
+	WC_BLOCKS_BUILD_URL,
+	blocksConfig,
+	isFeaturePluginBuild,
+} from '@woocommerce/block-settings';
 import { addRequireChunkTranslationsHandler } from '@woocommerce/base-utils';
 import md5 from 'md5';
 
@@ -15,12 +19,20 @@ import md5 from 'md5';
 // eslint-disable-next-line prefer-const
 __webpack_public_path__ = WC_BLOCKS_BUILD_URL;
 
+const domain = isFeaturePluginBuild
+	? 'woo-gutenberg-products-block'
+	: 'woocommerce';
+
 if ( blocksConfig.locale !== 'en_US' ) {
 	addRequireChunkTranslationsHandler( {
-		domain: 'woo-gutenberg-products-block',
+		domain,
 		getTranslationChunkFileUrl: ( chunkId ) => {
-			const hash = md5( `build/${ chunkId }.js` );
-			return `${ blocksConfig.languageUrl }/woo-gutenberg-products-block-${ blocksConfig.locale }-${ hash }.json`;
+			const hash = md5(
+				isFeaturePluginBuild
+					? `build/${ chunkId }.js`
+					: `packages/woocommerce-blocks/build/${ chunkId }.js`
+			);
+			return `${ blocksConfig.languageUrl }/${ domain }-${ blocksConfig.locale }-${ hash }.json`;
 		},
 		translatedChunks: [
 			'atomic-block-components/price-frontend',
