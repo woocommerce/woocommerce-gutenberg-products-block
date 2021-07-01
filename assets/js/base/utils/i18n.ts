@@ -33,7 +33,7 @@ export const addRequireChunkTranslationsHandler = (
 		translatedChunks?: string[];
 	} = {}
 ): void => {
-	if ( typeof window.__requireChunkCallback__ === undefined ) {
+	if ( typeof window.__requireChunkCallback__ === 'undefined' ) {
 		return;
 	}
 	const {
