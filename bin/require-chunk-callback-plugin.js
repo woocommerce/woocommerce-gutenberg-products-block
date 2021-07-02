@@ -26,7 +26,7 @@ class RequireChunkCallbackPlugin {
 					`
 						// Array to store all loading or loaded chunks
 						var _installedChunks = [];
-
+						let __requireChunkCallback__ = {};
 						function RequireChunkCallback() {
 							this.callbacks = [];
 						}
@@ -67,7 +67,7 @@ class RequireChunkCallbackPlugin {
 
 						var requireChunkCallback = new RequireChunkCallback();
 
-						window.__requireChunkCallback__ = requireChunkCallback;
+						__requireChunkCallback__ = requireChunkCallback;
 					`,
 				] );
 			} );

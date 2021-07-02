@@ -14,11 +14,7 @@ interface RequireChunkCallback {
 	) => this;
 }
 
-declare global {
-	interface Window {
-		__requireChunkCallback__: RequireChunkCallback;
-	}
-}
+declare let __requireChunkCallback__: RequireChunkCallback;
 
 /**
  * Adds require chunk handler for fetching translations.
@@ -33,7 +29,7 @@ export const addRequireChunkTranslationsHandler = (
 		translatedChunks?: string[];
 	} = {}
 ): void => {
-	if ( typeof window.__requireChunkCallback__ === 'undefined' ) {
+	if ( typeof __requireChunkCallback__ === 'undefined' ) {
 		return;
 	}
 	const {
@@ -91,5 +87,5 @@ export const addRequireChunkTranslationsHandler = (
 		promises.push( translationChunkPromise );
 	};
 
-	window.__requireChunkCallback__.add( handler );
+	__requireChunkCallback__.add( handler );
 };
