@@ -17,6 +17,7 @@ interface WcBlocksConfig {
 	wordCountType: WordCountType;
 	languageUrl: string;
 	locale: string;
+	translatedChunks: string[];
 }
 
 export const blocksConfig = getSetting( 'wcBlocksConfig', {
@@ -28,6 +29,7 @@ export const blocksConfig = getSetting( 'wcBlocksConfig', {
 	wordCountType: 'words',
 	languageUrl: '',
 	locale: '',
+	translatedChunks: [],
 } ) as WcBlocksConfig;
 
 export const WC_BLOCKS_IMAGE_URL = blocksConfig.pluginUrl + 'images/';

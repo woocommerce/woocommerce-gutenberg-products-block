@@ -19,7 +19,7 @@ import md5 from 'md5';
 // eslint-disable-next-line prefer-const
 __webpack_public_path__ = WC_BLOCKS_BUILD_URL;
 
-const domain = isFeaturePluginBuild
+const domain = isFeaturePluginBuild()
 	? 'woo-gutenberg-products-block'
 	: 'woocommerce';
 
@@ -28,11 +28,15 @@ if ( blocksConfig.locale !== 'en_US' ) {
 		domain,
 		getTranslationChunkFileUrl: ( chunkId ) => {
 			const hash = md5(
-				isFeaturePluginBuild
+				isFeaturePluginBuild()
 					? `build/${ chunkId }.js`
 					: `packages/woocommerce-blocks/build/${ chunkId }.js`
 			);
-			return `${ blocksConfig.languageUrl }/${ domain }-${ blocksConfig.locale }-${ hash }.json`;
+			const fileName = `${ domain }-${ blocksConfig.locale }-${ hash }.json`;
+			if ( blocksConfig.translatedChunks.includes( fileName ) ) {
+				return `${ blocksConfig.languageUrl }/${ fileName }`;
+			}
+			return false;
 		},
 		translatedChunks: [
 			'atomic-block-components/price-frontend',

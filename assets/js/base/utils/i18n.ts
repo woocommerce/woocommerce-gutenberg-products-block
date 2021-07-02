@@ -25,8 +25,8 @@ declare global {
  */
 export const addRequireChunkTranslationsHandler = (
 	options: {
-		// Callback function to get the file name from the ChunkId.
-		getTranslationChunkFileUrl?: ( chunkId: string ) => string;
+		// Callback function to get the file name from the ChunkId or false if the translation file doesn't exist.
+		getTranslationChunkFileUrl?: ( chunkId: string ) => string | false;
 		// Text domain.
 		domain?: string;
 		// Array of chunk ids that should have available translations.
@@ -61,7 +61,11 @@ export const addRequireChunkTranslationsHandler = (
 		) {
 			return;
 		}
+		const translationChunkFileUrl = getTranslationChunkFileUrl( chunkId );
 
+		if ( ! translationChunkFileUrl ) {
+			return;
+		}
 		const translationChunkPromise = fetchDedupe(
 			getTranslationChunkFileUrl( chunkId )
 		)
@@ -73,14 +77,11 @@ export const addRequireChunkTranslationsHandler = (
 						locale_data: { messages: Record< string, string > };
 					};
 				} ) => {
-					if ( translations.ok && translations.data ) {
-						setLocaleData(
-							translations.data?.locale_data?.messages,
-							domain
-						);
-					}
+					setLocaleData(
+						translations.data?.locale_data?.messages,
+						domain
+					);
 					loadedTranslationChunks[ chunkId ] = true;
-					throw new Error( `No translation found for ${ chunkId }` );
 				}
 			)
 			.catch( ( error: { message: string } ) => {

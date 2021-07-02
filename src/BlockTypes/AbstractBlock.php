@@ -342,22 +342,23 @@ abstract class AbstractBlock {
 			$this->asset_data_registry->add(
 				'wcBlocksConfig',
 				[
-					'buildPhase'    => Package::feature()->get_flag(),
-					'pluginUrl'     => plugins_url( '/', dirname( __DIR__ ) ),
-					'productCount'  => array_sum( (array) wp_count_posts( 'product' ) ),
-					'restApiRoutes' => [
+					'buildPhase'       => Package::feature()->get_flag(),
+					'pluginUrl'        => plugins_url( '/', dirname( __DIR__ ) ),
+					'productCount'     => array_sum( (array) wp_count_posts( 'product' ) ),
+					'restApiRoutes'    => [
 						'/wc/store' => array_keys( Package::container()->get( RestApi::class )->get_routes_from_namespace( 'wc/store' ) ),
 					],
-					'defaultAvatar' => get_avatar_url( 0, [ 'force_default' => true ] ),
-					'locale'        => determine_locale(),
-					'languageUrl'   => str_replace( ABSPATH, site_url( '/' ), WP_LANG_DIR ) . '/plugins',
+					'defaultAvatar'    => get_avatar_url( 0, [ 'force_default' => true ] ),
+					'locale'           => determine_locale(),
+					'languageUrl'      => str_replace( ABSPATH, site_url( '/' ), WP_LANG_DIR ) . '/plugins',
+					'translatedChunks' => array_map( 'basename', glob( WP_LANG_DIR . '/plugins/woo-gutenberg-products-block-' . get_locale() . '*.json' ) ),
 
 					/*
 					 * translators: If your word count is based on single characters (e.g. East Asian characters),
 					 * enter 'characters_excluding_spaces' or 'characters_including_spaces'. Otherwise, enter 'words'.
 					 * Do not translate into your own language.
 					 */
-					'wordCountType' => _x( 'words', 'Word count type. Do not translate!', 'woo-gutenberg-products-block' ),
+					'wordCountType'    => _x( 'words', 'Word count type. Do not translate!', 'woo-gutenberg-products-block' ),
 				]
 			);
 		}
