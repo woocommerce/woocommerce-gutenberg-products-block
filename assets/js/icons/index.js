@@ -13,6 +13,7 @@ export { default as cart } from './library/cart';
 export { default as checkPayment } from './library/check-payment';
 export { default as chevronDown } from './library/chevron-down';
 export { default as chevronUp } from './library/chevron-up';
+export { default as chevronRight } from './library/chevron-right';
 export { default as comment } from './library/comment';
 export { default as done } from './library/done';
 export { default as discussion } from './library/discussion';

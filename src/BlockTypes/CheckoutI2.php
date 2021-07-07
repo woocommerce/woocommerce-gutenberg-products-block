@@ -169,14 +169,53 @@ class CheckoutI2 extends AbstractBlock {
 		$this->asset_data_registry->add( 'hasDarkEditorStyleSupport', current_theme_supports( 'dark-editor-style' ), true );
 		$this->asset_data_registry->register_page_id( isset( $attributes['cartPageId'] ) ? $attributes['cartPageId'] : 0 );
 
-		// Hydrate the following data depending on admin or frontend context.
-		if ( is_admin() && function_exists( 'get_current_screen' ) ) {
-			$screen = get_current_screen();
+		$is_block_editor = $this->is_block_editor();
 
-			if ( $screen && $screen->is_block_editor() && ! $this->asset_data_registry->exists( 'shippingMethodsExist' ) ) {
-				$methods_exist = wc_get_shipping_method_count( false, true ) > 0;
-				$this->asset_data_registry->add( 'shippingMethodsExist', $methods_exist );
-			}
+		// Hydrate the following data depending on admin or frontend context.
+		if ( $is_block_editor && ! $this->asset_data_registry->exists( 'shippingMethodsExist' ) ) {
+			$methods_exist = wc_get_shipping_method_count( false, true ) > 0;
+			$this->asset_data_registry->add( 'shippingMethodsExist', $methods_exist );
+		}
+
+		if ( $is_block_editor && ! $this->asset_data_registry->exists( 'globalShippingMethods' ) ) {
+			$shipping_methods           = WC()->shipping()->get_shipping_methods();
+			$formatted_shipping_methods = array_reduce(
+				$shipping_methods,
+				function( $acc, $method ) {
+					if ( $method->supports( 'settings' ) ) {
+						$acc[] = [
+							'id'          => $method->id,
+							'title'       => $method->method_title,
+							'description' => $method->method_description,
+						];
+					}
+					return $acc;
+				},
+				[]
+			);
+			$this->asset_data_registry->add( 'globalShippingMethods', $formatted_shipping_methods );
+		}
+
+		if ( $is_block_editor && ! $this->asset_data_registry->exists( 'activeShippingZones' ) && class_exists( '\WC_Shipping_Zones' ) ) {
+			$shipping_zones             = \WC_Shipping_Zones::get_zones();
+			$formatted_shipping_zones   = array_reduce(
+				$shipping_zones,
+				function( $acc, $zone ) {
+					$acc[] = [
+						'id'          => $zone['id'],
+						'title'       => $zone['zone_name'],
+						'description' => $zone['formatted_zone_location'],
+					];
+					return $acc;
+				},
+				[]
+			);
+			$formatted_shipping_zones[] = [
+				'id'          => 0,
+				'title'       => __( 'International', 'woo-gutenberg-products-block' ),
+				'description' => __( 'Locations outside all other zones', 'woo-gutenberg-products-block' ),
+			];
+			$this->asset_data_registry->add( 'activeShippingZones', $formatted_shipping_zones );
 		}
 
 		if ( ! is_admin() && ! WC()->is_rest_api_request() ) {
@@ -185,6 +224,18 @@ class CheckoutI2 extends AbstractBlock {
 		}
 
 		do_action( 'woocommerce_blocks_checkout_enqueue_data' );
+	}
+
+	/**
+	 * Are we currently on the admin block editor screen?
+	 */
+	protected function is_block_editor() {
+		if ( ! is_admin() || ! function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
+		$screen = get_current_screen();
+
+		return $screen && $screen->is_block_editor();
 	}
 
 	/**
