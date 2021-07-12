@@ -77,10 +77,18 @@ abstract class AbstractBlock {
 	 *
 	 * @param array|WP_Block $attributes Block attributes, or an instance of a WP_Block. Defaults to an empty array.
 	 * @param string         $content    Block content. Default empty string.
+	 * @param \WP_Block      $block Block object.
 	 * @return string Rendered block type output.
 	 */
-	public function render_callback( $attributes = [], $content = '' ) {
+	public function render_callback( $attributes = [], $content = '', \WP_Block $block = null ) {
 		$render_callback_attributes = $this->parse_render_callback_attributes( $attributes );
+
+		// If using context, add to attribute list without namespace.
+		if ( $block && $block->context ) {
+			foreach ( $block->context as $key => $value ) {
+				$render_callback_attributes[ str_replace( 'woocommerce/', '', $key ) ] = $value;
+			}
+		}
 		$this->enqueue_assets( $render_callback_attributes );
 		return $this->render( $render_callback_attributes, $content );
 	}

@@ -10,6 +10,7 @@ import classnames from 'classnames';
  * Internal dependencies
  */
 import { ValidatedSelect } from '../select';
+import { ValidatedTextInput } from '../text-input';
 import './style.scss';
 import type { CountryInputWithCountriesProps } from './CountryInputProps';
 
@@ -27,6 +28,7 @@ const CountryInput = ( {
 		'Please select a country.',
 		'woo-gutenberg-products-block'
 	),
+	readonly = false,
 }: CountryInputWithCountriesProps ): JSX.Element => {
 	const options = useMemo(
 		() =>
@@ -36,6 +38,20 @@ const CountryInput = ( {
 			} ) ),
 		[ countries ]
 	);
+
+	if ( readonly ) {
+		return (
+			<ValidatedTextInput
+				className={ className }
+				id={ id }
+				label={ label }
+				value={
+					options.find( ( option ) => option.key === value )?.name
+				}
+				readOnly={ readonly }
+			/>
+		);
+	}
 
 	return (
 		<div
@@ -53,6 +69,7 @@ const CountryInput = ( {
 				errorId={ errorId }
 				errorMessage={ errorMessage }
 				required={ required }
+				readOnly={ readonly }
 			/>
 			{ autoComplete !== 'off' && (
 				<input

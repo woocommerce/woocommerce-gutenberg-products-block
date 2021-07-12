@@ -19,6 +19,40 @@ class AtomicBlock extends AbstractBlock {
 	}
 
 	/**
+	 * Registers the block type with WordPress.
+	 *
+	 * @todo provides_context and uses_context differ from block to block. Defining them here does no harm but it would
+	 * be better to register these only for the atomic blocks needing them.
+	 */
+	protected function register_block_type() {
+		register_block_type(
+			$this->get_block_type(),
+			array(
+				'render_callback'  => $this->get_block_type_render_callback(),
+				'editor_script'    => $this->get_block_type_editor_script( 'handle' ),
+				'editor_style'     => $this->get_block_type_editor_style(),
+				'style'            => $this->get_block_type_style(),
+				'attributes'       => $this->get_block_type_attributes(),
+				'supports'         => $this->get_block_type_supports(),
+				'provides_context' => [
+					'woocommerce/showCompanyField'    => 'showCompanyField',
+					'woocommerce/requireCompanyField' => 'requireCompanyField',
+					'woocommerce/showApartmentField'  => 'showApartmentField',
+					'woocommerce/showPhoneField'      => 'showPhoneField',
+					'woocommerce/requirePhoneField'   => 'requirePhoneField',
+				],
+				'uses_context'     => [
+					'woocommerce/showCompanyField',
+					'woocommerce/requireCompanyField',
+					'woocommerce/showApartmentField',
+					'woocommerce/showPhoneField',
+					'woocommerce/requirePhoneField',
+				],
+			)
+		);
+	}
+
+	/**
 	 * Get the editor script data for this block type.
 	 *
 	 * @param string $key Data to get, or default to everything.

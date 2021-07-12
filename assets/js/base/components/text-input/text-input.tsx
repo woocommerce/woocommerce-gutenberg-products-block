@@ -26,6 +26,7 @@ interface TextInputProps
 	autoComplete?: string;
 	onChange: ( newValue: string ) => void;
 	onBlur?: ( newValue: string ) => void;
+	readonly?: boolean;
 }
 
 const TextInput = forwardRef< HTMLInputElement, TextInputProps >(
@@ -49,6 +50,7 @@ const TextInput = forwardRef< HTMLInputElement, TextInputProps >(
 				/* Do nothing */
 			},
 			feedback,
+			readonly = false,
 			...rest
 		},
 		ref
@@ -88,6 +90,7 @@ const TextInput = forwardRef< HTMLInputElement, TextInputProps >(
 							: ariaDescribedBy
 					}
 					required={ required }
+					readOnly={ readonly }
 					{ ...rest }
 				/>
 				<Label

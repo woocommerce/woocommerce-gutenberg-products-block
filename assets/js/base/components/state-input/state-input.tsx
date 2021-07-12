@@ -24,6 +24,7 @@ const StateInput = ( {
 	autoComplete = 'off',
 	value = '',
 	required = false,
+	readonly = false,
 }: StateInputWithStatesProps ): JSX.Element => {
 	const countryStates = states[ country ];
 	const options = useMemo(
@@ -58,57 +59,74 @@ const StateInput = ( {
 		[ onChange, options ]
 	);
 
-	if ( options.length > 0 ) {
+	if ( readonly ) {
 		return (
-			<>
-				<ValidatedSelect
-					className={ classnames(
-						className,
-						'wc-block-components-state-input'
-					) }
-					id={ id }
-					label={ label }
-					onChange={ onChangeState }
-					options={ options }
-					value={ options.find( ( option ) => option.key === value ) }
-					errorMessage={ __(
-						'Please select a state.',
-						'woo-gutenberg-products-block'
-					) }
-					required={ required }
-				/>
-				{ autoComplete !== 'off' && (
-					<input
-						type="text"
-						aria-hidden={ true }
-						autoComplete={ autoComplete }
-						value={ value }
-						onChange={ ( event ) =>
-							onChangeState( event.target.value )
-						}
-						style={ {
-							minHeight: '0',
-							height: '0',
-							border: '0',
-							padding: '0',
-							position: 'absolute',
-						} }
-						tabIndex={ -1 }
-					/>
-				) }
-			</>
+			<ValidatedTextInput
+				className={ className }
+				id={ id }
+				label={ label }
+				value={
+					options.find( ( option ) => option.key === value )?.name
+				}
+				readOnly={ readonly }
+			/>
 		);
 	}
+
+	if ( options.length === 0 ) {
+		return (
+			<ValidatedTextInput
+				className={ className }
+				id={ id }
+				label={ label }
+				onChange={ onChangeState }
+				autoComplete={ autoComplete }
+				value={ value }
+				required={ required }
+				readOnly={ readonly }
+			/>
+		);
+	}
+
 	return (
-		<ValidatedTextInput
-			className={ className }
-			id={ id }
-			label={ label }
-			onChange={ onChangeState }
-			autoComplete={ autoComplete }
-			value={ value }
-			required={ required }
-		/>
+		<>
+			<ValidatedSelect
+				className={ classnames(
+					className,
+					'wc-block-components-state-input'
+				) }
+				id={ id }
+				label={ label }
+				onChange={ onChangeState }
+				options={ options }
+				value={ options.find( ( option ) => option.key === value ) }
+				errorMessage={ __(
+					'Please select a state.',
+					'woo-gutenberg-products-block'
+				) }
+				required={ required }
+				readOnly={ readonly }
+			/>
+			{ autoComplete !== 'off' && (
+				<input
+					type="text"
+					aria-hidden={ true }
+					autoComplete={ autoComplete }
+					value={ value }
+					onChange={ ( event ) =>
+						onChangeState( event.target.value )
+					}
+					style={ {
+						minHeight: '0',
+						height: '0',
+						border: '0',
+						padding: '0',
+						position: 'absolute',
+					} }
+					tabIndex={ -1 }
+				/>
+			) }
+		</>
 	);
 };
 
