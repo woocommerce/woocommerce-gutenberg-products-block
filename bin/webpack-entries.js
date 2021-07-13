@@ -117,8 +117,10 @@ const entries = {
 		// Blocks
 		...getBlockEntries( 'index.{t,j}s{,x}' ),
 	},
-	frontend: {
+	frontendWithPreact: {
 		reviews: './assets/js/blocks/reviews/frontend.js',
+	},
+	frontend: {
 		...getBlockEntries( 'frontend.{t,j}s{,x}' ),
 	},
 	payments: {
