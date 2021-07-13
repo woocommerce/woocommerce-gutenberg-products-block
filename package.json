@@ -15,7 +15,6 @@
 		"*.scss",
 		"./assets/js/atomic/blocks/**",
 		"./assets/js/filters/**",
-		"./assets/js/settings/blocks/**",
 		"./assets/js/middleware/**"
 	],
 	"repository": {
