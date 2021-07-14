@@ -10,6 +10,7 @@ import {
 /**
  * Internal dependencies
  */
+import './style.scss';
 
 const Block = ( {
 	cartPageId,
