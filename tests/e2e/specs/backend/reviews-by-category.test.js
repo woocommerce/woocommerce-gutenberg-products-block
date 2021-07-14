@@ -36,11 +36,11 @@ describe( `${ block.name } Block`, () => {
 		await clickButton( 'Done' );
 		// Selected.
 		await page.waitForSelector(
-			'.wc-block-review-list .wc-block-review-list-item__item:not(.is-loading)'
+			'.wc-block-components-review-list .wc-block-components-review-list-item__item:not(.is-loading)'
 		);
 		expect(
 			await page.$$eval(
-				'.wc-block-review-list .wc-block-review-list-item__item',
+				'.wc-block-components-review-list .wc-block-components-review-list-item__item',
 				( reviews ) => reviews.length
 			)
 		).toBeGreaterThanOrEqual( 6 ); // Fixture data has three reviews per product, and there are multiple products.

@@ -22,12 +22,18 @@ describe( `${ block.name } Block`, () => {
 	} );
 
 	it( 'shows reviews', async () => {
+		await page.waitForSelector( '.wc-block-all-reviews' );
+		const list = await page.$eval(
+			'.wc-block-all-reviews',
+			( e ) => e.innerHTML
+		);
+		console.log( list );
 		await page.waitForSelector(
-			'.wc-block-review-list .wc-block-review-list-item__item:not(.is-loading)'
+			'.wc-block-components-review-list .wc-block-components-review-list-item__item:not(.is-loading)'
 		);
 		expect(
 			await page.$$eval(
-				'.wc-block-review-list .wc-block-review-list-item__item',
+				'.wc-block-components-review-list .wc-block-components-review-list-item__item',
 				( reviews ) => reviews.length
 			)
 		).toBeGreaterThanOrEqual( 6 ); // Fixture data has three reviews per product.
