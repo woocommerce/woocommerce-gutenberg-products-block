@@ -156,6 +156,7 @@ export const Edit = ( {
 							allowedBlocks={ ALLOWED_BLOCKS }
 							template={ TEMPLATE }
 							templateLock={ false }
+							renderAppender={ InnerBlocks.ButtonBlockAppender }
 						/>
 					</CheckoutFieldsBlockContext.Provider>
 				</form>
