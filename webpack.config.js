@@ -6,7 +6,8 @@ const { NODE_ENV, FORCE_MAP, getAlias } = require( './bin/webpack-helpers.js' );
 const {
 	getCoreConfig,
 	getMainConfig,
-	getFrontConfig,
+	getFrontendWithPreactConfig,
+	getFrontendConfig,
 	getPaymentsConfig,
 	getExtensionsConfig,
 	getStylingConfig,
@@ -47,10 +48,16 @@ const MainConfig = {
 	} ),
 };
 
+// Frontend config for scripts used in the store itself and that rely on Preact.
+const FrontendWithPreactConfig = {
+	...sharedConfig,
+	...getFrontendWithPreactConfig( { alias: getAlias() } ),
+};
+
 // Frontend config for scripts used in the store itself.
 const FrontendConfig = {
 	...sharedConfig,
-	...getFrontConfig( { alias: getAlias() } ),
+	...getFrontendConfig( { alias: getAlias() } ),
 };
 
 /**
@@ -110,7 +117,7 @@ const LegacyMainConfig = {
 
 const LegacyFrontendConfig = {
 	...sharedConfig,
-	...getFrontConfig( {
+	...getFrontendConfig( {
 		fileSuffix: 'legacy',
 		resolvePlugins: [
 			new FallbackModuleDirectoryPlugin(
@@ -162,6 +169,7 @@ const legacyConfigs = [
 module.exports = [
 	CoreConfig,
 	MainConfig,
+	FrontendWithPreactConfig,
 	FrontendConfig,
 	ExtensionsConfig,
 	PaymentsConfig,

@@ -21,23 +21,27 @@ const {
 	CHECK_CIRCULAR_DEPS,
 	requestToExternal,
 	requestToHandle,
+	requestToExternalWithPreact,
+	requestToHandleWithPreact,
 	findModuleMatch,
 	getProgressBarPluginConfig,
 } = require( './webpack-helpers' );
 
 const isProduction = NODE_ENV === 'production';
 
-/**
- * Shared config for all script builds.
- */
-const sharedPlugins = [
+const circularDependencyPluginConfig =
 	CHECK_CIRCULAR_DEPS === 'true'
 		? new CircularDependencyPlugin( {
 				exclude: /node_modules/,
 				cwd: process.cwd(),
 				failOnError: 'warn',
 		  } )
-		: false,
+		: false;
+/**
+ * Shared config for all script builds.
+ */
+const sharedPlugins = [
+	circularDependencyPluginConfig,
 	new DependencyExtractionWebpackPlugin( {
 		injectPolyfill: true,
 		requestToExternal,
@@ -257,7 +261,149 @@ const getMainConfig = ( options = {} ) => {
  *
  * @param {Object} options Build options.
  */
-const getFrontConfig = ( options = {} ) => {
+const getFrontendWithPreactConfig = ( options = {} ) => {
+	let { fileSuffix } = options;
+	const { alias, resolvePlugins = [] } = options;
+	fileSuffix = fileSuffix ? `-${ fileSuffix }` : '';
+	const resolve = alias
+		? {
+				alias,
+				plugins: resolvePlugins,
+		  }
+		: {
+				plugins: resolvePlugins,
+		  };
+	return {
+		entry: getEntryConfig( 'frontendWithPreact', options.exclude || [] ),
+		output: {
+			devtoolNamespace: 'wc',
+			path: path.resolve( __dirname, '../build/' ),
+			filename: `[name]-frontend${ fileSuffix }.js`,
+			// This fixes an issue with multiple webpack projects using chunking
+			// overwriting each other's chunk loader function.
+			// See https://webpack.js.org/configuration/output/#outputjsonpfunction
+			jsonpFunction: 'webpackWcBlocksJsonp',
+		},
+		module: {
+			rules: [
+				{
+					test: /\.(j|t)sx?$/,
+					exclude: /node_modules/,
+					use: {
+						loader: 'babel-loader?cacheDirectory',
+						options: {
+							presets: [
+								[
+									'@babel/preset-env',
+									{
+										modules: false,
+										targets: {
+											browsers: [
+												'extends @wordpress/browserslist-config',
+											],
+										},
+									},
+								],
+							],
+							plugins: [
+								require.resolve(
+									'@babel/plugin-proposal-object-rest-spread'
+								),
+								[
+									require.resolve(
+										'@babel/plugin-transform-react-jsx'
+									),
+									{
+										// pragma: 'h',
+										runtime: 'automatic',
+										importSource: 'preact',
+									},
+								],
+								require.resolve(
+									'@babel/plugin-proposal-async-generator-functions'
+								),
+								require.resolve(
+									'@babel/plugin-transform-runtime'
+								),
+								require.resolve(
+									'@babel/plugin-proposal-class-properties'
+								),
+								isProduction
+									? require.resolve(
+											'babel-plugin-transform-react-remove-prop-types'
+									  )
+									: false,
+							].filter( Boolean ),
+						},
+					},
+				},
+				{
+					test: /\.s[c|a]ss$/,
+					use: {
+						loader: 'ignore-loader',
+					},
+				},
+			],
+		},
+		optimization: {
+			splitChunks: {
+				automaticNameDelimiter: '--',
+			},
+			minimizer: [
+				new TerserPlugin( {
+					cache: true,
+					parallel: true,
+					sourceMap: ! isProduction,
+					terserOptions: {
+						output: {
+							comments: /translators:/i,
+						},
+						compress: {
+							passes: 2,
+						},
+						mangle: {
+							reserved: [ '__', '_n', '_nx', '_x' ],
+						},
+					},
+					extractComments: false,
+				} ),
+			],
+		},
+		plugins: [
+			circularDependencyPluginConfig,
+			new DependencyExtractionWebpackPlugin( {
+				injectPolyfill: true,
+				useDefaults: false,
+				requestToExternal: requestToExternalWithPreact,
+				requestToHandle: requestToHandleWithPreact,
+			} ),
+			new ProgressBarPlugin(
+				getProgressBarPluginConfig(
+					'Frontend with Preact',
+					options.fileSuffix
+				)
+			),
+		].filter( Boolean ),
+		resolve: {
+			...resolve,
+			extensions: [ '.js', '.ts', '.tsx' ],
+			alias: {
+				...resolve.alias,
+				react: 'preact/compat',
+				'@wordpress/element': 'preact/compat',
+				'react-dom/test-utils': 'preact/test-utils',
+				'react-dom': 'preact/compat', // Must be aliased after test-utils
+			},
+		},
+	};
+};
+
+/**
+ * Build config for Blocks in the frontend context.
+ *
+ * @param {Object} options Build options.
+ */
+const getFrontendConfig = ( options = {} ) => {
 	let { fileSuffix } = options;
 	const { alias, resolvePlugins = [] } = options;
 	fileSuffix = fileSuffix ? `-${ fileSuffix }` : '';
@@ -770,7 +916,8 @@ const getStylingConfig = ( options = {} ) => {
 
 module.exports = {
 	getCoreConfig,
-	getFrontConfig,
+	getFrontendWithPreactConfig,
+	getFrontendConfig,
 	getMainConfig,
 	getPaymentsConfig,
 	getExtensionsConfig,

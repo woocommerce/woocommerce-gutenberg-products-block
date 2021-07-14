@@ -4,6 +4,10 @@
  */
 const path = require( 'path' );
 const chalk = require( 'chalk' );
+const {
+	defaultRequestToExternal,
+	defaultRequestToHandle,
+} = require( '@wordpress/dependency-extraction-webpack-plugin/lib/util' );
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const FORCE_MAP = process.env.FORCE_MAP || false;
 const CHECK_CIRCULAR_DEPS = process.env.CHECK_CIRCULAR_DEPS || false;
@@ -117,6 +121,35 @@ const requestToHandle = ( request ) => {
 	}
 };
 
+const requestToExternalWithPreact = ( request ) => {
+	// Prevent React from being externalized. This ensures that React will be properly aliased to preact/compat.
+	if (
+		request === 'react' ||
+		request === 'react-dom' ||
+		request === '@wordpress/element'
+	) {
+		return;
+	}
+	if ( request.indexOf( '@woocommerce/' ) === 0 ) {
+		return requestToExternal( request );
+	}
+	return defaultRequestToExternal( request );
+};
+
+const requestToHandleWithPreact = ( request ) => {
+	if (
+		request === 'react' ||
+		request === 'react-dom' ||
+		request === '@wordpress/element'
+	) {
+		return;
+	}
+	if ( request.indexOf( '@woocommerce/' ) === 0 ) {
+		return requestToHandle( request );
+	}
+	return defaultRequestToHandle( request );
+};
+
 const getProgressBarPluginConfig = ( name, fileSuffix ) => {
 	const isLegacy = fileSuffix && fileSuffix === 'legacy';
 	const progressBarPrefix = isLegacy ? 'Legacy ' : '';
@@ -145,5 +178,7 @@ module.exports = {
 	findModuleMatch,
 	requestToHandle,
 	requestToExternal,
+	requestToExternalWithPreact,
+	requestToHandleWithPreact,
 	getProgressBarPluginConfig,
 };
